@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能路线图 — 冉暖科技</title>
+    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-hero { min-height: 40vh; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--gradient-hero); position: relative; padding-top: 72px; overflow: hidden; }
+        .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(212,148,58,0.15) 0%, transparent 60%); pointer-events: none; }
+        .page-hero h1 { font-size: 2.6rem; font-weight: 900; color: white; margin-bottom: 12px; }
+        .page-hero p { color: rgba(255,255,255,0.75); font-size: 1.05rem; }
+        .page-content { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+        .roadmap-intro { text-align: center; max-width: 600px; margin: 0 auto 48px; color: var(--color-text-secondary); }
+        .roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .roadmap-card { background: var(--color-surface); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); padding: 28px; position: relative; overflow: hidden; transition: all 0.4s ease; }
+        .roadmap-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .roadmap-card .status-bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+        .roadmap-card.done .status-bar { background: var(--color-green); }
+        .roadmap-card.doing .status-bar { background: var(--color-primary); }
+        .roadmap-card.todo .status-bar { background: var(--color-border); }
+        .roadmap-card h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .roadmap-card h3 i { font-size: 1rem; }
+        .roadmap-card .timeline { font-family: var(--font-display); font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 16px; font-weight: 600; }
+        .roadmap-card ul { list-style: none; }
+        .roadmap-card ul li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; font-size: 0.88rem; color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border-light); }
+        .roadmap-card ul li:last-child { border-bottom: none; }
+        .roadmap-card ul li i { font-size: 0.7rem; margin-top: 4px; flex-shrink: 0; }
+        .roadmap-card.done ul li i { color: var(--color-green); }
+        .roadmap-card.doing ul li i { color: var(--color-primary); }
+        .roadmap-card.todo ul li i { color: var(--color-text-muted); }
+        .status-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: var(--radius-full); margin-bottom: 12px; }
+        .status-badge.done { background: var(--color-green-10); color: var(--color-green); }
+        .status-badge.doing { background: var(--color-primary-10); color: var(--color-primary); }
+        .status-badge.todo { background: var(--color-bg); color: var(--color-text-muted); }
+        @media (max-width: 992px) { .roadmap-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; } }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">跳转到主要内容</a>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技"><span class="logo-text">冉暖科技</span></a>
+            <ul class="nav-links">
+                <li><a href="order.html">冉暖订货系统</a></li>
+                <li><a href="music.html">冉暖音乐播放器</a></li>
+                <li><a href="epos.html">冉暖收银系统</a></li>
+            </ul>
+            <div class="nav-cta"><a href="index.html#contact" class="btn btn-primary btn-sm"><i class="fas fa-paw"></i> 咨询合作</a></div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <a href="order.html" onclick="toggleMobileMenu()">冉暖订货系统</a>
+        <a href="music.html" onclick="toggleMobileMenu()">冉暖音乐播放器</a>
+        <a href="epos.html" onclick="toggleMobileMenu()">冉暖收银系统</a>
+        <a href="index.html#about" onclick="toggleMobileMenu()">关于</a>
+        <a href="index.html#contact" onclick="toggleMobileMenu()">联系</a>
+    </div>
+
+    <section class="page-hero" id="main">
+        <div>
+            <h1>功能路线图</h1>
+            <p>我们正在做的，和即将要做的</p>
+        </div>
+    </section>
+
+    <section class="page-content">
+        <p class="roadmap-intro reveal">以下是我们三大产品的近期规划与开发进度。你可以根据实际需求投票或提出建议，帮助我们确定优先级。</p>
+        <div class="roadmap-grid">
+            <div class="roadmap-card done reveal">
+                <div class="status-bar"></div>
+                <div class="status-badge done"><i class="fas fa-check-circle"></i> 已完成</div>
+                <h3><i class="fas fa-clipboard-list" style="color:var(--color-primary)"></i> 订货系统 Q2</h3>
+                <div class="timeline">2025.04 — 2025.06</div>
+                <ul>
+                    <li><i class="fas fa-check"></i> AI尺码占比模型V2</li>
+                    <li><i class="fas fa-check"></i> 多店铺管理</li>
+                    <li><i class="fas fa-check"></i> PDF报表导出</li>
+                    <li><i class="fas fa-check"></i> 数据看板首页</li>
+                </ul>
+            </div>
+            <div class="roadmap-card doing reveal delay-1">
+                <div class="status-bar"></div>
+                <div class="status-badge doing"><i class="fas fa-spinner fa-spin"></i> 进行中</div>
+                <h3><i class="fas fa-headphones" style="color:var(--color-accent)"></i> 音乐播放器 Q2-Q3</h3>
+                <div class="timeline">2025.05 — 2025.09</div>
+                <ul>
+                    <li><i class="fas fa-circle"></i> 歌词翻译与音译</li>
+                    <li><i class="fas fa-circle"></i> 桌面歌词悬浮窗</li>
+                    <li><i class="fas fa-circle"></i> 车载模式适配</li>
+                    <li><i class="fas fa-circle"></i> 社交分享功能</li>
+                </ul>
+            </div>
+            <div class="roadmap-card todo reveal delay-2">
+                <div class="status-bar"></div>
+                <div class="status-badge todo"><i class="fas fa-clock"></i> 规划中</div>
+                <h3><i class="fas fa-cash-register" style="color:var(--color-green)"></i> 收银系统 Q3-Q4</h3>
+                <div class="timeline">2025.07 — 2025.12</div>
+                <ul>
+                    <li><i class="fas fa-circle"></i> 小程序会员端</li>
+                    <li><i class="fas fa-circle"></i> 多门店云端管理</li>
+                    <li><i class="fas fa-circle"></i> 智能补货提醒</li>
+                    <li><i class="fas fa-circle"></i> 电子发票集成</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+                    <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
+                </div>
+                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li></ul></div>
+                <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="index.html#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
+                <div class="footer-column"><h4>了解更多</h4><ul><li><a href="index.html#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 冉暖科技 RanNuan Tech <i class="fas fa-paw" style="margin-left:6px;color:var(--color-primary);"></i></p></div>
+        </div>
+    </footer>
+    <button class="back-to-top" aria-label="返回顶部"><i class="fas fa-chevron-up"></i></button>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="epos-page">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冉暖收银系统 RanNuan ePOS — 运动品牌专卖店收银管理</title>
+    <meta name="description" content="冉暖收银系统 - 运动品牌专卖店ePOS收银系统，前台收银+后台管理双系统架构，覆盖商品、库存、财务、CRM全链路">
+    <meta name="keywords" content="收银系统,ePOS,专卖店收银,库存管理,CRM会员,Electron,NestJS">
+    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+    <a href="#hero" class="skip-link">跳转到主要内容</a>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+            <ul class="nav-links">
+                <li><a href="order.html">冉暖订货系统</a></li>
+                <li><a href="music.html">冉暖音乐播放器</a></li>
+                <li><a href="epos.html" class="active">冉暖收银系统</a></li>
+                <li><a href="index.html#about">关于</a></li>
+                <li><a href="index.html#contact">联系</a></li>
+            </ul>
+            <div class="nav-cta"><a href="index.html#contact" class="btn btn-primary btn-sm" style="background:var(--gradient-green);box-shadow:0 4px 15px rgba(123,174,127,0.3);"><i class="fas fa-paw"></i> 咨询</a></div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <a href="order.html" onclick="toggleMobileMenu()">冉暖订货系统</a>
+        <a href="music.html" onclick="toggleMobileMenu()">冉暖音乐播放器</a>
+        <a href="epos.html" onclick="toggleMobileMenu()">冉暖收银系统</a>
+        <a href="index.html" onclick="toggleMobileMenu()">返回首页</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="product-hero epos-hero" id="hero">
+        <div class="product-hero-inner">
+            <div class="product-hero-content">
+                <div class="product-hero-badge"><i class="fas fa-cash-register"></i> 收银系统</div>
+                <h1 class="product-hero-title">冉暖收银系统</h1>
+                <div class="en-name">RanNuan ePOS System</div>
+                <p class="product-hero-desc">
+                    运动品牌专卖店ePOS收银系统，前台收银（Electron桌面端）与后台管理（纯Web端）双系统架构，
+                    共享NestJS后端API。覆盖商品运营、仓储物流、盘点管理、CRM会员、财务对账等全链路业务。
+                </p>
+                <div class="product-hero-cta">
+                    <a href="#features" class="btn btn-primary" style="background:var(--gradient-green);box-shadow:0 4px 15px rgba(123,174,127,0.3);"><i class="fas fa-cash-register"></i> 了解功能</a>
+                    <a href="#progress" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3);"><i class="fas fa-road"></i> 开发进度</a>
+                </div>
+            </div>
+            <div class="product-hero-visual">
+                <div class="product-screenshot-wrap">
+                    <div class="product-screenshot screenshot-glow">
+                        <img src="/assets/screenshot-epos.png" alt="冉暖收银系统界面" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\'><i class=\'fas fa-cash-register\'></i><p>冉暖收银系统</p></div>'">
+                    </div>
+                    <div class="screenshot-deco"></div>
+                    <div class="screenshot-float-label">双系统 · 全链路</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Front Desk Features -->
+    <section class="section features-section" id="features">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-paw"></i> 前台收银</div>
+            <h2 class="section-title">紧凑高效的POS收银台</h2>
+            <p class="section-subtitle">专为专卖店场景设计，键盘快捷键操作，快速收银结账</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-desktop"></i></div><div><h4>POS收银台</h4><p>紧凑型布局，扫码/搜索快速添加商品，键盘快捷键操作</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-percentage"></i></div><div><h4>整单折扣</h4><p>支持整单折扣、单品折扣、抹零，灵活应对各种场景</p></div></div>
+            <div class="feature-item reveal delay-3"><div class="icon"><i class="fas fa-credit-card"></i></div><div><h4>多支付方式</h4><p>现金、微信、支付宝、银行卡、混合支付，一键切换</p></div></div>
+            <div class="feature-item reveal delay-4"><div class="icon"><i class="fas fa-receipt"></i></div><div><h4>小票打印</h4><p>热敏小票打印机支持，自定义小票模板与Logo</p></div></div>
+        </div>
+    </section>
+
+    <!-- Back Office Features -->
+    <section class="section" style="background:var(--color-bg-alt);">
+        <div class="section-header reveal">
+            <div class="section-badge" style="background:var(--color-green-10);color:var(--color-green);"><i class="fas fa-cogs"></i> 后台管理</div>
+            <h2 class="section-title">全链路后台管理系统</h2>
+            <p class="section-subtitle">多标签页并发操作，Keep-Alive状态保留，高效管理门店运营</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-boxes"></i></div><div><h4>商品运营</h4><p>SPU/SKU管理、商品审核、价格调整、上下架控制</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-warehouse"></i></div><div><h4>仓储物流</h4><p>入库/出库/调拨/收发货/盘点，全流程库存管理</p></div></div>
+            <div class="feature-item reveal delay-3"><div class="icon"><i class="fas fa-user-friends"></i></div><div><h4>CRM会员</h4><p>会员等级、积分倍率、储值支付、消费分析</p></div></div>
+            <div class="feature-item reveal delay-4"><div class="icon"><i class="fas fa-chart-line"></i></div><div><h4>财务对账</h4><p>日结/月结报表、收银对账、差异分析、导出报表</p></div></div>
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-layer-group"></i></div><div><h4>多标签后台</h4><p>并发操作多个页面，Keep-Alive状态保留，不丢失数据</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-shield-alt"></i></div><div><h4>权限管理</h4><p>角色权限、操作审计、数据隔离，安全可靠</p></div></div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="section stats-section">
+        <div class="stats-grid reveal">
+            <div class="stat-item">
+                <div class="stat-num" data-target="80" data-suffix="%">0</div>
+                <div class="stat-label">收银效率提升</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="100" data-suffix="%">0</div>
+                <div class="stat-label">数据实时同步</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="6" data-suffix="+">0</div>
+                <div class="stat-label">核心业务模块</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section tech-section" id="tech">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-code"></i> 技术架构</div>
+            <h2 class="section-title">前后端分离 + 桌面端</h2>
+            <p class="section-subtitle">Electron桌面收银 + React Web后台 + NestJS统一后端</p>
+        </div>
+        <div class="tech-diagram reveal">
+            <div class="tech-layer layer-frontend">
+                <div class="tech-item reveal delay-1"><i class="fas fa-desktop"></i><h4>Electron</h4><p>POS收银端</p></div>
+                <div class="tech-item reveal delay-2"><i class="fab fa-react"></i><h4>React</h4><p>Web后台</p></div>
+                <div class="tech-item reveal delay-3"><i class="fas fa-wind"></i><h4>TailwindCSS</h4><p>样式方案</p></div>
+            </div>
+            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
+            <div class="tech-layer layer-backend">
+                <div class="tech-item reveal delay-4"><i class="fas fa-server"></i><h4>NestJS</h4><p>统一后端</p></div>
+                <div class="tech-item reveal delay-1"><i class="fas fa-sitemap"></i><h4>Prisma</h4><p>ORM</p></div>
+            </div>
+            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
+            <div class="tech-layer layer-data">
+                <div class="tech-item reveal delay-2"><i class="fas fa-database"></i><h4>PostgreSQL</h4><p>关系数据库</p></div>
+                <div class="tech-item reveal delay-3"><i class="fab fa-js-square"></i><h4>TypeScript</h4><p>类型安全</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="section screenshots-section" id="screenshots">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-images"></i> 界面预览</div>
+            <h2 class="section-title">双系统界面一览</h2>
+            <p class="section-subtitle">前台收银紧凑高效，后台管理多标签并发</p>
+        </div>
+        <div class="screenshots-grid">
+            <div class="screenshot-frame reveal delay-1" data-label="POS收银台">
+                <img src="/assets/epos/screenshot-epos-1.png" alt="POS收银台" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\'><i class=\'fas fa-image\'></i><p>POS收银台</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-2" data-label="商品管理">
+                <img src="/assets/epos/screenshot-epos-2.png" alt="商品管理" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\'><i class=\'fas fa-image\'></i><p>商品管理</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-3" data-label="库存管理">
+                <img src="/assets/epos/screenshot-epos-3.png" alt="库存管理" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\'><i class=\'fas fa-image\'></i><p>库存管理</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-4" data-label="财务对账">
+                <img src="/assets/epos/screenshot-epos-4.png" alt="财务对账" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\'><i class=\'fas fa-image\'></i><p>财务对账</p></div>'">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Quick -->
+    <section class="section faq-quick-section">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-question-circle"></i> 常见问题</div>
+            <h2 class="section-title">还有疑问？</h2>
+            <p class="section-subtitle">快速找到你关心的问题</p>
+        </div>
+        <div class="faq-quick-grid">
+            <a href="faq.html#epos" class="faq-quick-card reveal delay-1">
+                <div class="faq-q-icon"><i class="fas fa-cash-register"></i></div>
+                <h4>支持哪些硬件？</h4>
+                <p>热敏打印机、扫码枪、钱箱等常见POS外设</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html#epos" class="faq-quick-card reveal delay-2">
+                <div class="faq-q-icon"><i class="fas fa-network-wired"></i></div>
+                <h4>离线能用吗？</h4>
+                <p>前台Electron端支持断网收银，联网后自动同步</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html#epos" class="faq-quick-card reveal delay-3">
+                <div class="faq-q-icon"><i class="fas fa-store"></i></div>
+                <h4>支持多门店吗？</h4>
+                <p>一套系统管理多门店，数据集中，权限隔离</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html" class="faq-quick-card reveal delay-4">
+                <div class="faq-q-icon"><i class="fas fa-ellipsis-h"></i></div>
+                <h4>更多问题</h4>
+                <p>查看完整常见问题列表</p>
+                <span class="faq-quick-link">前往FAQ <i class="fas fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Progress -->
+    <section class="section progress-section" id="progress">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-road"></i> 开发进度</div>
+            <h2 class="section-title">项目进展</h2>
+            <p class="section-subtitle">核心模块已完成，正在快速迭代中</p>
+        </div>
+        <div class="progress-grid">
+            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> POS收银台</div>
+            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 商品管理(SPU/SKU)</div>
+            <div class="progress-item reveal delay-3"><i class="fas fa-check-circle done"></i> 库存管理</div>
+            <div class="progress-item reveal delay-4"><i class="fas fa-check-circle done"></i> 门店管理</div>
+            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> 用户与角色权限</div>
+            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 审计日志</div>
+            <div class="progress-item reveal delay-3"><i class="fas fa-check-circle done"></i> CRM会员系统</div>
+            <div class="progress-item reveal delay-4"><i class="fas fa-check-circle done"></i> 储值支付</div>
+            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> 财务对账</div>
+            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 盘点管理</div>
+            <div class="progress-item reveal delay-3"><i class="fas fa-check-circle done"></i> 小票打印</div>
+            <div class="progress-item reveal delay-4"><i class="fas fa-check-circle done"></i> 数据大屏</div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="background:linear-gradient(135deg,#2D2A32 0%,#2A322D 50%,#2E3A32 100%);position:relative;overflow:hidden;text-align:center;padding:80px 24px;">
+        <div style="position:relative;z-index:1;max-width:600px;margin:0 auto;">
+            <div class="section-badge reveal" style="background:rgba(123,174,127,0.15);color:#7BAE7F;display:inline-flex;margin-bottom:16px;"><i class="fas fa-cash-register"></i> 预约演示</div>
+            <h2 class="reveal delay-1" style="font-size:2rem;font-weight:900;color:white;margin-bottom:12px;">让收银更简单</h2>
+            <p class="reveal delay-2" style="color:rgba(255,255,255,0.7);margin-bottom:28px;font-size:1.05rem;">冉暖收银系统正在紧锣密鼓开发中，欢迎预约演示，获取一对一产品讲解。</p>
+            <a href="javascript:void(0)" onclick="openQQModal()" class="btn btn-primary reveal delay-3" style="font-size:1rem;padding:12px 32px;background:var(--gradient-green);box-shadow:0 4px 15px rgba(123,174,127,0.3);"><i class="fab fa-qq"></i> 联系开发者</a>
+        </div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(123,174,127,0.15) 0%,transparent 60%);pointer-events:none;"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+                    <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
+                    <div class="footer-social">
+                        <a href="javascript:void(0)" onclick="openWechatModal()"><i class="fab fa-weixin"></i></a>
+                        <a href="javascript:void(0)" onclick="openQQModal()"><i class="fab fa-qq"></i></a>
+                        <a href="mailto:aaronwei97@qq.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li></ul></div>
+                <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="index.html#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
+                <div class="footer-column"><h4>了解更多</h4><ul><li><a href="index.html#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 冉暖科技 RanNuan Tech <i class="fas fa-paw" style="margin-left:6px;color:var(--color-primary);"></i></p>
+                <div class="footer-bottom-links"><a href="privacy.html">隐私政策</a><a href="terms.html">使用条款</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" aria-label="返回顶部"><i class="fas fa-chevron-up"></i></button>
+
+    <div class="modal-overlay" id="wechatModal" onclick="closeWechatModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeWechatModal(event)"><i class="fas fa-times"></i></button>
+            <div style="width:52px;height:52px;background:var(--color-primary-10);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--color-primary);"><i class="fab fa-weixin" style="font-size:26px;"></i></div>
+            <h3 style="margin-bottom:4px;font-size:1.2rem;">添加开发者微信</h3>
+            <p style="color:var(--color-text-muted);font-size:0.88rem;">获取试用名额 · 技术支持 · 交流反馈</p>
+            <div class="modal-qr"><img src="assets/wechat-qr.jpg" alt="微信二维码" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'text-align:center\'><i class=\'fab fa-weixin\' style=\'font-size:50px;color:#ddd;margin-bottom:8px\'></i><p style=\'font-size:13px;color:#999\'>暂无二维码图片<br>请直接搜索微信号</p></div>';"></div>
+            <div class="modal-id"><span style="color:var(--color-text-muted);font-weight:normal;font-size:0.82rem;margin-right:8px;">微信号:</span><span id="wechatIdText" style="user-select:all;">AaronWei24</span><button class="copy-btn" onclick="copyToClipboard('wechatIdText',this)">复制</button></div>
+            <p class="modal-tip">添加请注明：<span style="color:var(--color-primary);font-weight:500;">冉暖科技咨询</span></p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="qqModal" onclick="closeQQModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeQQModal(event)"><i class="fas fa-times"></i></button>
+            <div style="width:52px;height:52px;background:rgba(99,102,241,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#6366f1;"><i class="fab fa-qq" style="font-size:26px;"></i></div>
+            <h3 style="margin-bottom:4px;font-size:1.2rem;">添加开发者QQ</h3>
+            <p style="color:var(--color-text-muted);font-size:0.88rem;">在线咨询 · 远程协助 · 问题反馈</p>
+            <div class="modal-qr"><img src="assets/QQ-qr.png" alt="QQ二维码" style="width:100%;height:100%;object-fit:contain;" loading="lazy"></div>
+            <div style="text-align:center;margin:-4px 0 12px;"><a href="tencent://message/?uin=249861749&Site=Sambow&Menu=yes" class="btn btn-primary btn-sm"><i class="fab fa-qq"></i> 点击发起聊天</a></div>
+            <div class="modal-id"><span style="color:var(--color-text-muted);font-weight:normal;font-size:0.82rem;margin-right:8px;">QQ号:</span><span id="qqIdText" style="user-select:all;">249861749</span><button class="copy-btn" onclick="copyToClipboard('qqIdText',this)" style="background:#6366f1;">复制</button></div>
+            <p class="modal-tip">添加请注明：<span style="color:#6366f1;font-weight:500;">冉暖科技咨询</span></p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+    // Stat counter animation
+    (function() {
+        var statObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var grid = entry.target;
+                    grid.querySelectorAll('.stat-item').forEach(function(item, idx) {
+                        var numEl = item.querySelector('.stat-num');
+                        var fillEl = item.querySelector('.stat-fill');
+                        var target = parseInt(numEl.getAttribute('data-target'));
+                        var suffix = numEl.getAttribute('data-suffix') || '';
+                        var duration = 1500;
+                        var startTime = null;
+                        function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+                        function step(timestamp) {
+                            if (!startTime) startTime = timestamp;
+                            var progress = Math.min((timestamp - startTime) / duration, 1);
+                            var val = Math.round(easeOutExpo(progress) * target);
+                            numEl.textContent = val + suffix;
+                            fillEl.style.width = val + '%';
+                            if (progress < 1) requestAnimationFrame(step);
+                        }
+                        setTimeout(function() { requestAnimationFrame(step); }, idx * 200);
+                    });
+                    statObserver.unobserve(grid);
+                }
+            });
+        }, { threshold: 0.3 });
+        var statGrid = document.querySelector('.stats-grid');
+        if (statGrid) statObserver.observe(statGrid);
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="order-page">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冉暖订货系统 RanNuan Order — AI智能鞋服零售订货管理</title>
+    <meta name="description" content="冉暖订货系统 - 专为鞋服零售打造的AI智能订货管理工具，支持批量分配、尺码占比计算、数据报表分析">
+    <meta name="keywords" content="订货系统,鞋服订货,AI订货,零售管理,尺码占比,批量分配,数据报表">
+    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+    <a href="#hero" class="skip-link">跳转到主要内容</a>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+            <ul class="nav-links">
+                <li><a href="order.html" class="active">冉暖订货系统</a></li>
+                <li><a href="music.html">冉暖音乐播放器</a></li>
+                <li><a href="epos.html">冉暖收银系统</a></li>
+                <li><a href="index.html#about">关于</a></li>
+                <li><a href="index.html#contact">联系</a></li>
+            </ul>
+            <div class="nav-cta"><a href="javascript:void(0)" onclick="openQQModal()" class="btn btn-primary btn-sm"><i class="fab fa-qq"></i> 咨询</a></div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <a href="order.html" onclick="toggleMobileMenu()">冉暖订货系统</a>
+        <a href="music.html" onclick="toggleMobileMenu()">冉暖音乐播放器</a>
+        <a href="epos.html" onclick="toggleMobileMenu()">冉暖收银系统</a>
+        <a href="index.html" onclick="toggleMobileMenu()">返回首页</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="product-hero order-hero" id="hero">
+        <div class="product-hero-inner">
+            <div class="product-hero-content">
+                <div class="product-hero-badge"><i class="fas fa-clipboard-list"></i> 订货系统</div>
+                <h1 class="product-hero-title">冉暖订货系统</h1>
+                <div class="en-name">RanNuan Order System</div>
+                <p class="product-hero-desc">
+                    从PyQt5桌面端迁移至Vue3 SPA + FastAPI全栈架构，专为鞋服零售行业打造的AI智能订货管理工具。
+                    采用Hybrid混合模型，结合全局计划比例与门店历史销售数据，智能预测每个门店的最优尺码配比。
+                </p>
+                <div class="product-hero-cta">
+                    <a href="javascript:void(0)" onclick="openQQModal()" class="btn btn-primary"><i class="fab fa-qq"></i> 联系开发者</a>
+                    <a href="#ai" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3);"><i class="fas fa-brain"></i> 了解AI功能</a>
+                </div>
+            </div>
+            <div class="product-hero-visual">
+                <div class="product-screenshot-wrap">
+                    <div class="product-screenshot screenshot-glow">
+                        <img src="/assets/screenshot-order.png" alt="冉暖订货系统界面" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\'><i class=\'fas fa-clipboard-list\'></i><p>冉暖订货系统</p></div>'">
+                    </div>
+                    <div class="screenshot-deco"></div>
+                    <div class="screenshot-float-label">AI 智能订货</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features -->
+    <section class="section features-section" id="features">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-paw"></i> 核心功能</div>
+            <h2 class="section-title">为订货场景量身打造</h2>
+            <p class="section-subtitle">每一个功能都来自真实业务需求，解决订货管理中的核心痛点</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-tasks"></i></div><div><h4>批量分配</h4><p>一键分配到门店，自动预警偏差，支持手动微调</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-chart-pie"></i></div><div><h4>尺码占比计算</h4><p>全局计划比例与门店历史数据融合，智能预测最优配比</p></div></div>
+            <div class="feature-item reveal delay-3"><div class="icon"><i class="fas fa-chart-bar"></i></div><div><h4>数据报表</h4><p>TOP款定准率、结构检查、同期对比，数据驱动决策</p></div></div>
+            <div class="feature-item reveal delay-4"><div class="icon"><i class="fas fa-file-excel"></i></div><div><h4>Excel导入导出</h4><p>支持Excel批量导入数据，一键导出报表，无缝对接</p></div></div>
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-mobile-alt"></i></div><div><h4>多端协同</h4><p>桌面端管理 + Web端移动访问，随时随地处理订货</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-shield-alt"></i></div><div><h4>数据安全</h4><p>本地SQLite存储，数据完全掌控，无需担心泄露</p></div></div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="section stats-section">
+        <div class="stats-grid reveal">
+            <div class="stat-item">
+                <div class="stat-num" data-target="70" data-suffix="%">0%</div>
+                <div class="stat-label">订货效率提升</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="85" data-suffix="%">0%</div>
+                <div class="stat-label">AI尺码准确率</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="90" data-suffix="%">0%</div>
+                <div class="stat-label">用户满意度</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Features -->
+    <section class="section ai-section" id="ai">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-brain"></i> AI智能</div>
+            <h2 class="section-title">AI驱动的智能订货</h2>
+            <p class="section-subtitle">Hybrid混合模型，融合全局趋势与门店个性，让尺码配比更精准</p>
+        </div>
+        <div class="ai-features-grid">
+            <div class="ai-card featured reveal">
+                <div class="ai-card-icon"><i class="fas fa-brain"></i></div>
+                <h3>Hybrid混合模型</h3>
+                <p>结合全局计划比例（Plan Ratio）与门店历史销售数据（Store History），通过可调节的融合权重α，智能预测每个门店的最优尺码配比。支持手动微调与偏差预警。</p>
+                <div class="ai-tags"><span>全局趋势</span><span>门店个性</span><span>融合权重可调</span><span>偏差预警</span></div>
+            </div>
+            <div class="ai-card reveal delay-1">
+                <div class="ai-card-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>销量预测</h3>
+                <p>基于历史销售数据的趋势分析，辅助判断未来订货量，减少库存积压与缺货风险。</p>
+                <div class="ai-tags"><span>趋势分析</span><span>季节性调整</span></div>
+            </div>
+            <div class="ai-card reveal delay-2">
+                <div class="ai-card-icon"><i class="fas fa-sliders-h"></i></div>
+                <h3>智能调整</h3>
+                <p>一键AI调整尺码比例，自动识别异常门店，生成调整建议与对比报告。</p>
+                <div class="ai-tags"><span>一键调整</span><span>异常识别</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section tech-section" id="tech">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-code"></i> 技术架构</div>
+            <h2 class="section-title">现代全栈架构</h2>
+            <p class="section-subtitle">从PyQt5迁移至Vue3 + FastAPI，性能与体验全面升级</p>
+        </div>
+        <div class="tech-diagram reveal">
+            <div class="tech-layer layer-frontend">
+                <div class="tech-item reveal delay-1"><i class="fab fa-vuejs"></i><h4>Vue 3</h4><p>前端框架</p></div>
+                <div class="tech-item reveal delay-2"><i class="fas fa-paint-brush"></i><h4>Element Plus</h4><p>UI组件库</p></div>
+                <div class="tech-item reveal delay-3"><i class="fas fa-wind"></i><h4>TailwindCSS</h4><p>样式方案</p></div>
+            </div>
+            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
+            <div class="tech-layer layer-backend">
+                <div class="tech-item reveal delay-4"><i class="fas fa-bolt"></i><h4>FastAPI</h4><p>Python后端</p></div>
+                <div class="tech-item reveal delay-1"><i class="fas fa-brain"></i><h4>AI Engine</h4><p>智能模型</p></div>
+            </div>
+            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
+            <div class="tech-layer layer-data">
+                <div class="tech-item reveal delay-2"><i class="fas fa-database"></i><h4>SQLite</h4><p>本地存储</p></div>
+                <div class="tech-item reveal delay-3"><i class="fas fa-file-excel"></i><h4>Excel IO</h4><p>导入导出</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="section screenshots-section" id="screenshots">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-images"></i> 产品截图</div>
+            <h2 class="section-title">界面一览</h2>
+            <p class="section-subtitle">简洁高效的操作界面，让订货管理变得轻松</p>
+        </div>
+        <div class="screenshots-grid">
+            <div class="screenshot-frame reveal delay-1" data-label="批量分配">
+                <img src="/assets/截图2.png" alt="订货系统截图2" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;\'><i class=\'fas fa-image\'></i><p>截图2</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-2" data-label="AI智能尺码">
+                <img src="/assets/截图3.png" alt="订货系统截图3" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;\'><i class=\'fas fa-image\'></i><p>截图3</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-3" data-label="数据报表">
+                <img src="/assets/截图4.png" alt="订货系统截图4" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;\'><i class=\'fas fa-image\'></i><p>截图4</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-4" data-label="Excel导入">
+                <img src="/assets/截图5.png" alt="订货系统截图5" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;\'><i class=\'fas fa-image\'></i><p>截图5</p></div>'">
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="section quickstart-section" id="quickstart">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-rocket"></i> 快速上手</div>
+            <h2 class="section-title">三步开始智能订货</h2>
+            <p class="section-subtitle">无需复杂配置，开箱即用</p>
+        </div>
+        <div class="quickstart-grid">
+            <div class="quickstart-step reveal delay-1">
+                <div class="step-num">01</div>
+                <div class="step-icon"><i class="fas fa-download"></i></div>
+                <h3>获取账号与链接</h3>
+                <p>添加微信或QQ获取账号与链接，纯web系统，无需额外依赖。</p>
+            </div>
+            <div class="quickstart-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="quickstart-step reveal delay-2">
+                <div class="step-num">02</div>
+                <div class="step-icon"><i class="fas fa-file-import"></i></div>
+                <h3>导入数据</h3>
+                <p>使用标准模板导入订货计划，系统自动校验格式与数据完整性。</p>
+            </div>
+            <div class="quickstart-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="quickstart-step reveal delay-3">
+                <div class="step-num">03</div>
+                <div class="step-icon"><i class="fas fa-magic"></i></div>
+                <h3>AI一键分配</h3>
+                <p>点击AI调整，Hybrid模型自动计算最优尺码配比，生成分配方案。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="background:linear-gradient(135deg,#2D2A32 0%,#3D3530 50%,#4A3D2E 100%);position:relative;overflow:hidden;text-align:center;padding:80px 24px;" id="download">
+        <div style="position:relative;z-index:1;max-width:600px;margin:0 auto;">
+            <div class="section-badge reveal" style="background:rgba(212,148,58,0.15);color:var(--color-primary-light);display:inline-flex;margin-bottom:16px;"><i class="fas fa-external-link-alt"></i> 访问使用</div>
+            <h2 class="reveal delay-1" style="font-size:2rem;font-weight:900;color:white;margin-bottom:12px;">联系开发者获取访问权限</h2>
+            <p class="reveal delay-2" style="color:rgba(255,255,255,0.7);margin-bottom:28px;font-size:1.05rem;">冉暖订货系统采用网页版架构，添加开发者获取系统网址、登录账号与操作指导。</p>
+            <a href="javascript:void(0)" onclick="openQQModal()" class="btn btn-primary reveal delay-3" style="font-size:1rem;padding:12px 32px;"><i class="fab fa-qq"></i> 联系开发者</a>
+        </div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(212,148,58,0.15) 0%,transparent 60%);pointer-events:none;"></div>
+    </section>
+
+    <!-- FAQ Quick -->
+    <section class="section faq-quick-section">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-question-circle"></i> 常见问题</div>
+            <h2 class="section-title">还有疑问？</h2>
+            <p class="section-subtitle">快速找到你关心的问题</p>
+        </div>
+        <div class="faq-quick-grid">
+            <a href="faq.html#order" class="faq-quick-card reveal delay-1">
+                <div class="faq-q-icon"><i class="fas fa-file-excel"></i></div>
+                <h4>支持哪些Excel格式？</h4>
+                <p>.xlsx / .xls，提供标准模板</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html#order" class="faq-quick-card reveal delay-2">
+                <div class="faq-q-icon"><i class="fas fa-brain"></i></div>
+                <h4>AI准确率如何？</h4>
+                <p>融合模型准确率85%+，支持手动微调</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html#order" class="faq-quick-card reveal delay-3">
+                <div class="faq-q-icon"><i class="fas fa-sync-alt"></i></div>
+                <h4>数据能否多端同步？</h4>
+                <p>桌面+Web端实时同步，同账号登录</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html" class="faq-quick-card reveal delay-4">
+                <div class="faq-q-icon"><i class="fas fa-ellipsis-h"></i></div>
+                <h4>更多问题</h4>
+                <p>查看完整常见问题列表</p>
+                <span class="faq-quick-link">前往FAQ <i class="fas fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials-section">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-paw"></i> 用户评价</div>
+            <h2 class="section-title">他们已经在用了</h2>
+            <p class="section-subtitle">来自一线鞋服零售从业者的真实反馈</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal delay-1">
+                <div class="testimonial-quote">"</div>
+                <div class="testimonial-content">以前订货全靠Excel手动分配，一个订货会要搞两三天。现在用冉暖订货系统，AI自动分配尺码，半天就搞定了。</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                    <div class="author-info"><h4>王店长</h4><p>运动品牌区域经理</p><div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal delay-2">
+                <div class="testimonial-quote">"</div>
+                <div class="testimonial-content">AI尺码调整功能太实用了，之前总是凭感觉分配，现在有数据支撑，偏差率明显降低了。</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                    <div class="author-info"><h4>李主管</h4><p>服装品牌商品部</p><div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div></div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal delay-3">
+                <div class="testimonial-quote">"</div>
+                <div class="testimonial-content">数据报表功能帮我快速定位滞销款，同期对比一目了然，比之前用Excel做透视表方便太多。</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                    <div class="author-info"><h4>张经理</h4><p>运动品牌运营总监</p><div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+                    <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
+                    <div class="footer-social">
+                        <a href="javascript:void(0)" onclick="openWechatModal()"><i class="fab fa-weixin"></i></a>
+                        <a href="javascript:void(0)" onclick="openQQModal()"><i class="fab fa-qq"></i></a>
+                        <a href="mailto:aaronwei97@qq.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li></ul></div>
+                <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="index.html#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
+                <div class="footer-column"><h4>了解更多</h4><ul><li><a href="index.html#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 冉暖科技 RanNuan Tech <i class="fas fa-paw" style="margin-left:6px;color:var(--color-primary);"></i></p>
+                <div class="footer-bottom-links"><a href="privacy.html">隐私政策</a><a href="terms.html">使用条款</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" aria-label="返回顶部"><i class="fas fa-chevron-up"></i></button>
+
+    <!-- WeChat Modal -->
+    <div class="modal-overlay" id="wechatModal" onclick="closeWechatModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeWechatModal(event)"><i class="fas fa-times"></i></button>
+            <div style="width:52px;height:52px;background:var(--color-primary-10);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--color-primary);"><i class="fab fa-weixin" style="font-size:26px;"></i></div>
+            <h3 style="margin-bottom:4px;font-size:1.2rem;">添加开发者微信</h3>
+            <p style="color:var(--color-text-muted);font-size:0.88rem;">获取试用名额 · 技术支持 · 交流反馈</p>
+            <div class="modal-qr"><img src="assets/wechat-qr.jpg" alt="微信二维码" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'text-align:center\'><i class=\'fab fa-weixin\' style=\'font-size:50px;color:#ddd;margin-bottom:8px\'></i><p style=\'font-size:13px;color:#999\'>暂无二维码图片<br>请直接搜索微信号</p></div>';"></div>
+            <div class="modal-id"><span style="color:var(--color-text-muted);font-weight:normal;font-size:0.82rem;margin-right:8px;">微信号:</span><span id="wechatIdText" style="user-select:all;">AaronWei24</span><button class="copy-btn" onclick="copyToClipboard('wechatIdText',this)">复制</button></div>
+            <p class="modal-tip">添加请注明：<span style="color:var(--color-primary);font-weight:500;">冉暖科技咨询</span></p>
+        </div>
+    </div>
+
+    <!-- QQ Modal -->
+    <div class="modal-overlay" id="qqModal" onclick="closeQQModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeQQModal(event)"><i class="fas fa-times"></i></button>
+            <div style="width:52px;height:52px;background:rgba(99,102,241,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#6366f1;"><i class="fab fa-qq" style="font-size:26px;"></i></div>
+            <h3 style="margin-bottom:4px;font-size:1.2rem;">添加开发者QQ</h3>
+            <p style="color:var(--color-text-muted);font-size:0.88rem;">在线咨询 · 远程协助 · 问题反馈</p>
+            <div class="modal-qr"><img src="assets/QQ-qr.png" alt="QQ二维码" style="width:100%;height:100%;object-fit:contain;" loading="lazy"></div>
+            <div style="text-align:center;margin:-4px 0 12px;"><a href="tencent://message/?uin=249861749&Site=Sambow&Menu=yes" class="btn btn-primary btn-sm"><i class="fab fa-qq"></i> 点击发起聊天</a></div>
+            <div class="modal-id"><span style="color:var(--color-text-muted);font-weight:normal;font-size:0.82rem;margin-right:8px;">QQ号:</span><span id="qqIdText" style="user-select:all;">249861749</span><button class="copy-btn" onclick="copyToClipboard('qqIdText',this)" style="background:#6366f1;">复制</button></div>
+            <p class="modal-tip">添加请注明：<span style="color:#6366f1;font-weight:500;">冉暖科技咨询</span></p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+    // Stat counter animation
+    (function() {
+        var statObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var grid = entry.target;
+                    grid.querySelectorAll('.stat-item').forEach(function(item, idx) {
+                        var numEl = item.querySelector('.stat-num');
+                        var fillEl = item.querySelector('.stat-fill');
+                        var target = parseInt(numEl.getAttribute('data-target'));
+                        var suffix = numEl.getAttribute('data-suffix') || '';
+                        var duration = 1500;
+                        var start = 0;
+                        var startTime = null;
+                        function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+                        function step(timestamp) {
+                            if (!startTime) startTime = timestamp;
+                            var progress = Math.min((timestamp - startTime) / duration, 1);
+                            var val = Math.round(easeOutExpo(progress) * target);
+                            numEl.textContent = val + suffix;
+                            fillEl.style.width = val + '%';
+                            if (progress < 1) requestAnimationFrame(step);
+                        }
+                        setTimeout(function() { requestAnimationFrame(step); }, idx * 200);
+                    });
+                    statObserver.unobserve(grid);
+                }
+            });
+        }, { threshold: 0.3 });
+        var statGrid = document.querySelector('.stats-grid');
+        if (statGrid) statObserver.observe(statGrid);
+    })();
+    </script>
+</body>
+</html>

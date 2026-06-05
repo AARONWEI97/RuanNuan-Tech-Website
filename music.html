@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="music-page">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冉暖音乐播放器 RanNuan Music — 跨平台音乐播放</title>
+    <meta name="description" content="冉暖音乐播放器 - 基于React Native的跨平台移动音乐播放器，支持多源解析、歌词显示、下载管理">
+    <meta name="keywords" content="音乐播放器,React Native,跨平台,多源解析,歌词显示,下载管理">
+    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+    <a href="#hero" class="skip-link">跳转到主要内容</a>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+            <ul class="nav-links">
+                <li><a href="order.html">冉暖订货系统</a></li>
+                <li><a href="music.html" class="active">冉暖音乐播放器</a></li>
+                <li><a href="epos.html">冉暖收银系统</a></li>
+                <li><a href="index.html#about">关于</a></li>
+                <li><a href="index.html#contact">联系</a></li>
+            </ul>
+            <div class="nav-cta"><a href="index.html#contact" class="btn btn-accent btn-sm"><i class="fas fa-paw"></i> 咨询</a></div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <a href="order.html" onclick="toggleMobileMenu()">冉暖订货系统</a>
+        <a href="music.html" onclick="toggleMobileMenu()">冉暖音乐播放器</a>
+        <a href="epos.html" onclick="toggleMobileMenu()">冉暖收银系统</a>
+        <a href="index.html" onclick="toggleMobileMenu()">返回首页</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="product-hero music-hero" id="hero">
+        <div class="product-hero-inner">
+            <div class="product-hero-content">
+                <div class="product-hero-badge"><i class="fas fa-headphones"></i> 音乐播放器</div>
+                <h1 class="product-hero-title">冉暖音乐播放器</h1>
+                <div class="en-name">RanNuan Music Player</div>
+                <p class="product-hero-desc">
+                    基于React Native + TypeScript开发的跨平台移动音乐播放器。支持在线播放、多源音乐解析、实时歌词显示、
+                    下载管理与离线播放。移动端无CORS限制，直接请求音乐API，配合独立后端服务实现音源解锁。
+                </p>
+                <div class="product-hero-cta">
+                    <a href="#features" class="btn btn-accent"><i class="fas fa-music"></i> 了解功能</a>
+                    <a href="#progress" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3);"><i class="fas fa-road"></i> 开发进度</a>
+                </div>
+            </div>
+            <div class="product-hero-visual">
+                <div class="product-screenshot-wrap">
+                    <div class="product-screenshot screenshot-glow">
+                        <img src="/assets/screenshot-music.jpg" alt="冉暖音乐播放器界面" style="width:45%;height:45%;object-fit:contain;border-radius:inherit;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\'><i class=\'fas fa-headphones\'></i><p>冉暖音乐播放器</p></div>'">
+                    </div>
+                    <div class="screenshot-deco"></div>
+                    <div class="screenshot-float-label">多源 · 离线 · 歌词</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section features-section" id="features">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-paw"></i> 核心功能</div>
+            <h2 class="section-title">你的随身音乐站</h2>
+            <p class="section-subtitle">多源聚合、歌词同步、离线下载，一个播放器搞定所有需求</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-music"></i></div><div><h4>多源解析</h4><p>网易云/QQ音乐/酷狗多源聚合，一键搜索全网音乐</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-align-left"></i></div><div><h4>歌词显示</h4><p>逐行歌词滚动，翻译歌词支持，沉浸式听歌体验</p></div></div>
+            <div class="feature-item reveal delay-3"><div class="icon"><i class="fas fa-download"></i></div><div><h4>下载管理</h4><p>离线下载，后台播放，断点续传，随时随地听歌</p></div></div>
+            <div class="feature-item reveal delay-4"><div class="icon"><i class="fas fa-palette"></i></div><div><h4>多主题</h4><p>深色/浅色/跟随系统多种风格，个性化你的播放器</p></div></div>
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-user-circle"></i></div><div><h4>用户登录</h4><p>支持网易云/QQ音乐账号登录，同步个人歌单</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-list-music"></i></div><div><h4>歌单管理</h4><p>创建/收藏/分享歌单，打造你的专属曲库</p></div></div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="section stats-section">
+        <div class="stats-grid reveal">
+            <div class="stat-item">
+                <div class="stat-num" data-target="10" data-suffix="+">0</div>
+                <div class="stat-label">核心功能模块</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="8" data-suffix="+">0</div>
+                <div class="stat-label">接入音源平台</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="99" data-suffix="%">0%</div>
+                <div class="stat-label">播放成功率</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section tech-section" id="tech">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-code"></i> 技术架构</div>
+            <h2 class="section-title">现代移动端技术栈</h2>
+            <p class="section-subtitle">React Native + TypeScript，一套代码，双端运行</p>
+        </div>
+        <div class="tech-diagram reveal">
+            <div class="tech-layer layer-frontend">
+                <div class="tech-item reveal delay-1"><i class="fab fa-react"></i><h4>React Native</h4><p>跨平台框架</p></div>
+                <div class="tech-item reveal delay-2"><i class="fab fa-js-square"></i><h4>TypeScript</h4><p>类型安全</p></div>
+                <div class="tech-item reveal delay-3"><i class="fas fa-box"></i><h4>Zustand</h4><p>状态管理</p></div>
+            </div>
+            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
+            <div class="tech-layer layer-backend">
+                <div class="tech-item reveal delay-4"><i class="fas fa-sync"></i><h4>React Query</h4><p>数据请求</p></div>
+                <div class="tech-item reveal delay-1"><i class="fas fa-mobile-alt"></i><h4>Expo</h4><p>开发工具链</p></div>
+            </div>
+            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
+            <div class="tech-layer layer-data">
+                <div class="tech-item reveal delay-2"><i class="fas fa-music"></i><h4>音源解析</h4><p>多平台聚合</p></div>
+                <div class="tech-item reveal delay-3"><i class="fas fa-download"></i><h4>离线缓存</h4><p>本地存储</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="section screenshots-section" id="screenshots">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-images"></i> 界面预览</div>
+            <h2 class="section-title">移动端界面一览</h2>
+            <p class="section-subtitle">简洁沉浸的播放体验，多种主题风格可选</p>
+        </div>
+        <div class="screenshots-grid">
+            <div class="screenshot-frame reveal delay-1" data-label="播放器首页">
+                <img src="/assets/music/screenshot-music-1.jpg" alt="音乐播放器首页" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;\'><i class=\'fas fa-image\'></i><p>播放器首页</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-2" data-label="歌词显示">
+                <img src="/assets/music/screenshot-music-2.jpg" alt="歌词显示" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;\'><i class=\'fas fa-image\'></i><p>歌词显示</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-3" data-label="歌单管理">
+                <img src="/assets/music/screenshot-music-3.jpg" alt="歌单管理" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;\'><i class=\'fas fa-image\'></i><p>歌单管理</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-4" data-label="主题切换">
+                <img src="/assets/music/screenshot-music-4.jpg" alt="主题切换" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;\'><i class=\'fas fa-image\'></i><p>主题切换</p></div>'">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Quick -->
+    <section class="section faq-quick-section">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-question-circle"></i> 常见问题</div>
+            <h2 class="section-title">还有疑问？</h2>
+            <p class="section-subtitle">快速找到你关心的问题</p>
+        </div>
+        <div class="faq-quick-grid">
+            <a href="faq.html#music" class="faq-quick-card reveal delay-1">
+                <div class="faq-q-icon"><i class="fas fa-music"></i></div>
+                <h4>支持哪些音源？</h4>
+                <p>网易云/QQ音乐/酷狗等多源聚合</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html#music" class="faq-quick-card reveal delay-2">
+                <div class="faq-q-icon"><i class="fas fa-download"></i></div>
+                <h4>歌曲可以导出吗？</h4>
+                <p>暂不支持导出，支持多端歌单同步</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html#music" class="faq-quick-card reveal delay-3">
+                <div class="faq-q-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h4>支持哪些平台？</h4>
+                <p>iOS / Android，一套代码双端运行</p>
+                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="faq.html" class="faq-quick-card reveal delay-4">
+                <div class="faq-q-icon"><i class="fas fa-ellipsis-h"></i></div>
+                <h4>更多问题</h4>
+                <p>查看完整常见问题列表</p>
+                <span class="faq-quick-link">前往FAQ <i class="fas fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Progress -->
+    <section class="section progress-section" id="progress">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-road"></i> 开发进度</div>
+            <h2 class="section-title">项目进展</h2>
+            <p class="section-subtitle">持续迭代中，核心功能已基本完成</p>
+        </div>
+        <div class="progress-grid">
+            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> 在线播放与搜索</div>
+            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 多源音乐解析</div>
+            <div class="progress-item reveal delay-3"><i class="fas fa-check-circle done"></i> 歌词显示</div>
+            <div class="progress-item reveal delay-4"><i class="fas fa-check-circle done"></i> 下载管理</div>
+            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> 用户登录</div>
+            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 歌单同步</div>
+            <div class="progress-item reveal delay-3"><i class="fas fa-check-circle done"></i> 播放列表管理</div>
+            <div class="progress-item reveal delay-4"><i class="fas fa-check-circle done"></i> 桌面端适配</div>
+            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> 均衡器</div>
+            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 社交分享</div>
+        </div>
+    </section>
+
+    <!-- Download -->
+    <section class="section" style="background:linear-gradient(135deg,#2D2A32 0%,#3A2D32 50%,#4A2E38 100%);position:relative;overflow:hidden;text-align:center;padding:80px 24px;">
+        <div style="position:relative;z-index:1;max-width:600px;margin:0 auto;">
+            <div class="section-badge reveal" style="background:rgba(240,107,94,0.15);color:var(--color-accent-light);display:inline-flex;margin-bottom:16px;"><i class="fas fa-download"></i> 立即下载</div>
+            <h2 class="reveal delay-1" style="font-size:2rem;font-weight:900;color:white;margin-bottom:12px;">安装包下载</h2>
+            <p class="reveal delay-2" style="color:rgba(255,255,255,0.7);margin-bottom:28px;font-size:1.05rem;">冉暖音乐播放器现已开放下载，目前仅支持 Android 平台，安装即可体验多源聚合音乐播放。</p>
+            <a href="https://wwbjj.lanzoum.com/iwXiT3r5ygkb" target="_blank" class="btn btn-accent reveal delay-3" style="font-size:1rem;padding:12px 32px;"><i class="fas fa-download"></i> 下载安装包</a>
+            <a id="githubLink" href="https://github.com/AARONWEI97/RanNuan-Music-Player" target="_blank" class="reveal delay-4" style="display:inline-flex;align-items:center;gap:10px;background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-md);padding:10px 18px;margin-top:16px;color:#e6e6e6;font-size:0.88rem;text-decoration:none;transition:all 0.3s ease;" onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.transform=''">
+                <i class="fab fa-github" style="font-size:1.1rem;color:white;"></i>
+                <span>前往 GitHub 仓库 <span style="color:var(--color-accent-light);font-weight:600;">点 Star</span> 支持一下</span>
+                <i class="fas fa-arrow-right" style="font-size:0.75rem;opacity:0.6;margin-left:4px;"></i>
+            </a>
+            <p id="pwdHint" class="reveal delay-4" style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-top:14px;opacity:0.9;"><i class="fas fa-lock" style="margin-right:4px;"></i> 访问上方 GitHub 仓库后返回，自动解锁网盘密码</p>
+            <p id="pwdReveal" class="reveal delay-4" style="display:none;color:var(--color-accent-light);font-size:0.9rem;margin-top:14px;font-weight:600;letter-spacing:1px;"><i class="fas fa-unlock" style="margin-right:4px;"></i> 网盘密码：<span id="panPassword">****</span></p>
+        </div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(240,107,94,0.15) 0%,transparent 60%);pointer-events:none;"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+                    <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
+                    <div class="footer-social">
+                        <a href="javascript:void(0)" onclick="openWechatModal()"><i class="fab fa-weixin"></i></a>
+                        <a href="javascript:void(0)" onclick="openQQModal()"><i class="fab fa-qq"></i></a>
+                        <a href="mailto:aaronwei97@qq.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li></ul></div>
+                <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="index.html#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
+                <div class="footer-column"><h4>了解更多</h4><ul><li><a href="index.html#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 冉暖科技 RanNuan Tech <i class="fas fa-paw" style="margin-left:6px;color:var(--color-primary);"></i></p>
+                <div class="footer-bottom-links"><a href="privacy.html">隐私政策</a><a href="terms.html">使用条款</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" aria-label="返回顶部"><i class="fas fa-chevron-up"></i></button>
+
+    <div class="modal-overlay" id="wechatModal" onclick="closeWechatModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeWechatModal(event)"><i class="fas fa-times"></i></button>
+            <div style="width:52px;height:52px;background:var(--color-primary-10);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--color-primary);"><i class="fab fa-weixin" style="font-size:26px;"></i></div>
+            <h3 style="margin-bottom:4px;font-size:1.2rem;">添加开发者微信</h3>
+            <p style="color:var(--color-text-muted);font-size:0.88rem;">获取试用名额 · 技术支持 · 交流反馈</p>
+            <div class="modal-qr"><img src="assets/wechat-qr.jpg" alt="微信二维码" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'text-align:center\'><i class=\'fab fa-weixin\' style=\'font-size:50px;color:#ddd;margin-bottom:8px\'></i><p style=\'font-size:13px;color:#999\'>暂无二维码图片<br>请直接搜索微信号</p></div>';"></div>
+            <div class="modal-id"><span style="color:var(--color-text-muted);font-weight:normal;font-size:0.82rem;margin-right:8px;">微信号:</span><span id="wechatIdText" style="user-select:all;">AaronWei24</span><button class="copy-btn" onclick="copyToClipboard('wechatIdText',this)">复制</button></div>
+            <p class="modal-tip">添加请注明：<span style="color:var(--color-primary);font-weight:500;">冉暖科技咨询</span></p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="qqModal" onclick="closeQQModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeQQModal(event)"><i class="fas fa-times"></i></button>
+            <div style="width:52px;height:52px;background:rgba(99,102,241,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#6366f1;"><i class="fab fa-qq" style="font-size:26px;"></i></div>
+            <h3 style="margin-bottom:4px;font-size:1.2rem;">添加开发者QQ</h3>
+            <p style="color:var(--color-text-muted);font-size:0.88rem;">在线咨询 · 远程协助 · 问题反馈</p>
+            <div class="modal-qr"><img src="assets/QQ-qr.png" alt="QQ二维码" style="width:100%;height:100%;object-fit:contain;" loading="lazy"></div>
+            <div style="text-align:center;margin:-4px 0 12px;"><a href="tencent://message/?uin=249861749&Site=Sambow&Menu=yes" class="btn btn-primary btn-sm"><i class="fab fa-qq"></i> 点击发起聊天</a></div>
+            <div class="modal-id"><span style="color:var(--color-text-muted);font-weight:normal;font-size:0.82rem;margin-right:8px;">QQ号:</span><span id="qqIdText" style="user-select:all;">249861749</span><button class="copy-btn" onclick="copyToClipboard('qqIdText',this)" style="background:#6366f1;">复制</button></div>
+            <p class="modal-tip">添加请注明：<span style="color:#6366f1;font-weight:500;">冉暖科技咨询</span></p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+    // GitHub Star -> unlock password (expires in 60s or on refresh)
+    (function() {
+        var PWD = 'RR0926'; // 修改为你的真实网盘密码
+        var KEY = 'rannuan_github_visit';
+        var EXPIRE = 60000; // 60 seconds
+        var githubLink = document.getElementById('githubLink');
+        var pwdHint = document.getElementById('pwdHint');
+        var pwdReveal = document.getElementById('pwdReveal');
+        var panPassword = document.getElementById('panPassword');
+        function showPassword() {
+            if (panPassword) panPassword.textContent = PWD;
+            if (pwdHint) pwdHint.style.display = 'none';
+            if (pwdReveal) pwdReveal.style.display = 'block';
+        }
+        function clearUnlock() {
+            sessionStorage.removeItem(KEY);
+        }
+        // Detect page refresh and clear immediately
+        var navEntry = performance.getEntriesByType('navigation')[0];
+        if (navEntry && navEntry.type === 'reload') {
+            clearUnlock();
+        }
+        // Check expiration on load
+        var ts = sessionStorage.getItem(KEY);
+        if (ts) {
+            if (Date.now() - parseInt(ts, 10) > EXPIRE) {
+                clearUnlock();
+            } else {
+                showPassword();
+            }
+        }
+        // Mark on click
+        if (githubLink) {
+            githubLink.addEventListener('click', function() {
+                sessionStorage.setItem(KEY, Date.now());
+            });
+        }
+        // Reveal when user returns to tab
+        window.addEventListener('focus', function() {
+            var ts2 = sessionStorage.getItem(KEY);
+            if (ts2 && Date.now() - parseInt(ts2, 10) <= EXPIRE) {
+                showPassword();
+            }
+        });
+    })();
+
+    // Stat counter animation
+    (function() {
+        var statObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var grid = entry.target;
+                    grid.querySelectorAll('.stat-item').forEach(function(item, idx) {
+                        var numEl = item.querySelector('.stat-num');
+                        var fillEl = item.querySelector('.stat-fill');
+                        var target = parseInt(numEl.getAttribute('data-target'));
+                        var suffix = numEl.getAttribute('data-suffix') || '';
+                        var duration = 1500;
+                        var startTime = null;
+                        function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+                        function step(timestamp) {
+                            if (!startTime) startTime = timestamp;
+                            var progress = Math.min((timestamp - startTime) / duration, 1);
+                            var val = Math.round(easeOutExpo(progress) * target);
+                            numEl.textContent = val + suffix;
+                            fillEl.style.width = val + '%';
+                            if (progress < 1) requestAnimationFrame(step);
+                        }
+                        setTimeout(function() { requestAnimationFrame(step); }, idx * 200);
+                    });
+                    statObserver.unobserve(grid);
+                }
+            });
+        }, { threshold: 0.3 });
+        var statGrid = document.querySelector('.stats-grid');
+        if (statGrid) statObserver.observe(statGrid);
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用教程 — 冉暖科技</title>
+    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-hero { min-height: 40vh; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--gradient-hero); position: relative; padding-top: 72px; overflow: hidden; }
+        .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(212,148,58,0.15) 0%, transparent 60%); pointer-events: none; }
+        .page-hero h1 { font-size: 2.6rem; font-weight: 900; color: white; margin-bottom: 12px; }
+        .page-hero p { color: rgba(255,255,255,0.75); font-size: 1.05rem; }
+        .page-content { max-width: 1000px; margin: 0 auto; padding: 60px 24px; }
+        .tutorial-category { margin-bottom: 48px; }
+        .tutorial-category h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+        .tutorial-category h2 i { font-size: 1.1rem; color: var(--color-primary); }
+        .tutorial-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .tutorial-item { background: var(--color-surface); border: 1px solid var(--color-border-light); border-radius: var(--radius-md); padding: 20px; display: flex; align-items: flex-start; gap: 14px; transition: all 0.3s ease; }
+        .tutorial-item:hover { transform: translateX(4px); border-color: var(--color-primary-light); box-shadow: var(--shadow-md); }
+        .tutorial-num { width: 36px; height: 36px; border-radius: var(--radius-sm); background: var(--color-primary-10); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+        .tutorial-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+        .tutorial-text p { font-size: 0.85rem; color: var(--color-text-secondary); }
+        @media (max-width: 768px) { .tutorial-list { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">跳转到主要内容</a>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技"><span class="logo-text">冉暖科技</span></a>
+            <ul class="nav-links">
+                <li><a href="order.html">冉暖订货系统</a></li>
+                <li><a href="music.html">冉暖音乐播放器</a></li>
+                <li><a href="epos.html">冉暖收银系统</a></li>
+            </ul>
+            <div class="nav-cta"><a href="index.html#contact" class="btn btn-primary btn-sm"><i class="fas fa-paw"></i> 咨询合作</a></div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <a href="order.html" onclick="toggleMobileMenu()">冉暖订货系统</a>
+        <a href="music.html" onclick="toggleMobileMenu()">冉暖音乐播放器</a>
+        <a href="epos.html" onclick="toggleMobileMenu()">冉暖收银系统</a>
+        <a href="index.html#about" onclick="toggleMobileMenu()">关于</a>
+        <a href="index.html#contact" onclick="toggleMobileMenu()">联系</a>
+    </div>
+
+    <section class="page-hero" id="main">
+        <div>
+            <h1>使用教程</h1>
+            <p>快速上手冉暖科技全系产品</p>
+        </div>
+    </section>
+
+    <section class="page-content">
+        <div class="tutorial-category reveal">
+            <h2><i class="fas fa-clipboard-list" style="color:var(--color-primary)"></i> 冉暖订货系统</h2>
+            <div class="tutorial-list">
+                <div class="tutorial-item"><div class="tutorial-num">01</div><div class="tutorial-text"><h3>快速入门</h3><p>安装配置与首次登录，基础界面导览</p></div></div>
+                <div class="tutorial-item"><div class="tutorial-num">02</div><div class="tutorial-text"><h3>Excel导入订货</h3><p>模板格式说明、数据校验与批量导入</p></div></div>
+                <div class="tutorial-item"><div class="tutorial-num">03</div><div class="tutorial-text"><h3>AI尺码占比</h3><p>智能比例计算、历史数据学习与手动微调</p></div></div>
+                <div class="tutorial-item"><div class="tutorial-num">04</div><div class="tutorial-text"><h3>数据报表导出</h3><p>同期对比、趋势分析、PDF/Excel导出</p></div></div>
+            </div>
+        </div>
+        <div class="tutorial-category reveal delay-1">
+            <h2><i class="fas fa-headphones" style="color:var(--color-accent)"></i> 冉暖音乐播放器</h2>
+            <div class="tutorial-list">
+                <div class="tutorial-item"><div class="tutorial-num">01</div><div class="tutorial-text"><h3>安装与源配置</h3><p>iOS/Android安装、音源解析配置</p></div></div>
+                <div class="tutorial-item"><div class="tutorial-num">02</div><div class="tutorial-text"><h3>歌单与收藏</h3><p>创建歌单、同步收藏、离线下载</p></div></div>
+                <div class="tutorial-item"><div class="tutorial-num">03</div><div class="tutorial-text"><h3>歌词与主题</h3><p>实时歌词显示、多主题风格切换</p></div></div>
+            </div>
+        </div>
+        <div class="tutorial-category reveal delay-2">
+            <h2><i class="fas fa-cash-register" style="color:var(--color-green)"></i> 冉暖收银系统</h2>
+            <div class="tutorial-list">
+                <div class="tutorial-item"><div class="tutorial-num">01</div><div class="tutorial-text"><h3>系统部署</h3><p>Electron客户端安装、后台NestJS服务部署</p></div></div>
+                <div class="tutorial-item"><div class="tutorial-num">02</div><div class="tutorial-text"><h3>POS收银台</h3><p>扫码开单、会员积分、打印小票</p></div></div>
+                <div class="tutorial-item"><div class="tutorial-num">03</div><div class="tutorial-text"><h3>后台管理</h3><p>商品运营、库存盘点、财务报表</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+                    <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
+                </div>
+                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li></ul></div>
+                <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="index.html#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
+                <div class="footer-column"><h4>了解更多</h4><ul><li><a href="index.html#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 冉暖科技 RanNuan Tech <i class="fas fa-paw" style="margin-left:6px;color:var(--color-primary);"></i></p></div>
+        </div>
+    </footer>
+    <button class="back-to-top" aria-label="返回顶部"><i class="fas fa-chevron-up"></i></button>
+    <script src="js/main.js"></script>
+</body>
+</html>

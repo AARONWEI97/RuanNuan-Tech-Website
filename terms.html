@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用条款 - 冉暖订货系统</title>
+    <meta name="description" content="冉暖订货系统的使用条款和用户协议">
+    <link rel="icon" href="logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- 性能优化 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- 关键资源预加载 -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" as="style">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --primary-light: #5dade2;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #f8f9fa;
+            --dark: #1a252f;
+            --gradient-primary: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            --gradient-accent: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.8;
+            color: var(--secondary);
+            background: var(--light);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 50px;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        /* 添加装饰元素 */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 35px;
+            text-align: center;
+            padding-bottom: 25px;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        h2 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-top: 35px;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, rgba(52, 152, 219, 0.05) 0%, transparent 100%);
+            border-left: 5px solid var(--primary);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        h2:hover {
+            background: linear-gradient(90deg, rgba(52, 152, 219, 0.1) 0%, transparent 100%);
+            transform: translateX(5px);
+        }
+
+        h2::before {
+            content: attr(data-section);
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            color: #555;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* 目录导航样式 */
+        .toc {
+            background: var(--light);
+            padding: 25px;
+            border-radius: var(--radius-md);
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            margin-bottom: 10px;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .toc a:hover {
+            background: rgba(52, 152, 219, 0.1);
+            padding-left: 16px;
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
+
+        /* 可访问性优化 */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            z-index: 1002;
+            transition: top 0.3s ease;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* 键盘导航焦点样式 */
+        a:focus, button:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* 高对比度模式支持 */
+        @media (prefers-contrast: high) {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .container {
+                border: 2px solid #000;
+            }
+        }
+
+        /* 减少动画偏好支持 */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .progress-bar {
+                transition: none;
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 25px;
+                border-radius: var(--radius-md);
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 25px;
+            }
+            
+            .toc {
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+            
+            .toc ul {
+                columns: 1;
+            }
+            
+            .back-link {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+                padding: 12px 15px;
+            }
+            
+            h2::before {
+                width: 20px;
+                height: 20px;
+                font-size: 0.7rem;
+                left: -25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 15px auto;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .toc {
+                padding: 15px;
+            }
+            
+            .back-link {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> 返回首页
+        </a>
+        <h1>使用条款</h1>
+        
+        <div class="toc">
+            <h3>快速导航</h3>
+            <ul>
+                <li><a href="#license">1. 授权许可</a></li>
+                <li><a href="#ip">2. 知识产权</a></li>
+                <li><a href="#disclaimer">3. 免责声明</a></li>
+                <li><a href="#service">4. 服务变更与终止</a></li>
+                <li><a href="#law">5. 适用法律</a></li>
+                <li><a href="#contact">6. 联系方式</a></li>
+            </ul>
+        </div>
+        
+        <div id="main-content">
+        <p><strong>生效日期：2025年1月1日</strong></p>
+        <p>欢迎使用“冉暖订货系统”（以下简称“本软件”）。本软件由个人开发者“AaronWei”独立开发。在您安装、复制或使用本软件之前，请仔细阅读以下条款。使用本软件即表示您同意并接受本条款的全部内容。</p>
+
+        <h2 id="license" data-section="1">授权许可</h2>
+        <p>本软件授予您在个人电脑或服务器上安装、使用、显示和运行本软件的非独占、不可转让的许可。</p>
+        <p>您可以：</p>
+        <ul>
+            <li>在多台设备上安装本软件的客户端（如适用）。</li>
+            <li>将本软件用于合法的商业或个人用途。</li>
+            <li>在授权期限内享受相应的技术支持与服务。</li>
+        </ul>
+        <p>您不得：</p>
+        <ul>
+            <li>对本软件进行反向工程、反编译或反汇编。</li>
+            <li>修改、破解、去除本软件的版权声明、授权验证机制。</li>
+            <li>将本软件出租、出售、转让或分发给第三方（除非获得开发者书面许可）。</li>
+        </ul>
+
+        <h2 id="ip" data-section="2">知识产权</h2>
+        <p>本软件（包括但不限于代码、界面设计、图标、算法、文档）的所有权和知识产权归开发者所有。本软件受著作权法及国际版权条约保护。</p>
+        <p>您购买的是本软件的使用授权，而非本软件的所有权。</p>
+
+        <h2 id="disclaimer" data-section="3">免责声明</h2>
+        <p>本软件按“现状”提供，不包含任何形式的明示或暗示保证，包括但不限于适销性、特定用途适用性和非侵权性。</p>
+        <p>在任何情况下，对于因使用或无法使用本软件而导致的任何直接、间接、偶然、特殊或后果性的损害（包括但不限于业务中断、数据丢失、利润损失），开发者概不负责，即使已被告知可能发生此类损害。</p>
+        <p><strong>请您务必定期备份重要数据。</strong></p>
+
+        <h2 id="service" data-section="4">服务变更与终止</h2>
+        <p>开发者保留随时修改、升级或终止本软件服务的权利。对于免费试用版本，开发者有权随时停止提供服务。</p>
+        <p>如果您违反本条款的任何规定，您的授权将自动终止，您必须立即停止使用本软件并销毁所有副本。</p>
+
+        <h2 id="law" data-section="5">适用法律</h2>
+        <p>本条款受中华人民共和国法律管辖。如发生争议，双方应友好协商解决；协商不成的，任何一方均有权向开发者所在地人民法院提起诉讼。</p>
+
+        <h2 id="contact" data-section="6">联系方式</h2>
+        <p>如果您对本条款有任何疑问，请联系：</p>
+        <ul>
+            <li>QQ：249861749</li>
+            <li>微信：AaronWei24</li>
+            <li>邮箱：aaronwei97@qq.com</li>
+        </ul>
+
+        <div class="footer">
+            <p>&copy; 2025 冉暖订货系统 · 个人开发者作品</p>
+        </div>
+    </div>
+
+    <script>
+        // 滚动进度条
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        });
+
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 章节高亮效果
+        const sections = document.querySelectorAll('h2');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 移除所有高亮
+                    document.querySelectorAll('.toc a').forEach(link => {
+                        link.style.fontWeight = 'normal';
+                    });
+                    // 高亮当前章节
+                    const sectionId = entry.target.id;
+                    const link = document.querySelector(`.toc a[href="#${sectionId}"]`);
+                    if (link) {
+                        link.style.fontWeight = 'bold';
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
