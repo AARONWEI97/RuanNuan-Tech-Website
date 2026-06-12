@@ -3,23 +3,1325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>冉暖音乐播放器 RanNuan Music — 跨平台音乐播放</title>
-    <meta name="description" content="冉暖音乐播放器 - 基于React Native的跨平台移动音乐播放器，支持多源解析、歌词显示、下载管理">
-    <meta name="keywords" content="音乐播放器,React Native,跨平台,多源解析,歌词显示,下载管理">
-    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+    <title>冉暖音乐播放器 — 跨平台桌面 & 移动音乐播放器 | RanNuan Music</title>
+    <meta name="description" content="冉暖音乐播放器 — 基于 Tauri+React 的桌面端 + React Native 移动端双平台音乐播放器，支持 6 大音源解析、桌面歌词、系统托盘、全局快捷键、深色模式、播放会话持久化">
+    <meta name="keywords" content="音乐播放器,桌面音乐播放器,Tauri,React,跨平台,多源解析,桌面歌词,系统托盘,全局快捷键,Windows,Android">
+    <link rel="icon" href="./assets/logo.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/product.css">
+    <style>
+        /* ================================
+           冉暖音乐播放器 — Music Page Upgrade
+           Fluid Gradients + Glassmorphism
+           ================================ */
+
+        :root {
+            --music-primary: #F06B5E;
+            --music-secondary: #E0584E;
+            --music-accent: #5B8DEF;
+            --music-glow: rgba(240,107,94,0.35);
+            --glass-bg: rgba(255,255,255,0.06);
+            --glass-border: rgba(255,255,255,0.12);
+            --glass-bg-strong: rgba(255,255,255,0.1);
+        }
+
+        /* ---- Fluid Animated Hero ---- */
+        .music-hero-v2 {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 72px;
+            background: #1a1418;
+        }
+
+        /* Multi-layer fluid gradient orbs */
+        .fluid-orbs {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .fluid-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.55;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+        }
+        .fluid-orb.orb-1 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, #F06B5E 0%, transparent 70%);
+            top: -15%; left: -10%;
+            animation: orbFloat1 12s infinite;
+        }
+        .fluid-orb.orb-2 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #D4943A 0%, transparent 70%);
+            bottom: -20%; right: -8%;
+            animation: orbFloat2 14s infinite;
+        }
+        .fluid-orb.orb-3 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #7BAE7F 0%, transparent 70%);
+            top: 40%; left: 50%;
+            animation: orbFloat3 16s infinite;
+        }
+        .fluid-orb.orb-4 {
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, #5B8DEF 0%, transparent 70%);
+            top: 10%; right: 25%;
+            animation: orbFloat4 10s infinite;
+        }
+        .fluid-orb.orb-5 {
+            width: 280px; height: 280px;
+            background: radial-gradient(circle, #E8B86D 0%, transparent 70%);
+            bottom: 15%; left: 30%;
+            animation: orbFloat2 13s infinite reverse;
+        }
+
+        @keyframes orbFloat1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(60px, -40px) scale(1.15); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+        @keyframes orbFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-50px, -30px) scale(1.1); }
+            50% { transform: translate(20px, 50px) scale(0.85); }
+            75% { transform: translate(40px, -20px) scale(1.05); }
+        }
+        @keyframes orbFloat3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, -50px) scale(1.2); }
+        }
+        @keyframes orbFloat4 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            30% { transform: translate(-40px, 30px) scale(1.1); }
+            70% { transform: translate(30px, -40px) scale(0.9); }
+        }
+
+        /* Dot grid overlay */
+        .hero-dot-grid {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Hero content */
+        .music-hero-inner-v2 {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-content-wrap {
+            animation: slideUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s both;
+        }
+
+        /* Platform badges row */
+        .platform-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 16px;
+            border-radius: 9999px;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .platform-badge.desktop {
+            background: rgba(240,107,94,0.2);
+            color: #F4928A;
+        }
+        .platform-badge.mobile {
+            background: rgba(212,148,58,0.2);
+            color: #E8B86D;
+        }
+        .platform-badge .badge-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+        .platform-badge.desktop .badge-dot {
+            background: #F4928A;
+            box-shadow: 0 0 8px #F06B5E;
+        }
+        .platform-badge.mobile .badge-dot {
+            background: #E8B86D;
+            box-shadow: 0 0 8px #D4943A;
+        }
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
+
+        /* Version badge */
+        .version-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(240,107,94,0.25), rgba(240,107,94,0.08));
+            border: 1px solid rgba(240,107,94,0.25);
+            color: #F4928A;
+            padding: 4px 14px;
+            border-radius: 9999px;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .music-hero-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.12;
+            margin-bottom: 14px;
+        }
+        .music-hero-title .accent {
+            background: linear-gradient(135deg, #F4928A 0%, #E8B86D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .music-hero-en {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.04em;
+            margin-bottom: 20px;
+        }
+        .music-hero-desc {
+            font-size: 1.08rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.85;
+            margin-bottom: 32px;
+            max-width: 540px;
+        }
+        .hero-cta-group {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        /* GitHub dropdown */
+        .github-dropdown {
+            position: relative;
+            display: inline-flex;
+        }
+        .github-dropdown .btn {
+            white-space: nowrap;
+        }
+        .github-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: rgba(26,20,24,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 8px;
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+            z-index: 20;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+        }
+        .github-dropdown:hover .github-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .github-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+        .github-dropdown-item:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+        .github-dropdown-item .repo-icon {
+            width: 30px; height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .github-dropdown-item.item-desktop .repo-icon {
+            background: rgba(240,107,94,0.2);
+            color: #F06B5E;
+        }
+        .github-dropdown-item.item-mobile .repo-icon {
+            background: rgba(212,148,58,0.2);
+            color: #E8B86D;
+        }
+        .github-dropdown-item .repo-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            min-width: 0;
+        }
+        .github-dropdown-item .repo-name {
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .github-dropdown-item .repo-desc {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+        }
+        .github-dropdown-divider {
+            width: 1px;
+            background: rgba(255,255,255,0.1);
+            margin: 6px 0;
+        }
+
+        /* Hero visual: dual-panel glass cards */
+        .hero-visual-v2 {
+            position: relative;
+            animation: fadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.4s both;
+        }
+        .hero-dual-panels {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+        }
+        .hero-glass-frame {
+            position: relative;
+            border-radius: 22px;
+            padding: 3px;
+            background-size: 300% 300%;
+            animation: gradientShift 6s ease infinite;
+            box-shadow: 0 20px 60px rgba(240,107,94,0.2);
+        }
+        .hero-glass-frame.frame-desktop {
+            flex: 1 1 55%;
+            background: linear-gradient(135deg, rgba(240,107,94,0.4), rgba(91,141,239,0.3), rgba(240,107,94,0.2), rgba(240,107,94,0.4));
+        }
+        .hero-glass-frame.frame-mobile {
+            flex: 1 1 38%;
+            background: linear-gradient(135deg, rgba(212,148,58,0.4), rgba(232,184,109,0.3), rgba(212,148,58,0.2), rgba(212,148,58,0.4));
+            align-self: center;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .hero-glass-inner {
+            background: rgba(26,20,24,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+        .hero-glass-inner img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+        }
+        /* Desktop screenshot: 16:10 landscape */
+        .frame-desktop .hero-glass-inner img {
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+        }
+        /* Mobile screenshot: 9:16 portrait, narrower */
+        .frame-mobile .hero-glass-inner img {
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+        }
+        /* Platform labels on frames */
+        .frame-label {
+            position: absolute;
+            top: -10px;
+            padding: 4px 14px;
+            border-radius: 9999px;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            z-index: 3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .frame-desktop .frame-label {
+            left: 16px;
+            background: rgba(240,107,94,0.9);
+            color: white;
+        }
+        .frame-mobile .frame-label {
+            right: 16px;
+            background: rgba(212,148,58,0.9);
+            color: white;
+        }
+        /* Legend tags inside frames */
+        .frame-legend {
+            position: absolute;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            animation: floatChip 4s ease-in-out infinite;
+        }
+        .legend-desktop {
+            bottom: -12px; left: 20px;
+            background: rgba(240,107,94,0.9);
+            color: white;
+            animation-delay: 0s;
+        }
+        .legend-mobile {
+            top: -12px; right: 20px;
+            background: rgba(212,148,58,0.9);
+            color: white;
+            animation-delay: 1.5s;
+        }
+        @keyframes floatChip {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* ---- Stats V2 with glass ---- */
+        .stats-section-v2 {
+            padding: 60px 24px;
+            background: linear-gradient(180deg, #1a1418 0%, #241e22 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .stats-section-v2::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(240,107,94,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .stats-grid-v2 {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .stat-card-glass {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 28px 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card-glass::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(240,107,94,0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .stat-card-glass:hover::before { opacity: 1; }
+        .stat-card-glass:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(240,107,94,0.25);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        .stat-num-v2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F06B5E 0%, #E8B86D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .stat-label-v2 {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.55);
+            font-weight: 500;
+        }
+
+        /* ---- Features V2 ---- */
+        .features-section-v2 {
+            padding: 100px 24px;
+            background: var(--color-bg);
+            position: relative;
+            overflow: hidden;
+        }
+        .features-section-v2::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 20% 100%, rgba(240,107,94,0.04) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 0%, rgba(212,148,58,0.04) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .features-grid-v2 {
+            max-width: 1150px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .feature-card-glass {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 20px;
+            padding: 28px 24px;
+            transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .feature-card-glass::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent 40%, rgba(240,107,94,0.2) 50%, transparent 60%);
+            background-size: 300% 300%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: gradientShift 6s ease infinite;
+            pointer-events: none;
+        }
+        .feature-card-glass:hover {
+            transform: translateY(-6px);
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 16px 48px rgba(240,107,94,0.12),
+                        0 4px 20px rgba(0,0,0,0.06);
+            border-color: rgba(240,107,94,0.2);
+        }
+        .feature-icon-circle {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(240,107,94,0.15), rgba(240,107,94,0.05));
+            color: var(--music-primary);
+        }
+        .feature-card-glass h4 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+        .feature-card-glass p {
+            font-size: 0.84rem;
+            color: var(--color-text-secondary);
+            line-height: 1.65;
+        }
+        /* Desktop-only badge */
+        .desktop-only-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, #F06B5E, #E0584E);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            letter-spacing: 0.04em;
+        }
+
+        /* ---- Desktop Showcase Section ---- */
+        .showcase-section {
+            padding: 100px 24px;
+            background: linear-gradient(180deg, #241e22 0%, #1a1418 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .showcase-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(240,107,94,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(91,141,239,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .showcase-section .section-title { color: white; }
+        .showcase-section .section-subtitle { color: rgba(255,255,255,0.55); }
+        .showcase-section .section-badge { background: rgba(240,107,94,0.15); color: #F4928A; }
+
+        .showcase-grid {
+            max-width: 1150px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .showcase-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 30px 24px;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            position: relative;
+            overflow: hidden;
+        }
+        .showcase-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%; transform: translateX(-50%);
+            width: 60%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(240,107,94,0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .showcase-card:hover::before { opacity: 1; }
+        .showcase-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(240,107,94,0.25);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        .showcase-icon {
+            width: 50px; height: 50px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 18px;
+            background: rgba(240,107,94,0.15);
+            color: #F4928A;
+            border: 1px solid rgba(240,107,94,0.2);
+        }
+        .showcase-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .showcase-card p {
+            font-size: 0.84rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.65;
+            margin-bottom: 14px;
+        }
+        .showcase-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .showcase-tags span {
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ---- Tech Stack V2 ---- */
+        .tech-section-v2 {
+            padding: 100px 24px;
+            background: var(--color-bg);
+            position: relative;
+            overflow: hidden;
+        }
+        .tech-dual {
+            max-width: 1150px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            position: relative;
+            z-index: 1;
+        }
+        .tech-panel {
+            border-radius: 24px;
+            padding: 36px;
+            border: 1px solid rgba(0,0,0,0.06);
+            background: rgba(255,255,255,0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .tech-panel:hover {
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.06);
+            border-color: rgba(240,107,94,0.15);
+        }
+        .tech-panel.desktop-panel {
+            border-top: 4px solid var(--music-primary);
+        }
+        .tech-panel.mobile-panel {
+            border-top: 4px solid var(--color-primary);
+        }
+        .tech-panel-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .tech-panel-icon {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .desktop-panel .tech-panel-icon {
+            background: rgba(240,107,94,0.12);
+            color: var(--music-primary);
+        }
+        .mobile-panel .tech-panel-icon {
+            background: rgba(212,148,58,0.12);
+            color: var(--color-primary);
+        }
+        .tech-panel h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 2px;
+        }
+        .tech-panel .tech-subtitle {
+            font-size: 0.78rem;
+            color: var(--color-text-muted);
+        }
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tech-tag {
+            background: var(--color-bg-alt);
+            border: 1px solid var(--color-border-light);
+            padding: 7px 14px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            transition: all 0.3s ease;
+        }
+        .tech-tag:hover {
+            border-color: var(--music-primary);
+            color: var(--music-primary);
+            background: rgba(240,107,94,0.05);
+        }
+        .tech-vs {
+            display: none; /* hidden on desktop, becomes divider arrow on mobile */
+        }
+
+        /* ---- Platform Tabs for Screenshots ---- */
+        .screenshots-section-v2 {
+            padding: 100px 24px;
+            background: linear-gradient(180deg, #1a1418 0%, #241e22 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .screenshots-section-v2::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(240,107,94,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .screenshots-section-v2 .section-title { color: white; }
+        .screenshots-section-v2 .section-subtitle { color: rgba(255,255,255,0.55); }
+        .screenshots-section-v2 .section-badge { background: rgba(240,107,94,0.15); color: #F4928A; }
+
+        .screenshot-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+        .screenshot-tab {
+            padding: 10px 24px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.5);
+            font-family: 'Syne', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .screenshot-tab.active {
+            background: rgba(240,107,94,0.2);
+            border-color: rgba(240,107,94,0.4);
+            color: #F4928A;
+            box-shadow: 0 0 20px rgba(240,107,94,0.15);
+        }
+        .screenshot-tab:hover:not(.active) {
+            border-color: rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.75);
+        }
+
+        .screenshot-panels {
+            max-width: 1150px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .screenshot-panel {
+            display: none;
+        }
+        .screenshot-panel.active {
+            display: block;
+            animation: fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .screenshots-grid-v2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .screenshots-grid-v2.desktop-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .screenshot-frame-glass {
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            cursor: pointer;
+            position: relative;
+        }
+        .screenshot-frame-glass img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        .screenshot-frame-glass:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border-color: rgba(240,107,94,0.3);
+        }
+        .screenshot-frame-glass:hover img {
+            transform: scale(1.03);
+        }
+        .screenshot-frame-glass::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 14px 18px;
+            background: linear-gradient(transparent, rgba(26,20,24,0.95));
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .screenshot-frame-glass:hover::after {
+            transform: translateY(0);
+        }
+
+        /* ---- Comparison Table ---- */
+        .compare-section {
+            padding: 100px 24px;
+            background: var(--color-bg);
+            position: relative;
+            overflow: hidden;
+        }
+        .compare-table-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(0,0,0,0.06);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .compare-table th,
+        .compare-table td {
+            padding: 14px 20px;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+        .compare-table thead th {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 20px;
+            background: rgba(0,0,0,0.02);
+        }
+        .compare-table thead th:first-child {
+            text-align: left;
+            padding-left: 28px;
+        }
+        .compare-table tbody td:first-child {
+            text-align: left;
+            font-weight: 500;
+            padding-left: 28px;
+            color: var(--color-text);
+        }
+        .compare-table tbody td {
+            color: var(--color-text-secondary);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .compare-table tbody tr:hover td {
+            background: rgba(240,107,94,0.03);
+        }
+        .compare-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+        }
+        .compare-icon.yes {
+            background: rgba(123,174,127,0.15);
+            color: #7BAE7F;
+        }
+        .compare-icon.no {
+            background: rgba(0,0,0,0.04);
+            color: #ccc;
+        }
+        .col-header-desktop {
+            background: linear-gradient(135deg, rgba(240,107,94,0.08), rgba(240,107,94,0.02));
+            color: var(--music-primary);
+        }
+        .col-header-mobile {
+            background: linear-gradient(135deg, rgba(212,148,58,0.08), rgba(212,148,58,0.02));
+            color: var(--color-primary);
+        }
+
+        /* ---- Download Section V2 ---- */
+        .download-section-v2 {
+            padding: 100px 24px;
+            background: linear-gradient(180deg, #241e22 0%, #1a1418 100%);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .download-section-v2::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 50%;
+            background: radial-gradient(ellipse at 50% 100%, rgba(240,107,94,0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .download-section-v2 .section-title { color: white; }
+        .download-section-v2 .section-subtitle { color: rgba(255,255,255,0.55); }
+        .download-section-v2 .section-badge { background: rgba(240,107,94,0.15); color: #F4928A; }
+
+        .download-grid-v2 {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .download-card-glass {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .download-card-glass.desktop-card {
+            border-color: rgba(240,107,94,0.25);
+            background: rgba(240,107,94,0.06);
+        }
+        .download-card-glass.desktop-card .download-os-icon {
+            background: rgba(240,107,94,0.15);
+            color: #F4928A;
+            border-color: rgba(240,107,94,0.2);
+        }
+        .download-card-glass.android-card {
+            border-color: rgba(123,174,127,0.25);
+            background: rgba(123,174,127,0.05);
+        }
+        .download-card-glass.android-card .download-os-icon {
+            background: rgba(123,174,127,0.15);
+            color: #9FC4A2;
+            border-color: rgba(123,174,127,0.2);
+        }
+        .download-card-glass.android-card .btn {
+            background: linear-gradient(135deg, #7BAE7F 0%, #9FC4A2 100%);
+            box-shadow: 0 4px 20px rgba(123,174,127,0.3);
+        }
+        .download-card-glass.android-card .btn:hover {
+            box-shadow: 0 8px 30px rgba(123,174,127,0.45);
+        }
+        .download-card-glass:hover {
+            transform: translateY(-6px);
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(240,107,94,0.25);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        .download-os-icon {
+            width: 56px; height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 16px;
+            background: rgba(240,107,94,0.12);
+            color: #F4928A;
+            border: 1px solid rgba(240,107,94,0.15);
+        }
+        .download-card-glass h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+        }
+        .download-card-glass .dl-version {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 12px;
+            font-family: 'Syne', sans-serif;
+        }
+        .download-card-glass .dl-size {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 18px;
+        }
+        .download-card-glass .btn {
+            width: 100%;
+        }
+        /* Password unlock row inside card */
+        .pwd-unlock-row {
+            margin-top: 14px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .github-unlock-link {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.74rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+        .github-unlock-link:hover {
+            color: rgba(255,255,255,0.75);
+        }
+        .github-unlock-link i.fa-external-link-alt {
+            font-size: 0.55rem;
+            opacity: 0.6;
+        }
+        .pwd-hint {
+            color: rgba(255,255,255,0.25);
+            font-size: 0.7rem;
+            margin: 0;
+        }
+        .pwd-reveal {
+            color: #F4928A;
+            font-size: 0.8rem;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .desktop-card .pwd-reveal.lit {
+            color: #F4928A;
+        }
+        .android-card .pwd-reveal.lit {
+            color: #9FC4A2;
+        }
+
+        .download-bottom-row {
+            margin-top: 32px;
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ---- Progress V2 ---- */
+        .progress-section-v2 {
+            padding: 100px 24px;
+            background: var(--color-bg);
+            position: relative;
+        }
+        .progress-grid-v2 {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .progress-item-glass {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--color-text);
+            transition: all 0.3s ease;
+        }
+        .progress-item-glass:hover {
+            transform: translateX(4px);
+            border-color: rgba(240,107,94,0.15);
+        }
+        .progress-item-glass i.done {
+            color: #7BAE7F;
+            font-size: 1rem;
+        }
+        .progress-item-glass i.wip {
+            color: var(--color-primary);
+            font-size: 1rem;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        /* ---- FAQ V2 ---- */
+        .faq-quick-v2 {
+            padding: 100px 24px;
+            background: linear-gradient(180deg, #1a1418 0%, #241e22 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .faq-quick-v2 .section-title { color: white; }
+        .faq-quick-v2 .section-subtitle { color: rgba(255,255,255,0.55); }
+        .faq-quick-v2 .section-badge { background: rgba(240,107,94,0.15); color: #F4928A; }
+        .faq-grid-v2 {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .faq-card-glass {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 24px;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            text-decoration: none;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            flex-direction: column;
+        }
+        .faq-card-glass:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(240,107,94,0.25);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        .faq-card-glass .faq-icon-sm {
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 14px;
+            background: rgba(240,107,94,0.12);
+            color: #F4928A;
+        }
+        .faq-card-glass h4 {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+        }
+        .faq-card-glass p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 14px;
+            flex: 1;
+        }
+        .faq-card-glass .faq-arrow {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #F4928A;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .faq-card-glass .faq-arrow i {
+            font-size: 0.65rem;
+            transition: transform 0.3s ease;
+        }
+        .faq-card-glass:hover .faq-arrow i {
+            transform: translateX(3px);
+        }
+
+        /* ---- Wave Divider ---- */
+        .wave-divider {
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .wave-divider.flip {
+            top: -1px; bottom: auto;
+            transform: rotate(180deg);
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 992px) {
+            .music-hero-inner-v2 { grid-template-columns: 1fr; text-align: center; }
+            .music-hero-desc { max-width: 100%; }
+            .hero-cta-group { justify-content: center; }
+            .platform-badges { justify-content: center; }
+            .hero-dual-panels { gap: 14px; }
+            .hero-glass-frame.frame-desktop { flex: 1 1 52%; }
+            .hero-glass-frame.frame-mobile { flex: 1 1 42%; }
+            .features-grid-v2 { grid-template-columns: 1fr 1fr; }
+            .showcase-grid { grid-template-columns: 1fr 1fr; }
+            .tech-dual { grid-template-columns: 1fr; }
+            .download-grid-v2 { grid-template-columns: 1fr 1fr; }
+            .stats-grid-v2 { grid-template-columns: repeat(2, 1fr); }
+            .faq-grid-v2 { grid-template-columns: repeat(2, 1fr); }
+            .screenshots-grid-v2 { grid-template-columns: 1fr; }
+            .screenshots-grid-v2.desktop-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .music-hero-title { font-size: 2.2rem; }
+            .hero-dual-panels { flex-direction: column; align-items: center; }
+            .hero-glass-frame.frame-desktop,
+            .hero-glass-frame.frame-mobile { flex: 1 1 auto; width: 100%; max-width: 420px; }
+            .features-grid-v2 { grid-template-columns: 1fr; }
+            .showcase-grid { grid-template-columns: 1fr; }
+            .download-grid-v2 { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+            .stats-grid-v2 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .faq-grid-v2 { grid-template-columns: 1fr; }
+            .progress-grid-v2 { grid-template-columns: 1fr; }
+            .stat-num-v2 { font-size: 2.2rem; }
+            .screenshot-tabs { flex-wrap: wrap; }
+        }
+        @media (max-width: 480px) {
+            .music-hero-title { font-size: 1.8rem; }
+            .stats-grid-v2 { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
     <a href="#hero" class="skip-link">跳转到主要内容</a>
 
     <nav class="nav">
         <div class="nav-inner">
-            <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+            <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技"><span class="logo-text">冉暖科技</span></a>
             <ul class="nav-links">
                 <li><a href="order.html">冉暖订货系统</a></li>
                 <li><a href="music.html" class="active">冉暖音乐播放器</a></li>
@@ -40,201 +1342,435 @@
         <a href="index.html" onclick="toggleMobileMenu()">返回首页</a>
     </div>
 
-    <!-- Hero -->
-    <section class="product-hero music-hero" id="hero">
-        <div class="product-hero-inner">
-            <div class="product-hero-content">
-                <div class="product-hero-badge"><i class="fas fa-headphones"></i> 音乐播放器</div>
-                <h1 class="product-hero-title">冉暖音乐播放器</h1>
-                <div class="en-name">RanNuan Music Player</div>
-                <p class="product-hero-desc">
-                    基于React Native + TypeScript开发的跨平台移动音乐播放器。支持在线播放、多源音乐解析、实时歌词显示、
-                    下载管理与离线播放。移动端无CORS限制，直接请求音乐API，配合独立后端服务实现音源解锁。
+    <!-- ===== Hero V2: Fluid Gradient + Glass Panel ===== -->
+    <section class="music-hero-v2" id="hero">
+        <div class="fluid-orbs">
+            <div class="fluid-orb orb-1"></div>
+            <div class="fluid-orb orb-2"></div>
+            <div class="fluid-orb orb-3"></div>
+            <div class="fluid-orb orb-4"></div>
+            <div class="fluid-orb orb-5"></div>
+        </div>
+        <div class="hero-dot-grid"></div>
+
+        <div class="music-hero-inner-v2">
+            <div class="hero-content-wrap">
+                <div class="version-tag">v1.3.0 — 桌面版全新发布</div>
+                <div class="platform-badges">
+                    <span class="platform-badge desktop"><span class="badge-dot"></span> Windows </span>
+                    <span class="platform-badge mobile"><span class="badge-dot" style="animation-delay: 0.6s;"></span> Android</span>
+                </div>
+                <h1 class="music-hero-title">
+                    冉暖<span class="accent">音乐</span>播放器
+                </h1>
+                <div class="music-hero-en">RanNuan Music Player — Desktop & Mobile</div>
+                <p class="music-hero-desc">
+                    基于 <strong style="color:#F4928A;">Tauri + React</strong> 桌面端 + <strong style="color:#E8B86D;">React Native</strong> 移动端双平台架构。
+                    覆盖网易云/QQ/酷狗/酷我/咪咕/波点 <strong style="color:rgba(255,255,255,0.9);">6 大音源</strong>，
+                    桌面歌词、系统托盘、全局快捷键、深色模式，一个播放器满足所有音乐需求。
                 </p>
-                <div class="product-hero-cta">
-                    <a href="#features" class="btn btn-accent"><i class="fas fa-music"></i> 了解功能</a>
-                    <a href="#progress" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3);"><i class="fas fa-road"></i> 开发进度</a>
-                </div>
-            </div>
-            <div class="product-hero-visual">
-                <div class="product-screenshot-wrap">
-                    <div class="product-screenshot screenshot-glow">
-                        <img src="/assets/screenshot-music.jpg" alt="冉暖音乐播放器界面" style="width:45%;height:45%;object-fit:contain;border-radius:inherit;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\'><i class=\'fas fa-headphones\'></i><p>冉暖音乐播放器</p></div>'">
+                <div class="hero-cta-group">
+                    <a href="#features" class="btn btn-accent"><i class="fas fa-star"></i> 探索功能</a>
+                    <a href="#download" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.25);"><i class="fas fa-download"></i> 下载安装</a>
+                    <div class="github-dropdown">
+                        <a href="javascript:void(0)" class="btn btn-ghost" style="color:rgba(255,255,255,0.5);"><i class="fab fa-github"></i> GitHub <i class="fas fa-chevron-down" style="font-size:0.65rem;margin-left:2px;"></i></a>
+                        <div class="github-dropdown-menu">
+                            <a href="https://github.com/AARONWEI97/RanNuan-Music-Player-Desktop" target="_blank" class="github-dropdown-item item-desktop">
+                                <div class="repo-icon"><i class="fas fa-desktop"></i></div>
+                                <div class="repo-info">
+                                    <span class="repo-name">桌面端 · Desktop</span>
+                                    <span class="repo-desc">RanNuan-Music-Player-Desktop</span>
+                                </div>
+                            </a>
+                            <div class="github-dropdown-divider"></div>
+                            <a href="https://github.com/AARONWEI97/RanNuan-Music-Player" target="_blank" class="github-dropdown-item item-mobile">
+                                <div class="repo-icon"><i class="fas fa-mobile-alt"></i></div>
+                                <div class="repo-info">
+                                    <span class="repo-name">移动端 · Mobile</span>
+                                    <span class="repo-desc">RanNuan-Music-Player</span>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="screenshot-deco"></div>
-                    <div class="screenshot-float-label">多源 · 离线 · 歌词</div>
+                </div>
+            </div>
+
+            <div class="hero-visual-v2">
+                <div class="hero-dual-panels">
+                    <!-- Left: Desktop Home -->
+                    <div class="hero-glass-frame frame-desktop">
+                        <span class="frame-legend legend-desktop"><i class="fas fa-desktop"></i> 桌面版 Tauri</span>
+                        <div class="hero-glass-inner">
+                            <img src="/assets/music/home.png" alt="桌面端首页界面" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'color:rgba(255,255,255,0.2);padding:50px 30px;text-align:center;\'><i class=\'fas fa-desktop\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p style=\'font-size:0.9rem;\'>桌面端 · 首页</p></div>'">
+                        </div>
+                    </div>
+                    <!-- Right: Mobile Home -->
+                    <div class="hero-glass-frame frame-mobile">
+                        <span class="frame-legend legend-mobile"><i class="fas fa-mobile-alt"></i> 移动版 RN</span>
+                        <div class="hero-glass-inner">
+                            <img src="/assets/music/screenshot-music-1.jpg" alt="移动端首页界面" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'color:rgba(255,255,255,0.2);padding:40px 20px;text-align:center;\'><i class=\'fas fa-mobile-alt\' style=\'font-size:40px;margin-bottom:6px;display:block;\'></i><p style=\'font-size:0.8rem;\'>移动端 · 首页</p></div>'">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features -->
-    <section class="section features-section" id="features">
+    <!-- ===== Stats V2 ===== -->
+    <section class="stats-section-v2">
+        <div class="stats-grid-v2 reveal">
+            <div class="stat-card-glass delay-1">
+                <div class="stat-num-v2" data-target="6" data-suffix="+">0+</div>
+                <div class="stat-label-v2">接入音源平台</div>
+            </div>
+            <div class="stat-card-glass delay-2">
+                <div class="stat-num-v2" data-target="20" data-suffix="+">0+</div>
+                <div class="stat-label-v2">功能模块</div>
+            </div>
+            <div class="stat-card-glass delay-3">
+                <div class="stat-num-v2" data-target="99" data-suffix="%">0%</div>
+                <div class="stat-label-v2">播放成功率</div>
+            </div>
+            <div class="stat-card-glass delay-4">
+                <div class="stat-num-v2" data-target="4" data-suffix="">0</div>
+                <div class="stat-label-v2">支持平台</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Features V2: Glass Cards ===== -->
+    <section class="features-section-v2" id="features">
         <div class="section-header reveal">
-            <div class="section-badge"><i class="fas fa-paw"></i> 核心功能</div>
-            <h2 class="section-title">你的随身音乐站</h2>
-            <p class="section-subtitle">多源聚合、歌词同步、离线下载，一个播放器搞定所有需求</p>
+            <div class="section-badge" style="background:rgba(240,107,94,0.1);color:var(--music-primary);"><i class="fas fa-paw"></i> 核心功能</div>
+            <h2 class="section-title">覆盖全场景的音乐体验</h2>
+            <p class="section-subtitle">6 大音源聚合 · 桌面手机全平台 · 19 个页面组件</p>
         </div>
-        <div class="features-grid">
-            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-music"></i></div><div><h4>多源解析</h4><p>网易云/QQ音乐/酷狗多源聚合，一键搜索全网音乐</p></div></div>
-            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-align-left"></i></div><div><h4>歌词显示</h4><p>逐行歌词滚动，翻译歌词支持，沉浸式听歌体验</p></div></div>
-            <div class="feature-item reveal delay-3"><div class="icon"><i class="fas fa-download"></i></div><div><h4>下载管理</h4><p>离线下载，后台播放，断点续传，随时随地听歌</p></div></div>
-            <div class="feature-item reveal delay-4"><div class="icon"><i class="fas fa-palette"></i></div><div><h4>多主题</h4><p>深色/浅色/跟随系统多种风格，个性化你的播放器</p></div></div>
-            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-user-circle"></i></div><div><h4>用户登录</h4><p>支持网易云/QQ音乐账号登录，同步个人歌单</p></div></div>
-            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-list-music"></i></div><div><h4>歌单管理</h4><p>创建/收藏/分享歌单，打造你的专属曲库</p></div></div>
+
+        <div class="features-grid-v2">
+            <div class="feature-card-glass reveal delay-1">
+                <div class="feature-icon-circle"><i class="fas fa-globe-americas"></i></div>
+                <h4>多源音乐解析</h4>
+                <p>网易云 / QQ / 酷狗 / 酷我 / 咪咕 / 波点 6 大音源聚合，自动降级切换，再也不用换 App 找歌。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-2">
+                <div class="feature-icon-circle"><i class="fas fa-align-left"></i></div>
+                <h4>实时歌词显示</h4>
+                <p>逐行歌词同步滚动，翻译歌词支持，沉浸式听歌体验，支持桌面端悬浮歌词。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-3">
+                <div class="feature-icon-circle"><i class="fas fa-download"></i></div>
+                <h4>下载管理</h4>
+                <p>并发下载队列 + 进度弹窗 + 打开文件夹，离线播放随时随地，断点续传不丢进度。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-4">
+                <div class="feature-icon-circle"><i class="fas fa-list-music"></i></div>
+                <h4>播放队列管理</h4>
+                <p>下一首播放 / 右键菜单 10 项操作 / 拖拽排序 / 播放历史最近 200 首带时间戳。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-1">
+                <div class="feature-icon-circle"><i class="fas fa-palette"></i></div>
+                <h4>多主题与深色模式</h4>
+                <p>深色/浅色/跟随系统，iOS 风格 toggle 开关，个性化你的播放器视觉。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-2">
+                <div class="feature-icon-circle"><i class="fas fa-cloud-sun-rain"></i></div>
+                <h4>会话持久化</h4>
+                <p>刷新/重启后自动恢复播放队列 + 歌曲位置，智能保持暂停状态，无感续播。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-3">
+                <div class="feature-icon-circle"><i class="fas fa-user-circle"></i></div>
+                <h4>用户登录同步</h4>
+                <p>支持网易云 / QQ音乐账号登录，同步个人歌单，收藏、评论一站管理。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-4">
+                <div class="feature-icon-circle"><i class="fas fa-search"></i></div>
+                <h4>智能搜索</h4>
+                <p>防抖搜索建议 + 热搜卡片 + 搜索历史 + 键盘导航 + 全局 Ctrl+K 弹窗搜索。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-1">
+                <div class="feature-icon-circle"><i class="fas fa-compact-disc"></i></div>
+                <h4>歌曲详情页 <span class="desktop-only-badge">桌面</span></h4>
+                <p>毛玻璃黑胶唱片动画 + 歌词/评论/相似推荐，视觉与听觉的双重沉浸体验。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-2">
+                <div class="feature-icon-circle"><i class="fas fa-share-alt"></i></div>
+                <h4>社交与分享</h4>
+                <p>歌曲分享、歌单分享、多端歌单同步，你的音乐品味不再孤单。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-3">
+                <div class="feature-icon-circle"><i class="fas fa-sliders-h"></i></div>
+                <h4>播放模式 <span class="desktop-only-badge">桌面</span></h4>
+                <p>列表循环 / 单曲循环 / Fisher-Yates 随机播放，5 次连续失败自动暂停保护。</p>
+            </div>
+            <div class="feature-card-glass reveal delay-4">
+                <div class="feature-icon-circle"><i class="fas fa-headphones"></i></div>
+                <h4>均衡器</h4>
+                <p>自定义均衡器调音，多种预设音效，按你的耳朵定制最舒适的声音。</p>
+            </div>
         </div>
     </section>
 
-    <!-- Stats Bar -->
-    <section class="section stats-section">
-        <div class="stats-grid reveal">
-            <div class="stat-item">
-                <div class="stat-num" data-target="10" data-suffix="+">0</div>
-                <div class="stat-label">核心功能模块</div>
-                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+    <!-- ===== Desktop Showcase Section ===== -->
+    <section class="showcase-section" id="desktop">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-desktop"></i> 桌面版专属</div>
+            <h2 class="section-title">桌面端独特能力</h2>
+            <p class="section-subtitle">Tauri 2.x 原生窗口能力，移动端做不到的这些事</p>
+        </div>
+
+        <div class="showcase-grid">
+            <div class="showcase-card reveal delay-1">
+                <div class="showcase-icon"><i class="fas fa-grip-lines"></i></div>
+                <h4>系统托盘控制</h4>
+                <p>最小化到托盘，右键菜单：播放/暂停 + 上/下一首 + 实时歌曲 tooltip，不占任务栏。</p>
+                <div class="showcase-tags"><span>右键菜单</span><span>Tooltip</span><span>后台运行</span></div>
             </div>
-            <div class="stat-item">
-                <div class="stat-num" data-target="8" data-suffix="+">0</div>
-                <div class="stat-label">接入音源平台</div>
-                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            <div class="showcase-card reveal delay-2">
+                <div class="showcase-icon"><i class="fas fa-keyboard"></i></div>
+                <h4>全局快捷键</h4>
+                <p>Space 播放暂停 / Ctrl+L 歌词 / Ctrl+D 桌面歌词 / Ctrl+K 搜索 / 媒体键支持。</p>
+                <div class="showcase-tags"><span>5 组快捷键</span><span>媒体键</span></div>
             </div>
-            <div class="stat-item">
-                <div class="stat-num" data-target="99" data-suffix="%">0%</div>
-                <div class="stat-label">播放成功率</div>
-                <div class="stat-bar"><div class="stat-fill" style="width:0%"></div></div>
+            <div class="showcase-card reveal delay-3">
+                <div class="showcase-icon"><i class="fas fa-i-cursor"></i></div>
+                <h4>桌面悬浮歌词</h4>
+                <p>Ctrl+D 呼出悬浮歌词窗口，任意拖拽定位，透明背景不遮挡，沉浸听歌。</p>
+                <div class="showcase-tags"><span>拖拽定位</span><span>透明背景</span></div>
+            </div>
+            <div class="showcase-card reveal delay-4">
+                <div class="showcase-icon"><i class="fas fa-compress-arrows-alt"></i></div>
+                <h4>迷你播放器</h4>
+                <p>窗口缩小至 360×72，悬浮桌面角落，不干扰工作，一键切歌。</p>
+                <div class="showcase-tags"><span>360×72</span><span>悬浮</span></div>
+            </div>
+            <div class="showcase-card reveal delay-1">
+                <div class="showcase-icon"><i class="fas fa-magic"></i></div>
+                <h4>启动动画</h4>
+                <p>3 秒马卡龙配色开机动画 + 3D Logo 浮动 + 狗狗叫声，打开就是好心情。</p>
+                <div class="showcase-tags"><span>马卡龙配色</span><span>3D Logo</span><span>声效</span></div>
+            </div>
+            <div class="showcase-card reveal delay-2">
+                <div class="showcase-icon"><i class="fas fa-box-open"></i></div>
+                <h4>本地音乐管理</h4>
+                <p>IndexedDB 持久化本地音乐、封面自动匹配、歌单链接/文本导入、下载记录管理。</p>
+                <div class="showcase-tags"><span>IndexedDB</span><span>封面匹配</span><span>歌单导入</span></div>
             </div>
         </div>
     </section>
 
-    <!-- Tech Stack -->
-    <section class="section tech-section" id="tech">
+    <!-- ===== Tech Stack V2: Dual Panel ===== -->
+    <section class="tech-section-v2" id="tech">
         <div class="section-header reveal">
             <div class="section-badge"><i class="fas fa-code"></i> 技术架构</div>
-            <h2 class="section-title">现代移动端技术栈</h2>
-            <p class="section-subtitle">React Native + TypeScript，一套代码，双端运行</p>
+            <h2 class="section-title">双平台技术栈</h2>
+            <p class="section-subtitle">桌面端与移动端两个独立产品线，各自采用最优技术方案</p>
         </div>
-        <div class="tech-diagram reveal">
-            <div class="tech-layer layer-frontend">
-                <div class="tech-item reveal delay-1"><i class="fab fa-react"></i><h4>React Native</h4><p>跨平台框架</p></div>
-                <div class="tech-item reveal delay-2"><i class="fab fa-js-square"></i><h4>TypeScript</h4><p>类型安全</p></div>
-                <div class="tech-item reveal delay-3"><i class="fas fa-box"></i><h4>Zustand</h4><p>状态管理</p></div>
+
+        <div class="tech-dual">
+            <div class="tech-panel desktop-panel reveal reveal-left delay-1">
+                <div class="tech-panel-header">
+                    <div class="tech-panel-icon"><i class="fas fa-desktop"></i></div>
+                    <div>
+                        <h3>桌面端</h3>
+                        <p class="tech-subtitle">Tauri 2.x + React 19 + Vite 8</p>
+                    </div>
+                </div>
+                <div class="tech-tags">
+                    <span class="tech-tag"><i class="fab fa-rust" style="margin-right:4px;"></i> Tauri 2.11</span>
+                    <span class="tech-tag"><i class="fab fa-react" style="margin-right:4px;"></i> React 19</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Vite 8</span>
+                    <span class="tech-tag">Zustand 5</span>
+                    <span class="tech-tag">Tailwind CSS 4</span>
+                    <span class="tech-tag">React Router 7</span>
+                    <span class="tech-tag">Lucide React</span>
+                    <span class="tech-tag">IndexedDB</span>
+                    <span class="tech-tag">MediaSession API</span>
+                    <span class="tech-tag">系统托盘</span>
+                    <span class="tech-tag">全局快捷键</span>
+                </div>
             </div>
-            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
-            <div class="tech-layer layer-backend">
-                <div class="tech-item reveal delay-4"><i class="fas fa-sync"></i><h4>React Query</h4><p>数据请求</p></div>
-                <div class="tech-item reveal delay-1"><i class="fas fa-mobile-alt"></i><h4>Expo</h4><p>开发工具链</p></div>
-            </div>
-            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
-            <div class="tech-layer layer-data">
-                <div class="tech-item reveal delay-2"><i class="fas fa-music"></i><h4>音源解析</h4><p>多平台聚合</p></div>
-                <div class="tech-item reveal delay-3"><i class="fas fa-download"></i><h4>离线缓存</h4><p>本地存储</p></div>
+
+            <div class="tech-panel mobile-panel reveal reveal-right delay-2">
+                <div class="tech-panel-header">
+                    <div class="tech-panel-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div>
+                        <h3>移动端</h3>
+                        <p class="tech-subtitle">React Native + TypeScript + Expo</p>
+                    </div>
+                </div>
+                <div class="tech-tags">
+                    <span class="tech-tag"><i class="fab fa-react" style="margin-right:4px;"></i> React Native</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Expo</span>
+                    <span class="tech-tag">Zustand</span>
+                    <span class="tech-tag">React Query</span>
+                    <span class="tech-tag">AsyncStorage</span>
+                    <span class="tech-tag">音源解析</span>
+                    <span class="tech-tag">离线缓存</span>
+                    <span class="tech-tag">音频引擎</span>
+                    <span class="tech-tag">用户登录</span>
+                    <span class="tech-tag">歌单同步</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Screenshots -->
-    <section class="section screenshots-section" id="screenshots">
+    <!-- ===== Screenshots V2: Tab Switcher ===== -->
+    <section class="screenshots-section-v2" id="screenshots">
         <div class="section-header reveal">
             <div class="section-badge"><i class="fas fa-images"></i> 界面预览</div>
-            <h2 class="section-title">移动端界面一览</h2>
-            <p class="section-subtitle">简洁沉浸的播放体验，多种主题风格可选</p>
+            <h2 class="section-title">双平台界面一览</h2>
+            <p class="section-subtitle">桌面端与移动端，同样精致的设计语言</p>
         </div>
-        <div class="screenshots-grid">
-            <div class="screenshot-frame reveal delay-1" data-label="播放器首页">
-                <img src="/assets/music/screenshot-music-1.jpg" alt="音乐播放器首页" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;\'><i class=\'fas fa-image\'></i><p>播放器首页</p></div>'">
+
+        <div class="screenshot-tabs reveal">
+            <button class="screenshot-tab active" onclick="switchScreenshotTab('desktop')"><i class="fas fa-desktop"></i> 桌面版</button>
+            <button class="screenshot-tab" onclick="switchScreenshotTab('mobile')"><i class="fas fa-mobile-alt"></i> 移动版</button>
+        </div>
+
+        <div class="screenshot-panels">
+            <div class="screenshot-panel active" id="panel-desktop">
+                <div class="screenshots-grid-v2 desktop-grid">
+                    <div class="screenshot-frame-glass reveal delay-1" data-label="桌面版 · 首页">
+                        <img src="/assets/music/home.png" alt="桌面版首页" style="aspect-ratio:16/10;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;color:rgba(255,255,255,0.15);\'><i class=\'fas fa-desktop\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p>桌面版 · 首页</p></div>'">
+                    </div>
+                    <div class="screenshot-frame-glass reveal delay-2" data-label="桌面版 · 歌曲详情">
+                        <img src="/assets/music/song-detail.png" alt="桌面版歌曲详情" style="aspect-ratio:16/10;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;color:rgba(255,255,255,0.15);\'><i class=\'fas fa-desktop\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p>桌面版 · 歌曲详情</p></div>'">
+                    </div>
+                    <div class="screenshot-frame-glass reveal delay-3" data-label="桌面版 · 搜索页">
+                        <img src="/assets/music/tray.png" alt="桌面版搜索" style="aspect-ratio:16/10;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;color:rgba(255,255,255,0.15);\'><i class=\'fas fa-desktop\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p>桌面版 · 搜索页</p></div>'">
+                    </div>
+                    <div class="screenshot-frame-glass reveal delay-4" data-label="桌面版 · 设置">
+                        <img src="/assets/music/search.png" alt="桌面版设置" style="aspect-ratio:16/10;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;color:rgba(255,255,255,0.15);\'><i class=\'fas fa-desktop\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p>桌面版 · 设置</p></div>'">
+                    </div>
+                </div>
             </div>
-            <div class="screenshot-frame reveal delay-2" data-label="歌词显示">
-                <img src="/assets/music/screenshot-music-2.jpg" alt="歌词显示" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;\'><i class=\'fas fa-image\'></i><p>歌词显示</p></div>'">
-            </div>
-            <div class="screenshot-frame reveal delay-3" data-label="歌单管理">
-                <img src="/assets/music/screenshot-music-3.jpg" alt="歌单管理" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;\'><i class=\'fas fa-image\'></i><p>歌单管理</p></div>'">
-            </div>
-            <div class="screenshot-frame reveal delay-4" data-label="主题切换">
-                <img src="/assets/music/screenshot-music-4.jpg" alt="主题切换" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;\'><i class=\'fas fa-image\'></i><p>主题切换</p></div>'">
+            <div class="screenshot-panel" id="panel-mobile">
+                <div class="screenshots-grid-v2">
+                    <div class="screenshot-frame-glass reveal" data-label="移动版 · 播放首页">
+                        <img src="/assets/music/screenshot-music-1.jpg" alt="移动版首页" style="aspect-ratio:9/16;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;color:rgba(255,255,255,0.15);\'><i class=\'fas fa-mobile-alt\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p>移动版 · 播放首页</p></div>'">
+                    </div>
+                    <div class="screenshot-frame-glass reveal" data-label="移动版 · 歌词显示">
+                        <img src="/assets/music/screenshot-music-2.jpg" alt="移动版歌词" style="aspect-ratio:9/16;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;color:rgba(255,255,255,0.15);\'><i class=\'fas fa-mobile-alt\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p>移动版 · 歌词显示</p></div>'">
+                    </div>
+                    <div class="screenshot-frame-glass reveal" data-label="移动版 · 歌单管理">
+                        <img src="/assets/music/screenshot-music-3.jpg" alt="移动版歌单" style="aspect-ratio:9/16;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;color:rgba(255,255,255,0.15);\'><i class=\'fas fa-mobile-alt\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p>移动版 · 歌单管理</p></div>'">
+                    </div>
+                    <div class="screenshot-frame-glass reveal" data-label="移动版 · 主题切换">
+                        <img src="/assets/music/screenshot-music-4.jpg" alt="移动版主题" style="aspect-ratio:9/16;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:9/16;color:rgba(255,255,255,0.15);\'><i class=\'fas fa-mobile-alt\' style=\'font-size:48px;margin-bottom:8px;display:block;\'></i><p>移动版 · 主题切换</p></div>'">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- FAQ Quick -->
-    <section class="section faq-quick-section">
+    <!-- ===== Download V2: Two Platforms ===== -->
+    <section class="download-section-v2" id="download">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-download"></i> 立即下载</div>
+            <h2 class="section-title">双平台安装包</h2>
+            <p class="section-subtitle">桌面端 Windows 已发布 · 移动端 Android 已上架</p>
+        </div>
+
+        <div class="download-grid-v2 reveal">
+            <!-- Desktop: Windows -->
+            <div class="download-card-glass desktop-card delay-1">
+                <div class="download-os-icon"><i class="fab fa-windows"></i></div>
+                <h4>Windows 桌面版</h4>
+                <div class="dl-version">v1.3.0</div>
+                <div class="dl-size">Tauri 2.x + React 19 · .msi / .exe</div>
+                <a href="https://wwbjj.lanzoum.com/iN3YV3rplkxa" target="_blank" class="btn btn-accent btn-sm"><i class="fas fa-download"></i> 下载 Windows 版</a>
+                <div class="pwd-unlock-row">
+                    <a class="github-unlock-link" data-repo="desktop" href="https://github.com/AARONWEI97/RanNuan-Music-Player-Desktop" target="_blank">
+                        <i class="fab fa-github"></i> 访问 GitHub 仓库解锁密码 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <p class="pwd-hint" data-repo="desktop"><i class="fas fa-lock"></i> 访问后返回本页自动解锁</p>
+                    <p class="pwd-reveal" data-repo="desktop" style="display:none;"><i class="fas fa-unlock"></i> 网盘密码：<span class="pwd-text">****</span></p>
+                </div>
+            </div>
+            <!-- Mobile: Android -->
+            <div class="download-card-glass android-card delay-2">
+                <div class="download-os-icon"><i class="fab fa-android"></i></div>
+                <h4>Android 移动版</h4>
+                <div class="dl-version">v1.0.0</div>
+                <div class="dl-size">React Native · .apk 安装包</div>
+                <a href="https://wwbjj.lanzoum.com/iwXiT3r5ygkb" target="_blank" class="btn btn-sm" style="background:linear-gradient(135deg,#7BAE7F,#9FC4A2);color:white;"><i class="fas fa-download"></i> 下载 APK</a>
+                <div class="pwd-unlock-row">
+                    <a class="github-unlock-link" data-repo="mobile" href="https://github.com/AARONWEI97/RanNuan-Music-Player" target="_blank">
+                        <i class="fab fa-github"></i> 访问 GitHub 仓库解锁密码 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <p class="pwd-hint" data-repo="mobile"><i class="fas fa-lock"></i> 访问后返回本页自动解锁</p>
+                    <p class="pwd-reveal" data-repo="mobile" style="display:none;"><i class="fas fa-unlock"></i> 网盘密码：<span class="pwd-text">****</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ Quick V2 ===== -->
+    <section class="faq-quick-v2">
         <div class="section-header reveal">
             <div class="section-badge"><i class="fas fa-question-circle"></i> 常见问题</div>
             <h2 class="section-title">还有疑问？</h2>
-            <p class="section-subtitle">快速找到你关心的问题</p>
+            <p class="section-subtitle">快速了解冉暖音乐播放器</p>
         </div>
-        <div class="faq-quick-grid">
-            <a href="faq.html#music" class="faq-quick-card reveal delay-1">
-                <div class="faq-q-icon"><i class="fas fa-music"></i></div>
+        <div class="faq-grid-v2">
+            <a href="faq.html#music" class="faq-card-glass reveal delay-1">
+                <div class="faq-icon-sm"><i class="fas fa-music"></i></div>
                 <h4>支持哪些音源？</h4>
-                <p>网易云/QQ音乐/酷狗等多源聚合</p>
-                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+                <p>网易云/QQ/酷狗/酷我/咪咕/波点 6 大平台</p>
+                <span class="faq-arrow">查看详情 <i class="fas fa-arrow-right"></i></span>
             </a>
-            <a href="faq.html#music" class="faq-quick-card reveal delay-2">
-                <div class="faq-q-icon"><i class="fas fa-download"></i></div>
-                <h4>歌曲可以导出吗？</h4>
-                <p>暂不支持导出，支持多端歌单同步</p>
-                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            <a href="faq.html#music" class="faq-card-glass reveal delay-2">
+                <div class="faq-icon-sm"><i class="fas fa-desktop"></i></div>
+                <h4>桌面版支持哪些系统？</h4>
+                <p>Windows（目前只打包了windows系统 后续如果需求大可以开发Macos和Linux端）</p>
+                <span class="faq-arrow">查看详情 <i class="fas fa-arrow-right"></i></span>
             </a>
-            <a href="faq.html#music" class="faq-quick-card reveal delay-3">
-                <div class="faq-q-icon"><i class="fas fa-mobile-alt"></i></div>
-                <h4>支持哪些平台？</h4>
-                <p>iOS / Android，一套代码双端运行</p>
-                <span class="faq-quick-link">查看详情 <i class="fas fa-arrow-right"></i></span>
+            <a href="faq.html#music" class="faq-card-glass reveal delay-3">
+                <div class="faq-icon-sm"><i class="fas fa-mobile-alt"></i></div>
+                <h4>移动端支持哪些平台？</h4>
+                <p>Android 平台，iOS（ios因为苹果每年要上供$99有点恶心 所以暂时不打算制作ios端）</p>
+                <span class="faq-arrow">查看详情 <i class="fas fa-arrow-right"></i></span>
             </a>
-            <a href="faq.html" class="faq-quick-card reveal delay-4">
-                <div class="faq-q-icon"><i class="fas fa-ellipsis-h"></i></div>
+            <a href="faq.html" class="faq-card-glass reveal delay-4">
+                <div class="faq-icon-sm"><i class="fas fa-ellipsis-h"></i></div>
                 <h4>更多问题</h4>
                 <p>查看完整常见问题列表</p>
-                <span class="faq-quick-link">前往FAQ <i class="fas fa-arrow-right"></i></span>
+                <span class="faq-arrow">前往 FAQ <i class="fas fa-arrow-right"></i></span>
             </a>
         </div>
     </section>
 
-    <!-- Progress -->
-    <section class="section progress-section" id="progress">
+    <!-- ===== Progress V2 ===== -->
+    <section class="progress-section-v2" id="progress">
         <div class="section-header reveal">
-            <div class="section-badge"><i class="fas fa-road"></i> 开发进度</div>
-            <h2 class="section-title">项目进展</h2>
-            <p class="section-subtitle">持续迭代中，核心功能已基本完成</p>
+            <div class="section-badge" style="background:rgba(240,107,94,0.1);color:var(--music-primary);"><i class="fas fa-road"></i> 开发进度</div>
+            <h2 class="section-title">项目里程碑</h2>
+            <p class="section-subtitle">桌面版 v1.5.0 已发布，持续迭代中</p>
         </div>
-        <div class="progress-grid">
-            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> 在线播放与搜索</div>
-            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 多源音乐解析</div>
-            <div class="progress-item reveal delay-3"><i class="fas fa-check-circle done"></i> 歌词显示</div>
-            <div class="progress-item reveal delay-4"><i class="fas fa-check-circle done"></i> 下载管理</div>
-            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> 用户登录</div>
-            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 歌单同步</div>
-            <div class="progress-item reveal delay-3"><i class="fas fa-check-circle done"></i> 播放列表管理</div>
-            <div class="progress-item reveal delay-4"><i class="fas fa-check-circle done"></i> 桌面端适配</div>
-            <div class="progress-item reveal delay-1"><i class="fas fa-check-circle done"></i> 均衡器</div>
-            <div class="progress-item reveal delay-2"><i class="fas fa-check-circle done"></i> 社交分享</div>
+        <div class="progress-grid-v2">
+            <div class="progress-item-glass reveal delay-1"><i class="fas fa-check-circle done"></i> 在线播放与搜索</div>
+            <div class="progress-item-glass reveal delay-2"><i class="fas fa-check-circle done"></i> 多源音乐解析 (6 平台)</div>
+            <div class="progress-item-glass reveal delay-3"><i class="fas fa-check-circle done"></i> 歌词显示 + 桌面悬浮歌词</div>
+            <div class="progress-item-glass reveal delay-4"><i class="fas fa-check-circle done"></i> 下载管理 + 离线播放</div>
+            <div class="progress-item-glass reveal delay-1"><i class="fas fa-check-circle done"></i> 用户登录 + 歌单同步</div>
+            <div class="progress-item-glass reveal delay-2"><i class="fas fa-check-circle done"></i> 系统托盘 + 全局快捷键</div>
+            <div class="progress-item-glass reveal delay-3"><i class="fas fa-check-circle done"></i> 迷你播放器 + 启动动画</div>
+            <div class="progress-item-glass reveal delay-4"><i class="fas fa-check-circle done"></i> 深色模式 + 多主题</div>
+            <div class="progress-item-glass reveal delay-1"><i class="fas fa-check-circle done"></i> 播放队列 + 会话持久化</div>
+            <div class="progress-item-glass reveal delay-2"><i class="fas fa-check-circle done"></i> 桌面版 Windows</div>
+            <div class="progress-item-glass reveal delay-3"><i class="fas fa-check-circle done"></i> 均衡器 + 社交分享</div>
+            <div class="progress-item-glass reveal delay-4"><i class="fas fa-spinner wip"></i> iOS 版本开发中</div>
         </div>
     </section>
 
-    <!-- Download -->
-    <section class="section" style="background:linear-gradient(135deg,#2D2A32 0%,#3A2D32 50%,#4A2E38 100%);position:relative;overflow:hidden;text-align:center;padding:80px 24px;">
-        <div style="position:relative;z-index:1;max-width:600px;margin:0 auto;">
-            <div class="section-badge reveal" style="background:rgba(240,107,94,0.15);color:var(--color-accent-light);display:inline-flex;margin-bottom:16px;"><i class="fas fa-download"></i> 立即下载</div>
-            <h2 class="reveal delay-1" style="font-size:2rem;font-weight:900;color:white;margin-bottom:12px;">安装包下载</h2>
-            <p class="reveal delay-2" style="color:rgba(255,255,255,0.7);margin-bottom:28px;font-size:1.05rem;">冉暖音乐播放器现已开放下载，目前仅支持 Android 平台，安装即可体验多源聚合音乐播放。</p>
-            <a href="https://wwbjj.lanzoum.com/iwXiT3r5ygkb" target="_blank" class="btn btn-accent reveal delay-3" style="font-size:1rem;padding:12px 32px;"><i class="fas fa-download"></i> 下载安装包</a>
-            <a id="githubLink" href="https://github.com/AARONWEI97/RanNuan-Music-Player" target="_blank" class="reveal delay-4" style="display:inline-flex;align-items:center;gap:10px;background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-md);padding:10px 18px;margin-top:16px;color:#e6e6e6;font-size:0.88rem;text-decoration:none;transition:all 0.3s ease;" onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.transform=''">
-                <i class="fab fa-github" style="font-size:1.1rem;color:white;"></i>
-                <span>前往 GitHub 仓库 <span style="color:var(--color-accent-light);font-weight:600;">点 Star</span> 支持一下</span>
-                <i class="fas fa-arrow-right" style="font-size:0.75rem;opacity:0.6;margin-left:4px;"></i>
-            </a>
-            <p id="pwdHint" class="reveal delay-4" style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-top:14px;opacity:0.9;"><i class="fas fa-lock" style="margin-right:4px;"></i> 访问上方 GitHub 仓库后返回，自动解锁网盘密码</p>
-            <p id="pwdReveal" class="reveal delay-4" style="display:none;color:var(--color-accent-light);font-size:0.9rem;margin-top:14px;font-weight:600;letter-spacing:1px;"><i class="fas fa-unlock" style="margin-right:4px;"></i> 网盘密码：<span id="panPassword">****</span></p>
-        </div>
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(240,107,94,0.15) 0%,transparent 60%);pointer-events:none;"></div>
-    </section>
-
-    <!-- Footer -->
+    <!-- ===== Footer ===== -->
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-top">
                 <div class="footer-brand">
-                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;"><span class="logo-text">冉暖科技</span></a>
                     <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
                     <div class="footer-social">
                         <a href="javascript:void(0)" onclick="openWechatModal()"><i class="fab fa-weixin"></i></a>
@@ -255,6 +1791,7 @@
 
     <button class="back-to-top" aria-label="返回顶部"><i class="fas fa-chevron-up"></i></button>
 
+    <!-- WeChat Modal -->
     <div class="modal-overlay" id="wechatModal" onclick="closeWechatModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeWechatModal(event)"><i class="fas fa-times"></i></button>
@@ -267,6 +1804,7 @@
         </div>
     </div>
 
+    <!-- QQ Modal -->
     <div class="modal-overlay" id="qqModal" onclick="closeQQModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeQQModal(event)"><i class="fas fa-times"></i></button>
@@ -282,61 +1820,91 @@
 
     <script src="js/main.js"></script>
     <script>
-    // GitHub Star -> unlock password (expires in 60s or on refresh)
+    // ---- Screenshot Tab Switcher ----
+    function switchScreenshotTab(platform) {
+        document.querySelectorAll('.screenshot-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.querySelectorAll('.screenshot-tab').forEach(function(t) { t.classList.remove('active'); });
+        var panel = document.getElementById('panel-' + platform);
+        if (panel) panel.classList.add('active');
+        var tabs = document.querySelectorAll('.screenshot-tab');
+        tabs.forEach(function(t) {
+            if (t.textContent.toLowerCase().includes(platform)) t.classList.add('active');
+        });
+    }
+
+    // ---- GitHub -> Unlock Password (dual repo) ----
     (function() {
-        var PWD = 'RR0926'; // 修改为你的真实网盘密码
-        var KEY = 'rannuan_github_visit';
-        var EXPIRE = 60000; // 60 seconds
-        var githubLink = document.getElementById('githubLink');
-        var pwdHint = document.getElementById('pwdHint');
-        var pwdReveal = document.getElementById('pwdReveal');
-        var panPassword = document.getElementById('panPassword');
-        function showPassword() {
-            if (panPassword) panPassword.textContent = PWD;
-            if (pwdHint) pwdHint.style.display = 'none';
-            if (pwdReveal) pwdReveal.style.display = 'block';
-        }
-        function clearUnlock() {
-            sessionStorage.removeItem(KEY);
-        }
-        // Detect page refresh and clear immediately
+        var REPOS = {
+            desktop: { key: 'rannuan_desktop_visit', pwd: 'RR2018' },
+            mobile:  { key: 'rannuan_mobile_visit',  pwd: 'RR0926' }
+        };
+        var EXPIRE = 60000;
+
+        // Clear on page refresh
         var navEntry = performance.getEntriesByType('navigation')[0];
         if (navEntry && navEntry.type === 'reload') {
-            clearUnlock();
+            Object.values(REPOS).forEach(function(r) { sessionStorage.removeItem(r.key); });
         }
-        // Check expiration on load
-        var ts = sessionStorage.getItem(KEY);
-        if (ts) {
-            if (Date.now() - parseInt(ts, 10) > EXPIRE) {
-                clearUnlock();
-            } else {
-                showPassword();
-            }
-        }
-        // Mark on click
-        if (githubLink) {
-            githubLink.addEventListener('click', function() {
-                sessionStorage.setItem(KEY, Date.now());
+
+        // Bind click: record visit timestamp
+        document.querySelectorAll('.github-unlock-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var repo = this.getAttribute('data-repo');
+                if (repo && REPOS[repo]) {
+                    sessionStorage.setItem(REPOS[repo].key, Date.now());
+                }
             });
+        });
+
+        // Show password for a specific repo card
+        function showPassword(repo) {
+            var r = REPOS[repo];
+            if (!r) return;
+            var card = document.querySelector('.download-card-glass.' + (repo === 'desktop' ? 'desktop-card' : 'android-card'));
+            if (!card) return;
+            var hint = card.querySelector('.pwd-hint');
+            var reveal = card.querySelector('.pwd-reveal');
+            var txt = card.querySelector('.pwd-text');
+            if (txt) txt.textContent = r.pwd;
+            if (hint) hint.style.display = 'none';
+            if (reveal) reveal.style.display = 'block';
         }
-        // Reveal when user returns to tab
-        window.addEventListener('focus', function() {
-            var ts2 = sessionStorage.getItem(KEY);
-            if (ts2 && Date.now() - parseInt(ts2, 10) <= EXPIRE) {
-                showPassword();
+
+        // Check each repo on load
+        Object.keys(REPOS).forEach(function(repo) {
+            var r = REPOS[repo];
+            var ts = sessionStorage.getItem(r.key);
+            if (ts) {
+                if (Date.now() - parseInt(ts, 10) > EXPIRE) {
+                    sessionStorage.removeItem(r.key);
+                } else {
+                    showPassword(repo);
+                }
             }
+        });
+
+        // Recheck on window focus (user returns from GitHub tab)
+        window.addEventListener('focus', function() {
+            Object.keys(REPOS).forEach(function(repo) {
+                var r = REPOS[repo];
+                var ts = sessionStorage.getItem(r.key);
+                if (ts && Date.now() - parseInt(ts, 10) <= EXPIRE) {
+                    showPassword(repo);
+                }
+            });
         });
     })();
 
-    // Stat counter animation
+    // ---- Stats Counter Animation ----
     (function() {
         var statObserver = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
                     var grid = entry.target;
-                    grid.querySelectorAll('.stat-item').forEach(function(item, idx) {
-                        var numEl = item.querySelector('.stat-num');
-                        var fillEl = item.querySelector('.stat-fill');
+                    grid.querySelectorAll('.stat-card-glass').forEach(function(card, idx) {
+                        var numEl = card.querySelector('.stat-num-v2');
+                        if (!numEl || numEl.dataset.animated) return;
+                        numEl.dataset.animated = '1';
                         var target = parseInt(numEl.getAttribute('data-target'));
                         var suffix = numEl.getAttribute('data-suffix') || '';
                         var duration = 1500;
@@ -347,7 +1915,6 @@
                             var progress = Math.min((timestamp - startTime) / duration, 1);
                             var val = Math.round(easeOutExpo(progress) * target);
                             numEl.textContent = val + suffix;
-                            fillEl.style.width = val + '%';
                             if (progress < 1) requestAnimationFrame(step);
                         }
                         setTimeout(function() { requestAnimationFrame(step); }, idx * 200);
@@ -356,7 +1923,7 @@
                 }
             });
         }, { threshold: 0.3 });
-        var statGrid = document.querySelector('.stats-grid');
+        var statGrid = document.querySelector('.stats-grid-v2');
         if (statGrid) statObserver.observe(statGrid);
     })();
     </script>

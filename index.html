@@ -6,7 +6,7 @@
     <title>冉暖科技 RanNuan Tech — 用技术创造温暖</title>
     <meta name="description" content="冉暖科技 - 专注鞋服零售与音乐领域的软件开发，旗下产品：冉暖订货系统、冉暖音乐播放器、冉暖收银系统">
     <meta name="keywords" content="冉暖科技,订货系统,音乐播放器,收银系统,ePOS,鞋服零售,AI订货">
-    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+    <link rel="icon" href="./assets/logo.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
     <nav class="nav">
         <div class="nav-inner">
             <a href="index.html" class="nav-logo">
-                <img src="/assets/logo.ico" alt="冉暖科技" loading="lazy">
+                <img src="/assets/logo.ico" alt="冉暖科技">
                 <span class="logo-text">冉暖科技</span>
             </a>
             <ul class="nav-links">
@@ -52,6 +52,11 @@
 
     <!-- Hero -->
     <section class="hero" id="hero">
+        <div class="hero-fluid-orbs">
+            <div class="hero-fluid-orb hfo-1"></div>
+            <div class="hero-fluid-orb hfo-2"></div>
+            <div class="hero-fluid-orb hfo-3"></div>
+        </div>
         <div class="hero-scanlines"></div>
         <div class="hero-mouse-glow"></div>
         <div class="hero-orb"></div>
@@ -118,22 +123,22 @@
                 </a>
                 <!-- 3D Card 2: Music -->
                 <a href="music.html" class="product-card-3d card-2">
-                    <div class="card-screenshot" style="background-image:url('/assets/screenshot-music.jpg');"></div>
+                    <div class="card-screenshot" style="background-image:url('/assets/music/home.png');"></div>
                     <div class="card-border-anim"></div>
                     <div class="card-tech-grid"></div>
                     <div class="card-glow"></div>
                     <div class="card-header">
                         <div class="card-icon"><i class="fas fa-headphones"></i></div>
-                        <div class="card-status-pulse dev"></div>
+                        <div class="card-status-pulse" style="background:var(--color-green);"></div>
                     </div>
                     <h4>冉暖音乐播放器</h4>
                     <div class="en-name">RanNuan Music</div>
-                    <p>跨平台音乐播放，多源解析，歌词显示</p>
-                    <div class="card-tags"><span>React Native</span><span>TypeScript</span></div>
+                    <p>双平台音乐播放，6音源，桌面歌词</p>
+                    <div class="card-tags"><span>Tauri</span><span>React</span><span>RN</span></div>
                     <div class="card-expand">
-                        <div class="card-metric"><span class="metric-val">V1.1</span><span class="metric-label">版本</span></div>
-                        <div class="card-metric"><span class="metric-val">3+</span><span class="metric-label">音源</span></div>
-                        <div class="card-metric"><span class="metric-val">迭代中</span><span class="metric-label">状态</span></div>
+                        <div class="card-metric"><span class="metric-val">V1.5</span><span class="metric-label">版本</span></div>
+                        <div class="card-metric"><span class="metric-val">6+</span><span class="metric-label">音源</span></div>
+                        <div class="card-metric"><span class="metric-val">已发布</span><span class="metric-label">桌面版</span></div>
                     </div>
                     <div class="card-cta"><span>查看详情</span><i class="fas fa-arrow-right"></i></div>
                 </a>
@@ -167,6 +172,13 @@
             </svg>
         </div>
     </section>
+
+    <!-- Paw Divider -->
+    <div class="paw-divider">
+        <div class="paw-divider-inner">
+            <i class="fas fa-paw"></i><i class="fas fa-paw"></i><i class="fas fa-paw"></i>
+        </div>
+    </div>
 
     <!-- Products Showcase -->
     <section class="section products-section" id="products">
@@ -207,21 +219,21 @@
                     <div class="showcase-icon"><i class="fas fa-headphones"></i></div>
                     <h3>冉暖音乐播放器</h3>
                     <div class="en-name">RanNuan Music</div>
-                    <p class="desc">跨平台移动音乐播放器，支持在线播放、多源解析、歌词显示、下载管理，具备多种主题风格。</p>
+                    <p class="desc">桌面 + 移动双平台音乐播放器，6 大音源解析、桌面歌词、系统托盘控制，全球首发 Tauri 桌面版。</p>
                 </div>
                 <div class="product-showcase-body">
                     <ul class="showcase-features">
-                        <li><i class="fas fa-check-circle"></i> 在线播放与多源解析</li>
-                        <li><i class="fas fa-check-circle"></i> 实时歌词显示</li>
-                        <li><i class="fas fa-check-circle"></i> 下载管理与离线播放</li>
-                        <li><i class="fas fa-check-circle"></i> 用户登录与歌单同步</li>
-                        <li><i class="fas fa-check-circle"></i> 多主题风格切换</li>
+                        <li><i class="fas fa-check-circle"></i> 6 大音源自动降级切换</li>
+                        <li><i class="fas fa-check-circle"></i> 桌面歌词 + 系统托盘</li>
+                        <li><i class="fas fa-check-circle"></i> 全局快捷键控制</li>
+                        <li><i class="fas fa-check-circle"></i> 下载管理 + 离线播放</li>
+                        <li><i class="fas fa-check-circle"></i> 深色模式 + 启动动画</li>
                     </ul>
-                    <div class="showcase-tech"><span>React Native</span><span>TypeScript</span><span>Zustand</span></div>
+                    <div class="showcase-tech"><span>Tauri</span><span>React 19</span><span>React Native</span><span>TypeScript</span></div>
                 </div>
                 <div class="product-showcase-footer">
-                    <span class="product-version">V 1.1.0</span>
-                    <span class="product-status dev">持续迭代</span>
+                    <span class="product-version">V 1.5.0</span>
+                    <span class="product-status dev">桌面版已发布</span>
                 </div>
             </a>
             <!-- ePOS -->
@@ -346,7 +358,7 @@
         <div class="footer-inner">
             <div class="footer-top">
                 <div class="footer-brand">
-                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;"><span class="logo-text">冉暖科技</span></a>
                     <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
                     <div class="footer-social">
                         <a href="javascript:void(0)" onclick="openWechatModal()"><i class="fab fa-weixin"></i></a>
