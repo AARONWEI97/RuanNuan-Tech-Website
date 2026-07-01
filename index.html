@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>冉暖科技 RanNuan Tech — 用技术创造温暖</title>
-    <meta name="description" content="冉暖科技 - 专注鞋服零售与音乐领域的软件开发，旗下产品：冉暖订货系统、冉暖音乐播放器、冉暖收银系统">
-    <meta name="keywords" content="冉暖科技,订货系统,音乐播放器,收银系统,ePOS,鞋服零售,AI订货">
+    <meta name="description" content="冉暖科技 - 专注鞋服零售、视频娱乐平台与音乐领域的软件开发，旗下产品：冉暖订货系统、冉暖音乐播放器、冉暖收银系统、RanNuan TV">
+    <meta name="keywords" content="冉暖科技,订货系统,音乐播放器,收银系统,RanNuan TV,ePOS,鞋服零售,AI订货,视频平台">
     <link rel="icon" href="./assets/logo.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,6 +31,7 @@
                 <li><a href="order.html">冉暖订货系统</a></li>
                 <li><a href="music.html">冉暖音乐播放器</a></li>
                 <li><a href="epos.html">冉暖收银系统</a></li>
+                <li><a href="tv.html">冉暖视频播放器</a></li>
                 <li><a href="#about">关于</a></li>
                 <li><a href="#contact">联系</a></li>
             </ul>
@@ -49,6 +50,7 @@
         <a href="order.html" onclick="toggleMobileMenu()">冉暖订货系统</a>
         <a href="music.html" onclick="toggleMobileMenu()">冉暖音乐播放器</a>
         <a href="epos.html" onclick="toggleMobileMenu()">冉暖收银系统</a>
+        <a href="tv.html" onclick="toggleMobileMenu()">冉暖视频播放器</a>
         <a href="#about" onclick="toggleMobileMenu()">关于</a>
         <a href="#contact" onclick="toggleMobileMenu()">联系</a>
     </div>
@@ -72,10 +74,10 @@
                 </div>
                 <h1 class="hero-title">
                     <span class="line"><span class="line-inner">冉暖科技</span></span>
-                    <span class="line"><span class="line-inner"><span class="highlight">三款产品，三大领域</span></span></span>
+                    <span class="line"><span class="line-inner"><span class="highlight">四款产品，四大领域</span></span></span>
                 </h1>
                 <p class="hero-subtitle">
-                    专注鞋服零售与音乐领域的软件开发团队。从AI智能订货到3D宇宙相册音乐播放器，从专卖店收银到全链路管理，用技术解决真实业务问题。
+                    专注鞋服零售、视频娱乐平台与音乐领域的软件开发团队。从AI智能订货到3D宇宙相册音乐播放器，从专卖店收银到视频聚合播放平台，用技术解决真实业务问题。
                 </p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-primary">
@@ -166,6 +168,27 @@
                     </div>
                     <div class="card-cta"><span>查看详情</span><i class="fas fa-arrow-right"></i></div>
                 </a>
+                <!-- 3D Card 4: TV -->
+                <a href="tv.html" class="product-card-3d card-4">
+                    <div class="card-screenshot" style="background-image:url('/assets/video/home.png');"></div>
+                    <div class="card-border-anim"></div>
+                    <div class="card-tech-grid"></div>
+                    <div class="card-glow"></div>
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-tv"></i></div>
+                        <div class="card-status-pulse" style="background:#6495ed;"></div>
+                    </div>
+                    <h4>冉暖视频播放器</h4>
+                    <div class="en-name">RanNuan TV</div>
+                    <p>桌面端 / 移动端双端视频聚合平台</p>
+                    <div class="card-tags"><span>Kotlin</span><span>React</span><span>Node.js</span></div>
+                    <div class="card-expand">
+                        <div class="card-metric"><span class="metric-val">v2.0</span><span class="metric-label">移动端</span></div>
+                        <div class="card-metric"><span class="metric-val">双端</span><span class="metric-label">桌面+移动</span></div>
+                        <div class="card-metric"><span class="metric-val">已完成</span><span class="metric-label">状态</span></div>
+                    </div>
+                    <div class="card-cta"><span>查看详情</span><i class="fas fa-arrow-right"></i></div>
+                </a>
             </div>
         </div>
         <!-- Wave Divider -->
@@ -187,12 +210,25 @@
     <section class="section products-section" id="products">
         <div class="section-header reveal">
             <div class="section-badge"><i class="fas fa-paw"></i> 产品矩阵</div>
-            <h2 class="section-title">三款产品，覆盖三大场景</h2>
+            <h2 class="section-title">四款产品，覆盖四大场景</h2>
             <p class="section-subtitle">每一款产品都源自真实业务需求，经过反复打磨，只为解决实际问题</p>
         </div>
-        <div class="products-grid">
+        <!-- Carousel Wrapper -->
+        <div class="showcase-carousel">
+            <!-- Flowing liquid blobs background -->
+            <div class="fluid-blobs">
+                <div class="fluid-blob blob-1"></div>
+                <div class="fluid-blob blob-2"></div>
+                <div class="fluid-blob blob-3"></div>
+                <div class="fluid-blob blob-4"></div>
+            </div>
+            <!-- Top & bottom flowing bars -->
+            <div class="fluid-flow-bar"></div>
+            <div class="fluid-flow-bar-bottom"></div>
+            <!-- Card Track (duplicated for seamless loop) -->
+            <div class="showcase-track">
             <!-- Order -->
-            <a href="order.html" class="product-showcase order reveal delay-1">
+            <a href="order.html" class="product-showcase order">
                 <div class="showcase-screenshot" style="background-image:url('/assets/screenshot-order.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-clipboard-list"></i></div>
@@ -216,7 +252,7 @@
                 </div>
             </a>
             <!-- Music -->
-            <a href="music.html" class="product-showcase music reveal delay-2">
+            <a href="music.html" class="product-showcase music">
                 <div class="showcase-screenshot" style="background-image:url('/assets/music/universe.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-headphones"></i></div>
@@ -240,7 +276,7 @@
                 </div>
             </a>
             <!-- ePOS -->
-            <a href="epos.html" class="product-showcase epos reveal delay-3">
+            <a href="epos.html" class="product-showcase epos">
                 <div class="showcase-screenshot" style="background-image:url('/assets/screenshot-epos.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-cash-register"></i></div>
@@ -263,8 +299,126 @@
                     <span class="product-status dev">快速迭代</span>
                 </div>
             </a>
+            <!-- RanNuan TV -->
+            <a href="tv.html" class="product-showcase tv">
+                <div class="showcase-screenshot" style="background-image:url('/assets/video/home.png');"></div>
+                <div class="product-showcase-header">
+                    <div class="showcase-icon"><i class="fas fa-tv"></i></div>
+                    <h3>冉暖视频播放器</h3>
+                    <div class="en-name">RanNuan TV</div>
+                    <p class="desc">桌面端与 Android 移动端双端视频平台，支持多源聚合、详情页直达、分类浏览与播放体验优化。</p>
+                </div>
+                <div class="product-showcase-body">
+                    <ul class="showcase-features">
+                        <li><i class="fas fa-check-circle"></i> 桌面端 / 移动端双端同步</li>
+                        <li><i class="fas fa-check-circle"></i> 多源聚合与详情页直达</li>
+                        <li><i class="fas fa-check-circle"></i> 分类、搜索、播放链路优化</li>
+                        <li><i class="fas fa-check-circle"></i> 选集动画与播放源显示</li>
+                        <li><i class="fas fa-check-circle"></i> 持续迭代中</li>
+                    </ul>
+                    <div class="showcase-tech"><span>Kotlin</span><span>Compose</span><span>React</span><span>Node.js</span></div>
+                </div>
+                <div class="product-showcase-footer">
+                    <span class="product-version">V 2.0</span>
+                    <span class="product-status stable">已完成</span>
+                </div>
+            </a>
+            <!-- Duplicate for seamless loop -->
+            <a href="order.html" class="product-showcase order" aria-hidden="true">
+                <div class="showcase-screenshot" style="background-image:url('/assets/screenshot-order.png');"></div>
+                <div class="product-showcase-header">
+                    <div class="showcase-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <h3>冉暖订货系统</h3>
+                    <div class="en-name">RanNuan Order</div>
+                    <p class="desc">专为鞋服零售打造的AI智能订货管理工具，支持批量分配、尺码占比计算、数据报表分析，提升订货效率80%以上。</p>
+                </div>
+                <div class="product-showcase-body">
+                    <ul class="showcase-features">
+                        <li><i class="fas fa-check-circle"></i> AI自动调整尺码比例</li>
+                        <li><i class="fas fa-check-circle"></i> 批量分配与智能占比</li>
+                        <li><i class="fas fa-check-circle"></i> 数据报表与同期对比</li>
+                        <li><i class="fas fa-check-circle"></i> Excel导入导出</li>
+                        <li><i class="fas fa-check-circle"></i> 多端协同（桌面+Web）</li>
+                    </ul>
+                    <div class="showcase-tech"><span>Vue 3</span><span>Element Plus</span><span>TailwindCSS</span><span>FastAPI</span></div>
+                </div>
+                <div class="product-showcase-footer">
+                    <span class="product-version">V 3.2.0</span>
+                    <span class="product-status stable">稳定运营</span>
+                </div>
+            </a>
+            <a href="music.html" class="product-showcase music" aria-hidden="true">
+                <div class="showcase-screenshot" style="background-image:url('/assets/music/universe.png');"></div>
+                <div class="product-showcase-header">
+                    <div class="showcase-icon"><i class="fas fa-headphones"></i></div>
+                    <h3>冉暖音乐播放器</h3>
+                    <div class="en-name">RanNuan Music</div>
+                    <p class="desc">桌面 + 移动双平台音乐播放器，6 大音源解析、桌面歌词、系统托盘控制。v2.0 独家上线 <strong>3D 宇宙相册</strong>，照片化作行星，打造沉浸式音乐宇宙体验。</p>
+                </div>
+                <div class="product-showcase-body">
+                    <ul class="showcase-features">
+                        <li><i class="fas fa-check-circle"></i> 6 大音源自动降级切换</li>
+                        <li><i class="fas fa-check-circle"></i> 桌面歌词 + 系统托盘</li>
+                        <li><i class="fas fa-check-circle"></i> 全局快捷键控制</li>
+                        <li><i class="fas fa-check-circle"></i> 下载管理 + 离线播放</li>
+                        <li><i class="fas fa-check-circle"></i> 深色模式 + 启动动画</li>
+                    </ul>
+                    <div class="showcase-tech"><span>Tauri</span><span>React 19</span><span>React Native</span><span>TypeScript</span></div>
+                </div>
+                <div class="product-showcase-footer">
+                    <span class="product-version">V 2.0.0</span>
+                    <span class="product-status dev">桌面版已发布</span>
+                </div>
+            </a>
+            <a href="epos.html" class="product-showcase epos" aria-hidden="true">
+                <div class="showcase-screenshot" style="background-image:url('/assets/screenshot-epos.png');"></div>
+                <div class="product-showcase-header">
+                    <div class="showcase-icon"><i class="fas fa-cash-register"></i></div>
+                    <h3>冉暖收银系统</h3>
+                    <div class="en-name">RanNuan ePOS</div>
+                    <p class="desc">运动品牌专卖店ePOS收银系统，前台收银+后台管理双系统架构，覆盖商品、库存、财务、CRM全链路。</p>
+                </div>
+                <div class="product-showcase-body">
+                    <ul class="showcase-features">
+                        <li><i class="fas fa-check-circle"></i> 紧凑型POS收银台</li>
+                        <li><i class="fas fa-check-circle"></i> 商品运营与审核</li>
+                        <li><i class="fas fa-check-circle"></i> 仓储物流与盘点</li>
+                        <li><i class="fas fa-check-circle"></i> CRM会员与储值</li>
+                        <li><i class="fas fa-check-circle"></i> 多标签页后台管理</li>
+                    </ul>
+                    <div class="showcase-tech"><span>React</span><span>Electron</span><span>NestJS</span><span>Prisma</span></div>
+                </div>
+                <div class="product-showcase-footer">
+                    <span class="product-version">V 1.3.1</span>
+                    <span class="product-status dev">快速迭代</span>
+                </div>
+            </a>
+            <a href="tv.html" class="product-showcase tv" aria-hidden="true">
+                <div class="showcase-screenshot" style="background-image:url('/assets/video/home.png');"></div>
+                <div class="product-showcase-header">
+                    <div class="showcase-icon"><i class="fas fa-tv"></i></div>
+                    <h3>冉暖视频播放器</h3>
+                    <div class="en-name">RanNuan TV</div>
+                    <p class="desc">桌面端与 Android 移动端双端视频平台，支持多源聚合、详情页直达、分类浏览与播放体验优化。</p>
+                </div>
+                <div class="product-showcase-body">
+                    <ul class="showcase-features">
+                        <li><i class="fas fa-check-circle"></i> 桌面端 / 移动端双端同步</li>
+                        <li><i class="fas fa-check-circle"></i> 多源聚合与详情页直达</li>
+                        <li><i class="fas fa-check-circle"></i> 分类、搜索、播放链路优化</li>
+                        <li><i class="fas fa-check-circle"></i> 选集动画与播放源显示</li>
+                        <li><i class="fas fa-check-circle"></i> 持续迭代中</li>
+                    </ul>
+                    <div class="showcase-tech"><span>Kotlin</span><span>Compose</span><span>React</span><span>Node.js</span></div>
+                </div>
+                <div class="product-showcase-footer">
+                    <span class="product-version">V 2.0</span>
+                    <span class="product-status stable">已完成</span>
+                </div>
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- About -->
     <section class="section about-section" id="about">
@@ -274,7 +428,7 @@
                 <div class="section-badge"><i class="fas fa-paw"></i> 关于我们</div>
                 <h2>冉暖科技<br>用技术创造温暖</h2>
                 <p>我是一名独立开发者，目前在某国产运动品牌担任商品运营工作。因为日常工作中遇到的各种痛点，我开始利用业余时间开发解决实际问题的软件工具。</p>
-                <p>从最初的订货管理工具，到跨平台音乐播放器，再到专卖店收银系统——每一款产品都源自真实的业务场景，经过反复迭代打磨，逐渐形成了"冉暖科技"的产品矩阵。</p>
+                    <p>从最初的订货管理工具，到跨平台音乐播放器、专卖店收银系统，再到 RanNuan TV 视频聚合平台——每一款产品都源自真实的业务场景，经过反复迭代打磨，逐渐形成了"冉暖科技"的产品矩阵。</p>
                 <p>我始终相信：好的软件不需要大而全，能真正解决一个具体问题就是好软件。</p>
                 <div class="about-values">
                     <div class="value-tag"><i class="fas fa-check-circle"></i> 解决实际问题</div>
@@ -362,14 +516,14 @@
             <div class="footer-top">
                 <div class="footer-brand">
                     <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;"><span class="logo-text">冉暖科技</span></a>
-                    <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
+                    <p>用技术创造温暖。专注鞋服零售、视频娱乐平台与音乐领域的软件开发团队。</p>
                     <div class="footer-social">
                         <a href="javascript:void(0)" onclick="openWechatModal()"><i class="fab fa-weixin"></i></a>
                         <a href="javascript:void(0)" onclick="openQQModal()"><i class="fab fa-qq"></i></a>
                         <a href="mailto:aaronwei97@qq.com"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
-                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li></ul></div>
+                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li><li><a href="tv.html">冉暖视频播放器</a></li></ul></div>
                 <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
                 <div class="footer-column"><h4>了解更多</h4><ul><li><a href="#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
             </div>

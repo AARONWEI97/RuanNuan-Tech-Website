@@ -24,6 +24,7 @@
                 <li><a href="order.html">冉暖订货系统</a></li>
                 <li><a href="music.html">冉暖音乐播放器</a></li>
                 <li><a href="epos.html" class="active">冉暖收银系统</a></li>
+                <li><a href="tv.html">冉暖视频播放器</a></li>
                 <li><a href="index.html#about">关于</a></li>
                 <li><a href="index.html#contact">联系</a></li>
             </ul>
@@ -37,6 +38,7 @@
         <a href="order.html" onclick="toggleMobileMenu()">冉暖订货系统</a>
         <a href="music.html" onclick="toggleMobileMenu()">冉暖音乐播放器</a>
         <a href="epos.html" onclick="toggleMobileMenu()">冉暖收银系统</a>
+        <a href="tv.html" onclick="toggleMobileMenu()">冉暖视频播放器</a>
         <a href="index.html" onclick="toggleMobileMenu()">返回首页</a>
     </div>
 
@@ -128,22 +130,14 @@
             <h2 class="section-title">前后端分离 + 桌面端</h2>
             <p class="section-subtitle">Electron桌面收银 + React Web后台 + NestJS统一后端</p>
         </div>
-        <div class="tech-diagram reveal">
-            <div class="tech-layer layer-frontend">
-                <div class="tech-item reveal delay-1"><i class="fas fa-desktop"></i><h4>Electron</h4><p>POS收银端</p></div>
-                <div class="tech-item reveal delay-2"><i class="fab fa-react"></i><h4>React</h4><p>Web后台</p></div>
-                <div class="tech-item reveal delay-3"><i class="fas fa-wind"></i><h4>TailwindCSS</h4><p>样式方案</p></div>
-            </div>
-            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
-            <div class="tech-layer layer-backend">
-                <div class="tech-item reveal delay-4"><i class="fas fa-server"></i><h4>NestJS</h4><p>统一后端</p></div>
-                <div class="tech-item reveal delay-1"><i class="fas fa-sitemap"></i><h4>Prisma</h4><p>ORM</p></div>
-            </div>
-            <div class="tech-connector"><i class="fas fa-arrows-alt-v"></i></div>
-            <div class="tech-layer layer-data">
-                <div class="tech-item reveal delay-2"><i class="fas fa-database"></i><h4>PostgreSQL</h4><p>关系数据库</p></div>
-                <div class="tech-item reveal delay-3"><i class="fab fa-js-square"></i><h4>TypeScript</h4><p>类型安全</p></div>
-            </div>
+        <div class="tech-row reveal">
+            <div class="tech-item reveal delay-1" style="border-top:2px solid var(--color-primary);"><i class="fas fa-desktop" style="color:var(--color-primary);"></i><h4>Electron</h4><p>POS收银端</p></div>
+            <div class="tech-item reveal delay-2" style="border-top:2px solid var(--color-primary);"><i class="fab fa-react" style="color:var(--color-primary);"></i><h4>React</h4><p>Web后台</p></div>
+            <div class="tech-item reveal delay-3" style="border-top:2px solid var(--color-primary);"><i class="fas fa-wind" style="color:var(--color-primary);"></i><h4>TailwindCSS</h4><p>样式方案</p></div>
+            <div class="tech-item reveal delay-4" style="border-top:2px solid var(--color-accent);"><i class="fas fa-server" style="color:var(--color-accent);"></i><h4>NestJS</h4><p>统一后端</p></div>
+            <div class="tech-item reveal delay-1" style="border-top:2px solid var(--color-accent);"><i class="fas fa-sitemap" style="color:var(--color-accent);"></i><h4>Prisma</h4><p>ORM</p></div>
+            <div class="tech-item reveal delay-2" style="border-top:2px solid var(--color-green);"><i class="fas fa-database" style="color:var(--color-green);"></i><h4>PostgreSQL</h4><p>数据库</p></div>
+            <div class="tech-item reveal delay-3" style="border-top:2px solid var(--color-green);"><i class="fab fa-js-square" style="color:var(--color-green);"></i><h4>TypeScript</h4><p>类型安全</p></div>
         </div>
     </section>
 
@@ -252,7 +246,7 @@
                         <a href="mailto:aaronwei97@qq.com"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
-                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li></ul></div>
+                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li><li><a href="tv.html">冉暖视频播放器</a></li></ul></div>
                 <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="index.html#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
                 <div class="footer-column"><h4>了解更多</h4><ul><li><a href="index.html#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
             </div>

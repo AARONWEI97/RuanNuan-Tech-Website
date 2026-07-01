@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="tv-page">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RanNuan TV — 桌面端 + Android 双端视频聚合平台 | 冉暖科技</title>
+    <meta name="description" content="RanNuan TV 是冉暖科技的视频聚合播放平台，覆盖桌面端与 Android 移动端，支持多源聚合、详情直达、分类浏览与播放体验优化。">
+    <meta name="keywords" content="RanNuan TV,视频平台,桌面端,Android,多源聚合,视频播放,详情页,分类浏览,冉暖科技">
+    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product.css">
+    <style>
+        /* TV 专属点缀色，避免与主体暖色系冲突 */
+        :root {
+            --tv-accent: #6495ed;
+            --tv-accent-light: #93b5f0;
+            --tv-accent-10: rgba(100,149,237,0.1);
+            --tv-accent-15: rgba(100,149,237,0.15);
+        }
+        .tv-page .product-hero-title { letter-spacing: 0; font-size: 3.2rem; }
+        .tv-page .screenshot-glow::before {
+            background: conic-gradient(from 0deg, var(--tv-accent), var(--color-primary), var(--color-accent), var(--tv-accent));
+        }
+        .tv-page .screenshot-glow::after {
+            background: conic-gradient(from 180deg, var(--tv-accent), var(--color-primary), var(--color-accent), var(--tv-accent));
+        }
+        .tv-page .screenshot-deco { border-color: var(--tv-accent); }
+        .tv-page .screenshot-float-label { background: var(--gradient-warm); }
+        /* Tech row — horizontal compact layout */
+        .tech-row {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+        .tech-row .tech-item {
+            text-align: center;
+            padding: 24px 12px;
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border-light);
+            transition: all 0.4s var(--ease-out-expo);
+        }
+        .tech-row .tech-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        @media (max-width: 992px) {
+            .tech-row { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .tech-row { grid-template-columns: repeat(2, 1fr); }
+        }
+        /* ---- Download Section ---- */
+        .tv-download-section {
+            padding: 100px 24px;
+            background: linear-gradient(180deg, var(--color-bg) 0%, #f5efe2 100%);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .tv-download-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .tv-download-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 36px 28px;
+            border: 1px solid var(--color-border-light);
+            transition: all 0.4s var(--ease-out-expo);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .tv-download-card.desktop-card { border-color: rgba(100,149,237,0.2); background: linear-gradient(180deg, rgba(100,149,237,0.04), var(--color-surface) 40%); }
+        .tv-download-card.mobile-card { border-color: rgba(123,174,127,0.2); background: linear-gradient(180deg, rgba(123,174,127,0.04), var(--color-surface) 40%); }
+        .tv-download-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+        .tv-download-card.desktop-card:hover { border-color: rgba(100,149,237,0.35); }
+        .tv-download-card.mobile-card:hover { border-color: rgba(123,174,127,0.35); }
+        .tv-download-icon {
+            width: 60px; height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px;
+        }
+        .desktop-card .tv-download-icon { background: rgba(100,149,237,0.12); color: var(--tv-accent); }
+        .mobile-card .tv-download-icon { background: rgba(123,174,127,0.12); color: var(--color-green); }
+        .tv-download-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+        .tv-download-card .dl-version { font-size: 0.78rem; color: var(--color-text-muted); font-family: 'Syne', sans-serif; margin-bottom: 6px; }
+        .tv-download-card .dl-size { font-size: 0.82rem; color: var(--color-text-secondary); margin-bottom: 18px; }
+        .tv-download-card .btn { width: 100%; margin-bottom: 14px; }
+        .desktop-card .btn { background: linear-gradient(135deg, var(--tv-accent) 0%, #93b5f0 100%); color: white; box-shadow: 0 4px 16px rgba(100,149,237,0.3); }
+        .mobile-card .btn { background: var(--gradient-green); color: white; box-shadow: 0 4px 16px rgba(123,174,127,0.3); }
+        .desktop-card .btn:hover { box-shadow: 0 8px 28px rgba(100,149,237,0.45); }
+        .mobile-card .btn:hover { box-shadow: 0 8px 28px rgba(123,174,127,0.45); }
+        .tv-pwd-row { margin-top: 6px; }
+        .tv-github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--color-text-muted);
+            font-size: 0.76rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .tv-github-link:hover { color: var(--color-text); }
+        .tv-github-link i.fa-external-link-alt { font-size: 0.6rem; opacity: 0.6; }
+        .pwd-hint { color: var(--color-text-muted); font-size: 0.76rem; margin: 6px 0 0; }
+        .pwd-reveal { font-size: 0.9rem; font-weight: 600; margin: 6px 0 0; letter-spacing: 1px; }
+        .desktop-card .pwd-reveal { color: var(--tv-accent); }
+        .mobile-card .pwd-reveal { color: var(--color-green); }
+        @media (max-width: 768px) {
+            .tv-download-grid { grid-template-columns: 1fr; max-width: 400px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#hero" class="skip-link">跳转到主要内容</a>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+            <ul class="nav-links">
+                <li><a href="order.html">冉暖订货系统</a></li>
+                <li><a href="music.html">冉暖音乐播放器</a></li>
+                <li><a href="epos.html">冉暖收银系统</a></li>
+                <li><a href="tv.html" class="active">冉暖视频播放器</a></li>
+                <li><a href="index.html#about">关于</a></li>
+                <li><a href="index.html#contact">联系</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="javascript:void(0)" onclick="openQQModal()" class="btn btn-primary btn-sm"><i class="fas fa-tv"></i> 咨询</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <a href="order.html" onclick="toggleMobileMenu()">冉暖订货系统</a>
+        <a href="music.html" onclick="toggleMobileMenu()">冉暖音乐播放器</a>
+        <a href="epos.html" onclick="toggleMobileMenu()">冉暖收银系统</a>
+        <a href="tv.html" onclick="toggleMobileMenu()">冉暖视频播放器</a>
+        <a href="index.html" onclick="toggleMobileMenu()">返回首页</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="product-hero tv-hero" id="hero">
+        <div class="product-hero-inner">
+            <div class="product-hero-content">
+                <div class="product-hero-badge"><i class="fas fa-tv"></i> 视频聚合平台</div>
+                <h1 class="product-hero-title">冉暖视频播放器</h1>
+                <div class="en-name">RanNuan TV</div>
+                <p class="product-hero-desc">
+                    RanNuan TV 是冉暖科技的视频聚合播放平台，覆盖桌面端与 Android 移动端，
+                    支持多源聚合、详情直达、分类浏览、选集动画与播放源切换，让内容发现和播放更顺手。
+                </p>
+                <div class="product-hero-cta">
+                    <a href="#features" class="btn btn-primary"><i class="fas fa-layer-group"></i> 查看功能</a>
+                    <a href="#screenshots" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3);"><i class="fas fa-image"></i> 界面预览</a>
+                </div>
+            </div>
+            <div class="product-hero-visual">
+                <div class="product-screenshot-wrap">
+                    <div class="product-screenshot screenshot-glow">
+                        <img src="assets/video/home.png">
+                    </div>
+                    <div class="screenshot-deco"></div>
+                    <div class="screenshot-float-label">双端 · 多源 · 播放优化</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features -->
+    <section class="section features-section" id="features">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-paw"></i> 核心能力</div>
+            <h2 class="section-title">围绕播放体验做的优化</h2>
+            <p class="section-subtitle">先保证能快进到内容，再把细节做顺</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-sync-alt"></i></div><div><h4>双端一致体验</h4><p>桌面端与 Android 端共享后端逻辑，保持一致的分类、详情、搜索与播放体验</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-layer-group"></i></div><div><h4>多源资源合并</h4><p>搜索页按标题归一化合并资源，减少重复卡片，方便快速切源和进入详情</p></div></div>
+            <div class="feature-item reveal delay-3"><div class="icon"><i class="fas fa-expand-arrows-alt"></i></div><div><h4>详情页直达</h4><p>首页、Banner、分类页都直接进入详情页，减少中间层跳转和等待感</p></div></div>
+            <div class="feature-item reveal delay-4"><div class="icon"><i class="fas fa-play-circle"></i></div><div><h4>播放页更直观</h4><p>选集动画、播放源名称、线路切换和加载提示都做了更清晰的状态反馈</p></div></div>
+            <div class="feature-item reveal delay-1"><div class="icon"><i class="fas fa-list"></i></div><div><h4>分类浏览</h4><p>按类型、地区、年份多维度分类，快速定位感兴趣的内容</p></div></div>
+            <div class="feature-item reveal delay-2"><div class="icon"><i class="fas fa-search"></i></div><div><h4>智能搜索</h4><p>支持模糊匹配与源切换，搜索结果快速响应，体验流畅</p></div></div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="section stats-section">
+        <div class="stats-grid reveal">
+            <div class="stat-item">
+                <div class="stat-num" data-target="2" data-suffix="">2</div>
+                <div class="stat-label">覆盖平台</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:100%"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="3" data-suffix="+">3+</div>
+                <div class="stat-label">聚合数据源</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" data-target="100" data-suffix="%">100%</div>
+                <div class="stat-label">双端完成度</div>
+                <div class="stat-bar"><div class="stat-fill" style="width:100%"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="section screenshots-section" id="screenshots">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-images"></i> 界面预览</div>
+            <h2 class="section-title">多端界面一览</h2>
+            <p class="section-subtitle">桌面端 + Android 端界面预览</p>
+        </div>
+        <!-- Row 1: Desktop screenshots (landscape) -->
+        <div class="screenshots-grid">
+            <div class="screenshot-frame reveal delay-1" data-label="桌面端-首页">
+                <img src="/assets/video/home.png" alt="桌面端首页" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;background:linear-gradient(135deg,rgba(12,19,34,0.95),rgba(25,35,51,0.95));\'><i class=\'fas fa-desktop\' style=\'color:var(--tv-accent);\'></i><p>桌面端首页截图</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-2" data-label="桌面端-详情页">
+                <img src="/assets/video/detail.png" alt="桌面端详情页" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:16/10;background:linear-gradient(135deg,rgba(12,19,34,0.95),rgba(25,35,51,0.95));\'><i class=\'fas fa-info-circle\' style=\'color:var(--tv-accent);\'></i><p>桌面端详情页截图</p></div>'">
+            </div>
+        </div>
+        <!-- Row 2: Mobile screenshots (portrait) -->
+        <div class="screenshots-mobile">
+            <div class="screenshot-frame reveal delay-3" data-label="移动端-分类页">
+                <img src="/assets/video/category.jpg" alt="移动端分类页" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:10/17;background:linear-gradient(135deg,rgba(12,19,34,0.95),rgba(25,35,51,0.95));\'><i class=\'fas fa-mobile-alt\' style=\'color:var(--tv-accent);\'></i><p>移动端分类页截图</p></div>'">
+            </div>
+            <div class="screenshot-frame reveal delay-4" data-label="移动端-播放页">
+                <img src="/assets/video/player.jpg" alt="移动端播放页" onerror="this.parentElement.innerHTML='<div class=\'screenshot-placeholder\' style=\'aspect-ratio:10/17;background:linear-gradient(135deg,rgba(12,19,34,0.95),rgba(25,35,51,0.95));\'><i class=\'fas fa-play\' style=\'color:var(--tv-accent);\'></i><p>移动端播放页截图</p></div>'">
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section tech-section" id="tech">
+        <div class="section-header reveal">
+            <div class="section-badge"><i class="fas fa-code"></i> 技术架构</div>
+            <h2 class="section-title">双端技术栈</h2>
+            <p class="section-subtitle">桌面端与移动端协同，稳定可靠的技术选型</p>
+        </div>
+        <div class="tech-row reveal">
+            <div class="tech-item reveal delay-1" style="border-top:2px solid var(--tv-accent);"><i class="fas fa-desktop" style="color:var(--tv-accent);"></i><h4>Kotlin Compose</h4><p>Android 移动端</p></div>
+            <div class="tech-item reveal delay-2" style="border-top:2px solid var(--tv-accent);"><i class="fab fa-react" style="color:var(--tv-accent);"></i><h4>React</h4><p>桌面端 Web</p></div>
+            <div class="tech-item reveal delay-3" style="border-top:2px solid var(--color-accent);"><i class="fab fa-node-js" style="color:var(--color-accent);"></i><h4>Node.js</h4><p>聚合后端</p></div>
+            <div class="tech-item reveal delay-3" style="border-top:2px solid var(--color-accent);"><i class="fas fa-plug" style="color:var(--color-accent);"></i><h4>API 网关</h4><p>多源调度</p></div>
+            <div class="tech-item reveal delay-4" style="border-top:2px solid var(--color-green);"><i class="fas fa-database" style="color:var(--color-green);"></i><h4>爬虫引擎</h4><p>数据采集</p></div>
+            <div class="tech-item reveal delay-4" style="border-top:2px solid var(--color-green);"><i class="fas fa-film" style="color:var(--color-green);"></i><h4>播放器</h4><p>多格式支持</p></div>
+        </div>
+    </section>
+
+    <!-- Download -->
+    <section class="tv-download-section" id="download">
+        <div class="section-header reveal">
+            <div class="section-badge" style="background:rgba(100,149,237,0.1);color:var(--tv-accent);"><i class="fas fa-download"></i> 立即下载</div>
+            <h2 class="section-title">双端安装包</h2>
+            <p class="section-subtitle">桌面端 + Android 移动端，已打包发布</p>
+        </div>
+        <div class="tv-download-grid reveal">
+            <!-- Desktop -->
+            <div class="tv-download-card desktop-card delay-1">
+                <div class="tv-download-icon"><i class="fas fa-desktop"></i></div>
+                <h4>桌面端</h4>
+                <div class="dl-version">v2.0</div>
+                <div class="dl-size">Windows · 安装即用</div>
+                <a href="https://wwbjj.lanzoum.com/ixgga3tib83i" target="_blank" class="btn"><i class="fas fa-download"></i> 下载桌面端</a>
+                <div class="tv-pwd-row">
+                    <a class="tv-github-link" data-repo="desktop" href="https://github.com/AARONWEI97/RanNuan-TV" target="_blank">
+                        <i class="fab fa-github"></i> 访问 GitHub 仓库解锁密码 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <p class="pwd-hint" data-repo="desktop"><i class="fas fa-lock"></i> 点赞后返回本页自动解锁</p>
+                    <p class="pwd-reveal" data-repo="desktop" style="display:none;"><i class="fas fa-unlock"></i> 网盘密码：<span class="pwd-text">****</span></p>
+                </div>
+            </div>
+            <!-- Mobile -->
+            <div class="tv-download-card mobile-card delay-2">
+                <div class="tv-download-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h4>移动端</h4>
+                <div class="dl-version">v2.0</div>
+                <div class="dl-size">Android · .apk 安装包</div>
+                <a href="https://wwbjj.lanzoum.com/i1ZeZ3tq47za" target="_blank" class="btn"><i class="fas fa-download"></i> 下载 APK</a>
+                <div class="tv-pwd-row">
+                    <a class="tv-github-link" data-repo="mobile" href="https://github.com/AARONWEI97/RanNuan-TV" target="_blank">
+                        <i class="fab fa-github"></i> 访问 GitHub 仓库解锁密码 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <p class="pwd-hint" data-repo="mobile"><i class="fas fa-lock"></i> 点赞后返回本页自动解锁</p>
+                    <p class="pwd-reveal" data-repo="mobile" style="display:none;"><i class="fas fa-unlock"></i> 网盘密码：<span class="pwd-text">****</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="background:linear-gradient(135deg,#2D2A32 0%,#2E3242 50%,#303A50 100%);position:relative;overflow:hidden;text-align:center;padding:80px 24px;" id="cta">
+        <div style="position:relative;z-index:1;max-width:640px;margin:0 auto;">
+            <div class="section-badge reveal" style="background:var(--tv-accent-15);color:var(--tv-accent-light);display:inline-flex;margin-bottom:16px;"><i class="fas fa-bolt"></i> 产品状态</div>
+            <h2 class="reveal delay-1" style="font-size:2rem;font-weight:900;color:white;margin-bottom:12px;">双端已完成，持续迭代优化中</h2>
+            <p class="reveal delay-2" style="color:rgba(255,255,255,0.72);margin-bottom:28px;font-size:1.05rem;">如果你对视频聚合平台感兴趣，或者有定制开发需求，欢迎随时联系交流。</p>
+            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                <a href="javascript:void(0)" onclick="openQQModal()" class="btn btn-primary reveal delay-3" style="font-size:1rem;padding:12px 32px;"><i class="fab fa-qq"></i> 联系开发者</a>
+                <a href="index.html#contact" class="btn btn-outline reveal delay-3" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3);"><i class="fas fa-envelope"></i> 留言咨询</a>
+            </div>
+        </div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(100,149,237,0.12) 0%,transparent 60%);pointer-events:none;"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
+                    <p>用技术创造温暖。专注鞋服零售、视频娱乐平台与音乐领域的软件开发团队。</p>
+                    <div class="footer-social">
+                        <a href="javascript:void(0)" onclick="openWechatModal()"><i class="fab fa-weixin"></i></a>
+                        <a href="javascript:void(0)" onclick="openQQModal()"><i class="fab fa-qq"></i></a>
+                        <a href="mailto:aaronwei97@qq.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li><li><a href="tv.html">冉暖视频播放器</a></li></ul></div>
+                <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="index.html#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
+                <div class="footer-column"><h4>了解更多</h4><ul><li><a href="index.html#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 冉暖科技 RanNuan Tech <i class="fas fa-paw" style="margin-left:6px;color:var(--color-primary);"></i></p>
+                <div class="footer-bottom-links"><a href="privacy.html">隐私政策</a><a href="terms.html">使用条款</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" aria-label="返回顶部"><i class="fas fa-chevron-up"></i></button>
+
+    <!-- WeChat Modal -->
+    <div class="modal-overlay" id="wechatModal" onclick="closeWechatModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeWechatModal(event)"><i class="fas fa-times"></i></button>
+            <div style="width:52px;height:52px;background:var(--color-primary-10);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--color-primary);"><i class="fab fa-weixin" style="font-size:26px;"></i></div>
+            <h3 style="margin-bottom:4px;font-size:1.2rem;">添加开发者微信</h3>
+            <p style="color:var(--color-text-muted);font-size:0.88rem;">获取试用名额 · 技术支持 · 交流反馈</p>
+            <div class="modal-qr">
+                <img src="/assets/wechat-qr.jpg" alt="微信二维码" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'text-align:center\'><i class=\'fab fa-weixin\' style=\'font-size:50px;color:#ddd;margin-bottom:8px\'></i><p style=\'font-size:13px;color:#999\'>暂无二维码图片<br>请直接搜索微信号</p></div>';">
+            </div>
+            <div class="modal-id">
+                <span style="color:var(--color-text-muted);font-weight:normal;font-size:0.82rem;margin-right:8px;">微信号:</span>
+                <span id="wechatIdText" style="user-select:all;">AaronWei24</span>
+                <button class="copy-btn" onclick="copyToClipboard('wechatIdText',this)">复制</button>
+            </div>
+            <p class="modal-tip">添加请注明：<span style="color:var(--color-primary);font-weight:500;">冉暖科技咨询</span></p>
+        </div>
+    </div>
+
+    <!-- QQ Modal -->
+    <div class="modal-overlay" id="qqModal" onclick="closeQQModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeQQModal(event)"><i class="fas fa-times"></i></button>
+            <div style="width:52px;height:52px;background:rgba(99,102,241,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#6366f1;"><i class="fab fa-qq" style="font-size:26px;"></i></div>
+            <h3 style="margin-bottom:4px;font-size:1.2rem;">添加开发者QQ</h3>
+            <p style="color:var(--color-text-muted);font-size:0.88rem;">在线咨询 · 远程协助 · 问题反馈</p>
+            <div class="modal-qr">
+                <img src="/assets/QQ-qr.png" alt="QQ二维码" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
+            </div>
+            <div style="text-align:center;margin:-4px 0 12px;">
+                <a href="tencent://message/?uin=249861749&Site=Sambow&Menu=yes" class="btn btn-primary btn-sm"><i class="fab fa-qq"></i> 点击发起聊天</a>
+            </div>
+            <div class="modal-id">
+                <span style="color:var(--color-text-muted);font-weight:normal;font-size:0.82rem;margin-right:8px;">QQ号:</span>
+                <span id="qqIdText" style="user-select:all;">249861749</span>
+                <button class="copy-btn" onclick="copyToClipboard('qqIdText',this)">复制</button>
+            </div>
+            <p class="modal-tip">添加请注明：<span style="color:#6366f1;font-weight:500;">RanNuan TV 咨询</span></p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Password unlock: visit GitHub → auto reveal password
+        var REPOS = {
+            desktop: { key: 'rannuan_tv_desktop_visit', pwd: 'RR2018' },
+            mobile:  { key: 'rannuan_tv_mobile_visit',  pwd: 'hbds' }
+        };
+        var EXPIRE = 30 * 60 * 1000; // 30 minutes
+
+        // Clear on page refresh
+        var navEntry = performance.getEntriesByType('navigation')[0];
+        if (navEntry && navEntry.type === 'reload') {
+            Object.values(REPOS).forEach(function(r) { sessionStorage.removeItem(r.key); });
+        }
+
+        // Bind click: record visit timestamp
+        document.querySelectorAll('.tv-github-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var repo = this.getAttribute('data-repo');
+                if (repo && REPOS[repo]) {
+                    sessionStorage.setItem(REPOS[repo].key, Date.now());
+                }
+            });
+        });
+
+        // Show password for a specific card
+        function showPassword(repo) {
+            var r = REPOS[repo];
+            if (!r) return;
+            var card = document.querySelector('.tv-download-card.' + (repo === 'desktop' ? 'desktop-card' : 'mobile-card'));
+            if (!card) return;
+            var hint = card.querySelector('.pwd-hint');
+            var reveal = card.querySelector('.pwd-reveal');
+            var txt = card.querySelector('.pwd-text');
+            if (txt) txt.textContent = r.pwd;
+            if (hint) hint.style.display = 'none';
+            if (reveal) reveal.style.display = 'block';
+        }
+
+        // Check each repo on load (user returning from GitHub)
+        Object.keys(REPOS).forEach(function(repo) {
+            var r = REPOS[repo];
+            var ts = sessionStorage.getItem(r.key);
+            if (ts) {
+                if (Date.now() - parseInt(ts, 10) > EXPIRE) {
+                    sessionStorage.removeItem(r.key);
+                } else {
+                    showPassword(repo);
+                }
+            }
+        });
+
+        // Recheck on window focus (user returns from GitHub tab)
+        window.addEventListener('focus', function() {
+            Object.keys(REPOS).forEach(function(repo) {
+                var ts = sessionStorage.getItem(REPOS[repo].key);
+                if (ts && Date.now() - parseInt(ts, 10) <= EXPIRE) {
+                    showPassword(repo);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

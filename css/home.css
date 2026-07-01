@@ -576,7 +576,178 @@
   background-size: 60px 60px;
   pointer-events: none;
 }
-.products-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+
+/* ---- Carousel Banner ---- */
+.showcase-carousel {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 20px 0 30px;
+}
+
+/* Liquid blobs floating behind the carousel */
+.fluid-blobs {
+  position: absolute;
+  inset: -80px -60px;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+.fluid-blob {
+  position: absolute;
+  border-radius: 43% 57% 55% 45% / 48% 45% 55% 52%;
+  filter: blur(50px);
+  opacity: 0.4;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.fluid-blob.blob-1 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, var(--color-primary-light) 0%, transparent 70%);
+  top: -50px; left: -40px;
+  animation: fluidFloat1 9s infinite, fluidMorph 7s infinite;
+}
+.fluid-blob.blob-2 {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, var(--color-accent-light) 0%, transparent 70%);
+  top: 30%; right: -60px;
+  animation: fluidFloat2 10s infinite, fluidMorph 8s infinite;
+}
+.fluid-blob.blob-3 {
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, var(--color-green-light) 0%, transparent 70%);
+  bottom: -60px; left: 35%;
+  animation: fluidFloat3 11s infinite, fluidMorph 9s infinite;
+}
+.fluid-blob.blob-4 {
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, #93b5f0 0%, transparent 70%);
+  top: -40px; right: 25%;
+  animation: fluidFloat4 12s infinite, fluidMorph 6s infinite;
+}
+
+/* Top flowing liquid bar */
+.fluid-flow-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  z-index: 3;
+  background: linear-gradient(90deg,
+    var(--color-primary) 0%, var(--color-accent) 20%, var(--color-green) 40%, #6495ed 60%, var(--color-primary-light) 80%, var(--color-primary) 100%);
+  background-size: 300% 100%;
+  animation: fluidFlowBar 3s linear infinite;
+  opacity: 0.85;
+  box-shadow: 0 0 12px rgba(212,148,58,0.3);
+}
+/* Bottom flowing liquid bar */
+.fluid-flow-bar-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 4px;
+  z-index: 3;
+  background: linear-gradient(90deg,
+    #6495ed 0%, var(--color-green) 20%, var(--color-accent) 40%, var(--color-primary) 60%, #93b5f0 80%, #6495ed 100%);
+  background-size: 300% 100%;
+  animation: fluidFlowBar 3.5s linear infinite reverse;
+  opacity: 0.85;
+  box-shadow: 0 0 12px rgba(100,149,237,0.3);
+}
+
+/* ---- Card Track: Infinite Scroll ---- */
+.showcase-track {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  position: relative;
+  z-index: 1;
+  animation: scrollFluid 35s linear infinite;
+  will-change: transform;
+}
+/* Pause on hover */
+.showcase-carousel:hover .showcase-track {
+  animation-play-state: paused;
+}
+
+/* Cards within track */
+.products-grid,
+.products-fluid-wrapper { display: none; } /* Hide old layout */
+
+.showcase-track .product-showcase {
+  flex-shrink: 0;
+  width: 340px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+}
+.showcase-track .product-showcase:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(212,148,58,0.12);
+  border-color: var(--color-primary-light);
+}
+
+/* Fade edges for smooth entry/exit */
+.showcase-carousel::before,
+.showcase-carousel::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.showcase-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, var(--color-bg) 0%, transparent 100%);
+}
+.showcase-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, var(--color-bg) 0%, transparent 100%);
+}
+
+@keyframes scrollFluid {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fluidFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(180px, -30px) scale(1.18); }
+  66% { transform: translate(60px, 20px) scale(0.92); }
+}
+@keyframes fluidFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-120px, 40px) scale(1.22); }
+  66% { transform: translate(-40px, -20px) scale(0.88); }
+}
+@keyframes fluidFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(140px, -15px) scale(1.15); }
+  66% { transform: translate(-80px, -35px) scale(0.94); }
+}
+@keyframes fluidFloat4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-100px, 25px) scale(1.12); }
+  66% { transform: translate(90px, -18px) scale(0.9); }
+}
+@keyframes fluidMorph {
+  0%, 100% { border-radius: 43% 57% 55% 45% / 48% 45% 55% 52%; }
+  25% { border-radius: 57% 43% 45% 55% / 52% 55% 45% 48%; }
+  50% { border-radius: 50% 50% 40% 60% / 55% 42% 58% 45%; }
+  75% { border-radius: 45% 55% 58% 42% / 42% 50% 50% 58%; }
+}
+@keyframes fluidFlowBar {
+  0% { background-position: 200% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes fluidShimmer {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+}
 
 .product-showcase {
   background: var(--color-surface);
@@ -615,6 +786,7 @@
 .product-showcase.order::after { background: linear-gradient(90deg, transparent, var(--color-primary), transparent); }
 .product-showcase.music::after { background: linear-gradient(90deg, transparent, var(--color-accent), transparent); }
 .product-showcase.epos::after { background: linear-gradient(90deg, transparent, var(--color-green), transparent); }
+.product-showcase.tv::after { background: linear-gradient(90deg, transparent, #6495ed, transparent); }
 .product-showcase:hover::after { left: 100%; }
 /* Bottom glow bar on hover */
 .product-showcase:hover .product-showcase-footer {
@@ -644,12 +816,14 @@
 .product-showcase.order .product-showcase-header::before { background: var(--gradient-warm); }
 .product-showcase.music .product-showcase-header::before { background: var(--gradient-coral); }
 .product-showcase.epos .product-showcase-header::before { background: var(--gradient-green); }
+.product-showcase.tv .product-showcase-header::before { background: linear-gradient(135deg, #6495ed 0%, #93b5f0 100%); }
 
 .showcase-icon { width: 60px; height: 60px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 26px; color: white; margin-bottom: 18px; position: relative; }
 .showcase-icon::after { content: ''; position: absolute; inset: -6px; border-radius: inherit; background: inherit; opacity: 0.25; filter: blur(16px); z-index: -1; }
 .product-showcase.order .showcase-icon { background: var(--gradient-warm); }
 .product-showcase.music .showcase-icon { background: var(--gradient-coral); }
 .product-showcase.epos .showcase-icon { background: var(--gradient-green); }
+.product-showcase.tv .showcase-icon { background: linear-gradient(135deg, #6495ed 0%, #93b5f0 100%); }
 
 .product-showcase h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 4px; }
 .product-showcase .en-name { font-family: var(--font-display); font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 12px; letter-spacing: 0.05em; }
@@ -662,6 +836,7 @@
 .product-showcase.order .showcase-features li i { color: var(--color-primary); }
 .product-showcase.music .showcase-features li i { color: var(--color-accent); }
 .product-showcase.epos .showcase-features li i { color: var(--color-green); }
+.product-showcase.tv .showcase-features li i { color: #6495ed; }
 .showcase-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
 .showcase-tech span { background: var(--color-bg); color: var(--color-text-secondary); padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.76rem; font-weight: 500; border: 1px solid var(--color-border-light); font-family: var(--font-display); }
 .product-showcase-footer { padding: 16px 28px; background: var(--color-bg); display: flex; justify-content: space-between; align-items: center; }
@@ -1001,7 +1176,9 @@
 /* --- Responsive --- */
 @media (max-width: 1200px) {
   .hero-title { font-size: 3.2rem; }
-  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .showcase-track .product-showcase { width: 300px; }
+  .showcase-carousel::before, .showcase-carousel::after { width: 40px; }
+  .fluid-flow-bar, .fluid-flow-bar-bottom { display: none; }
   .hero-orb { width: 240px; height: 240px; }
 }
 @media (max-width: 992px) {
@@ -1019,7 +1196,8 @@
   .hero-subtitle { font-size: 1rem; }
   .hero-buttons { flex-direction: column; align-items: center; }
   .hero-stats { flex-direction: column; gap: 16px; }
-  .products-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .showcase-track .product-showcase { width: 280px; }
+  .showcase-carousel::before, .showcase-carousel::after { width: 24px; }
   .form-row { grid-template-columns: 1fr; }
   .about-float-card { display: none; }
   .hero-scanlines { display: none; }
