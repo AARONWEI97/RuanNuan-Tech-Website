@@ -68,8 +68,10 @@
         </div>
         <div class="faq-group reveal delay-1">
             <h2><i class="fas fa-music" style="color:var(--color-accent)"></i> 冉暖音乐播放器</h2>
-            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">音源解析失效怎么办？<i class="fas fa-chevron-down"></i></div><div class="faq-a">音源接口会不定期更新。请确保App保持最新版本，或在设置中切换备用音源。如遇问题可联系开发者获取最新配置。</div></div>
-            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">下载的歌曲可以导出吗？<i class="fas fa-chevron-down"></i></div><div class="faq-a">下载的歌曲保存在App私有目录中，暂不支持直接导出到系统相册。建议通过歌单同步功能在其他设备上访问。</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">支持哪些音源平台？<i class="fas fa-chevron-down"></i></div><div class="faq-a">支持网易云、QQ音乐、酷狗、酷我、咪咕、波点、GD音乐共 7 大音源平台，支持多策略解析和自动降级切换。</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">音源解析失效怎么办？<i class="fas fa-chevron-down"></i></div><div class="faq-a">内置多策略解析引擎和多音源自动降级切换，单个音源失效自动切换到备用音源。确保App保持最新版本，或在设置中手动切换音源。</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">下载的歌曲可以导出吗？<i class="fas fa-chevron-down"></i></div><div class="faq-a">下载的歌曲保存在App私有目录中，支持打开下载文件夹。IndexedDB 持久化存储，刷新不丢失。下载管理页可查看所有已下载歌曲。</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">桌面版支持哪些系统？<i class="fas fa-chevron-down"></i></div><div class="faq-a">目前支持 Windows 系统。基于 Tauri 2.x 框架，理论上可扩展支持 macOS 和 Linux，如需求大可考虑开发适配。</div></div>
         </div>
         <div class="faq-group reveal delay-2">
             <h2><i class="fas fa-store" style="color:var(--color-green)"></i> 冉暖收银系统</h2>
@@ -88,13 +90,20 @@
             <div class="footer-top">
                 <div class="footer-brand">
                     <a href="index.html" class="nav-logo"><img src="/assets/logo.ico" alt="冉暖科技" style="height:36px;" loading="lazy"><span class="logo-text">冉暖科技</span></a>
-                    <p>用技术创造温暖。专注鞋服零售与音乐领域的软件开发团队。</p>
+                    <p>用技术创造温暖。专注鞋服零售、视频娱乐平台与音乐领域的软件开发团队。</p>
+                    <div class="footer-social">
+                        <a href="javascript:void(0)" onclick="openWechatModal()"><i class="fab fa-weixin"></i></a>
+                        <a href="javascript:void(0)" onclick="openQQModal()"><i class="fab fa-qq"></i></a>
+                        <a href="mailto:aaronwei97@qq.com"><i class="fas fa-envelope"></i></a>
+                    </div>
                 </div>
                 <div class="footer-column"><h4>产品</h4><ul><li><a href="order.html">冉暖订货系统</a></li><li><a href="music.html">冉暖音乐播放器</a></li><li><a href="epos.html">冉暖收银系统</a></li><li><a href="tv.html">冉暖视频播放器</a></li></ul></div>
                 <div class="footer-column"><h4>帮助支持</h4><ul><li><a href="index.html#contact">联系我们</a></li><li><a href="tutorials.html">使用教程</a></li><li><a href="faq.html">常见问题</a></li></ul></div>
                 <div class="footer-column"><h4>了解更多</h4><ul><li><a href="index.html#about">关于我们</a></li><li><a href="changelog.html">更新日志</a></li><li><a href="roadmap.html">功能路线图</a></li></ul></div>
             </div>
-            <div class="footer-bottom"><p>&copy; 2025 冉暖科技 RanNuan Tech <i class="fas fa-paw" style="margin-left:6px;color:var(--color-primary);"></i></p></div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 冉暖科技 RanNuan Tech <i class="fas fa-paw" style="margin-left:6px;color:var(--color-primary);"></i></p>
+                <div class="footer-bottom-links"><a href="privacy.html">隐私政策</a><a href="terms.html">使用条款</a></div>
         </div>
     </footer>
     <button class="back-to-top" aria-label="返回顶部"><i class="fas fa-chevron-up"></i></button>
