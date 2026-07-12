@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/scifi-effects.css">
     <style>
         .new-tag { background: linear-gradient(135deg, #00e5ff, #a78bfa); color: #050914; font-weight: 700 !important; }
     </style>
@@ -55,6 +56,14 @@
         <a href="#contact" onclick="toggleMobileMenu()">联系</a>
     </div>
 
+    <!-- Dynamic Background -->
+    <div class="fluid-bg">
+        <div class="fluid-blob fluid-blob-1"></div>
+        <div class="fluid-blob fluid-blob-2"></div>
+        <div class="fluid-blob fluid-blob-3"></div>
+    </div>
+    <div class="paw-particles"></div>
+
     <!-- Hero -->
     <section class="hero" id="hero">
         <div class="hero-fluid-orbs">
@@ -80,7 +89,7 @@
                     专注鞋服零售、视频娱乐平台与音乐领域的软件开发团队。从AI智能订货到3D宇宙相册音乐播放器，从专卖店收银到视频聚合播放平台，用技术解决真实业务问题。
                 </p>
                 <div class="hero-buttons">
-                    <a href="#products" class="btn btn-primary">
+                    <a href="#products" class="btn btn-primary btn-magnetic btn-ripple">
                         <i class="fas fa-th-large"></i> 了解产品
                     </a>
                     <a href="#about" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3);">
@@ -89,15 +98,15 @@
                 </div>
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <div class="stat-number" data-count="3" data-suffix="">0</div>
+                        <div class="stat-number counter" data-target="3" data-suffix="">0</div>
                         <div class="stat-label">成熟产品</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" data-count="10" data-suffix="+">0</div>
+                        <div class="stat-number counter" data-target="10" data-suffix="+">0</div>
                         <div class="stat-label">技术栈</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" data-count="80" data-suffix="%+">0</div>
+                        <div class="stat-number counter" data-target="80" data-suffix="%+">0</div>
                         <div class="stat-label">效率提升</div>
                     </div>
                 </div>
@@ -106,7 +115,7 @@
                 <div class="hero-orbit hero-orbit-1"></div>
                 <div class="hero-orbit hero-orbit-2"></div>
                 <!-- 3D Card 1: Order -->
-                <a href="order.html" class="product-card-3d card-1">
+                <a href="order.html" class="product-card-3d card-1 card-3d-enhanced card-glow-track">
                     <div class="card-screenshot" style="background-image:url('/assets/screenshot-order.png');"></div>
                     <div class="card-border-anim"></div>
                     <div class="card-tech-grid"></div>
@@ -127,7 +136,7 @@
                     <div class="card-cta"><span>查看详情</span><i class="fas fa-arrow-right"></i></div>
                 </a>
                 <!-- 3D Card 2: Music -->
-                <a href="music.html" class="product-card-3d card-2">
+                <a href="music.html" class="product-card-3d card-2 card-3d-enhanced card-glow-track">
                     <div class="card-screenshot" style="background-image:url('/assets/music/home.png');"></div>
                     <div class="card-border-anim"></div>
                     <div class="card-tech-grid"></div>
@@ -148,7 +157,7 @@
                     <div class="card-cta"><span>查看详情</span><i class="fas fa-arrow-right"></i></div>
                 </a>
                 <!-- 3D Card 3: ePOS -->
-                <a href="epos.html" class="product-card-3d card-3">
+                <a href="epos.html" class="product-card-3d card-3 card-3d-enhanced card-glow-track">
                     <div class="card-screenshot" style="background-image:url('/assets/screenshot-epos.png');"></div>
                     <div class="card-border-anim"></div>
                     <div class="card-tech-grid"></div>
@@ -169,7 +178,7 @@
                     <div class="card-cta"><span>查看详情</span><i class="fas fa-arrow-right"></i></div>
                 </a>
                 <!-- 3D Card 4: TV -->
-                <a href="tv.html" class="product-card-3d card-4">
+                <a href="tv.html" class="product-card-3d card-4 card-3d-enhanced card-glow-track">
                     <div class="card-screenshot" style="background-image:url('/assets/video/home.png');"></div>
                     <div class="card-border-anim"></div>
                     <div class="card-tech-grid"></div>
@@ -208,7 +217,7 @@
 
     <!-- Products Showcase -->
     <section class="section products-section" id="products">
-        <div class="section-header reveal">
+        <div class="section-header reveal reveal-scale">
             <div class="section-badge"><i class="fas fa-paw"></i> 产品矩阵</div>
             <h2 class="section-title">四款产品，覆盖四大场景</h2>
             <p class="section-subtitle">每一款产品都源自真实业务需求，经过反复打磨，只为解决实际问题</p>
@@ -228,7 +237,7 @@
             <!-- Card Track (duplicated for seamless loop) -->
             <div class="showcase-track">
             <!-- Order -->
-            <a href="order.html" class="product-showcase order">
+            <a href="order.html" class="product-showcase order card-3d-enhanced card-glow-track glow-border-warm">
                 <div class="showcase-screenshot" style="background-image:url('/assets/screenshot-order.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-clipboard-list"></i></div>
@@ -252,7 +261,7 @@
                 </div>
             </a>
             <!-- Music -->
-            <a href="music.html" class="product-showcase music">
+            <a href="music.html" class="product-showcase music card-3d-enhanced card-glow-track glow-border-warm">
                 <div class="showcase-screenshot" style="background-image:url('/assets/music/universe.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-headphones"></i></div>
@@ -276,7 +285,7 @@
                 </div>
             </a>
             <!-- ePOS -->
-            <a href="epos.html" class="product-showcase epos">
+            <a href="epos.html" class="product-showcase epos card-3d-enhanced card-glow-track glow-border-warm">
                 <div class="showcase-screenshot" style="background-image:url('/assets/screenshot-epos.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-cash-register"></i></div>
@@ -300,7 +309,7 @@
                 </div>
             </a>
             <!-- RanNuan TV -->
-            <a href="tv.html" class="product-showcase tv">
+            <a href="tv.html" class="product-showcase tv card-3d-enhanced card-glow-track glow-border-warm">
                 <div class="showcase-screenshot" style="background-image:url('/assets/video/home.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-tv"></i></div>
@@ -324,7 +333,7 @@
                 </div>
             </a>
             <!-- Duplicate for seamless loop -->
-            <a href="order.html" class="product-showcase order" aria-hidden="true">
+            <a href="order.html" class="product-showcase order card-3d-enhanced card-glow-track glow-border-warm" aria-hidden="true">
                 <div class="showcase-screenshot" style="background-image:url('/assets/screenshot-order.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-clipboard-list"></i></div>
@@ -347,7 +356,7 @@
                     <span class="product-status stable">稳定运营</span>
                 </div>
             </a>
-            <a href="music.html" class="product-showcase music" aria-hidden="true">
+            <a href="music.html" class="product-showcase music card-3d-enhanced card-glow-track glow-border-warm" aria-hidden="true">
                 <div class="showcase-screenshot" style="background-image:url('/assets/music/universe.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-headphones"></i></div>
@@ -370,7 +379,7 @@
                     <span class="product-status dev">桌面版已发布</span>
                 </div>
             </a>
-            <a href="epos.html" class="product-showcase epos" aria-hidden="true">
+            <a href="epos.html" class="product-showcase epos card-3d-enhanced card-glow-track glow-border-warm" aria-hidden="true">
                 <div class="showcase-screenshot" style="background-image:url('/assets/screenshot-epos.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-cash-register"></i></div>
@@ -393,7 +402,7 @@
                     <span class="product-status dev">快速迭代</span>
                 </div>
             </a>
-            <a href="tv.html" class="product-showcase tv" aria-hidden="true">
+            <a href="tv.html" class="product-showcase tv card-3d-enhanced card-glow-track glow-border-warm" aria-hidden="true">
                 <div class="showcase-screenshot" style="background-image:url('/assets/video/home.png');"></div>
                 <div class="product-showcase-header">
                     <div class="showcase-icon"><i class="fas fa-tv"></i></div>
@@ -424,7 +433,7 @@
     <section class="section about-section" id="about">
         <div class="blob-3"></div>
         <div class="about-inner">
-            <div class="about-content reveal reveal-left">
+            <div class="about-content reveal reveal-left reveal-delay-1">
                 <div class="section-badge"><i class="fas fa-paw"></i> 关于我们</div>
                 <h2>冉暖科技<br>用技术创造温暖</h2>
                 <p>我是一名独立开发者，目前在某国产运动品牌担任商品运营工作。因为日常工作中遇到的各种痛点，我开始利用业余时间开发解决实际问题的软件工具。</p>
@@ -437,7 +446,7 @@
                     <div class="value-tag"><i class="fas fa-check-circle"></i> 真诚服务用户</div>
                 </div>
             </div>
-            <div class="about-visual reveal reveal-right">
+            <div class="about-visual reveal reveal-right reveal-delay-2">
                 <div class="about-image">
                     <div class="logo-wrap">
                         <div class="logo-ring"></div>
@@ -459,7 +468,7 @@
     <!-- Contact -->
     <section class="section contact-section" id="contact">
         <div class="contact-inner">
-            <div class="contact-info reveal reveal-left">
+            <div class="contact-info reveal reveal-left reveal-delay-1">
                 <h2>联系我们</h2>
                 <p>有任何问题、建议或合作意向，欢迎随时联系。通常在24小时内响应。</p>
                 <div class="contact-details">
@@ -481,7 +490,7 @@
                     </div>
                 </div>
             </div>
-            <div class="contact-form reveal reveal-right">
+            <div class="contact-form reveal reveal-right reveal-delay-2">
                 <h3><i class="fas fa-paw" style="margin-right:10px;"></i>留言咨询</h3>
                 <form id="contactForm" action="https://formsubmit.co/249861749@qq.com" method="POST">
                     <input type="hidden" name="_subject" value="冉暖科技 - 新留言咨询">
@@ -580,5 +589,6 @@
 
     <script src="js/main.js"></script>
     <script src="js/home.js"></script>
+    <script src="js/scifi-animations.js"></script>
 </body>
 </html>
