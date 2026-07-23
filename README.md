@@ -7,7 +7,7 @@
 
 ## 在线预览
 
-[https://rannuan.tech](https://rannuan.tech) *(请替换为实际域名)*
+[[https://rannuan.tech](https://ranuan.netlify.app/)](https://ranuan.netlify.app/) 
 
 ## 项目简介
 
