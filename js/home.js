@@ -21,9 +21,26 @@
     var ctx = canvas.getContext('2d');
     var nodes = [];
     var paws = [];
-    var maxNodes = 50;
+    var travelers = [];   // 沿连线流动的脉冲光点
+    var isMobile = window.innerWidth < 768;
+    var maxNodes = isMobile ? 34 : 88;
     var maxPaws = 12;
-    var connectDist = 150;
+    var connectDist = 165;
+    var time = 0;
+
+    // 鼠标引力场
+    var mouse = { x: -9999, y: -9999 };
+    var hero = canvas.parentElement;
+    if (hero) {
+      hero.addEventListener('mousemove', function (e) {
+        var rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      }, { passive: true });
+      hero.addEventListener('mouseleave', function () {
+        mouse.x = -9999; mouse.y = -9999;
+      });
+    }
 
     function resize() {
       canvas.width = canvas.parentElement.offsetWidth;
@@ -41,8 +58,16 @@
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
         r: 1.2 + Math.random() * 1.5,
-        opacity: 0.2 + Math.random() * 0.4
+        opacity: 0.2 + Math.random() * 0.4,
+        phase: Math.random() * Math.PI * 2   // 呼吸相位
       });
+    }
+
+    // 脉冲光点：在两个已连接的节点间流动
+    function spawnTraveler(a, b) {
+      if (travelers.length >= 8) return;
+      var hue = Math.random() < 0.6 ? '212,148,58' : '240,107,94';
+      travelers.push({ a: a, b: b, t: 0, speed: 0.008 + Math.random() * 0.012, hue: hue });
     }
 
     // Draw a paw shape
@@ -96,41 +121,83 @@
     }
 
     function animate() {
+      time += 0.016;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Spawn
-      if (Math.random() < 0.06 && nodes.length < maxNodes) spawnNode();
+      if (Math.random() < 0.08 && nodes.length < maxNodes) spawnNode();
       if (Math.random() < 0.02) spawnPaw();
 
       // Update & draw nodes
       nodes.forEach(function (n) {
+        // 鼠标引力：靠近的节点被温柔吸引，星座网产生呼吸般的聚拢
+        var dxm = mouse.x - n.x, dym = mouse.y - n.y;
+        var dm = Math.sqrt(dxm * dxm + dym * dym);
+        if (dm < 220 && dm > 0.1) {
+          var f = (1 - dm / 220) * 0.014;
+          n.vx += (dxm / dm) * f;
+          n.vy += (dym / dm) * f;
+        }
+        // 阻尼 + 最低漂移速度，防止粒子静止
+        n.vx *= 0.985;
+        n.vy *= 0.985;
+        if (Math.abs(n.vx) < 0.04) n.vx += (Math.random() - 0.5) * 0.02;
+        if (Math.abs(n.vy) < 0.04) n.vy += (Math.random() - 0.5) * 0.02;
+
         n.x += n.vx;
         n.y += n.vy;
         if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
         if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
 
+        // 呼吸脉动
+        var pulse = 0.7 + Math.sin(time * 1.8 + n.phase) * 0.3;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(212,148,58,' + n.opacity + ')';
+        ctx.arc(n.x, n.y, n.r * (0.8 + pulse * 0.4), 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(212,148,58,' + (n.opacity * pulse) + ')';
         ctx.fill();
       });
 
-      // Draw connections
+      // Draw connections（琥珀主线 + 偶发珊瑚色连线）
       for (var i = 0; i < nodes.length; i++) {
         for (var j = i + 1; j < nodes.length; j++) {
           var dx = nodes[i].x - nodes[j].x;
           var dy = nodes[i].y - nodes[j].y;
           var dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < connectDist) {
-            var alpha = (1 - dist / connectDist) * 0.12;
+            var alpha = (1 - dist / connectDist) * 0.13;
+            var coral = ((i * 31 + j * 17) % 7) === 0;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = 'rgba(212,148,58,' + alpha + ')';
+            ctx.strokeStyle = coral
+              ? 'rgba(240,107,94,' + (alpha * 0.9) + ')'
+              : 'rgba(212,148,58,' + alpha + ')';
             ctx.lineWidth = 0.6;
             ctx.stroke();
+
+            // 低概率在该连线上生成流动光点
+            if (Math.random() < 0.0012 && travelers.length < 8) {
+              spawnTraveler(nodes[i], nodes[j]);
+            }
           }
         }
+      }
+
+      // 脉冲光点沿连线流动（发光小球）
+      for (var k = travelers.length - 1; k >= 0; k--) {
+        var tr = travelers[k];
+        tr.t += tr.speed;
+        if (tr.t >= 1) { travelers.splice(k, 1); continue; }
+        var tx = tr.a.x + (tr.b.x - tr.a.x) * tr.t;
+        var ty = tr.a.y + (tr.b.y - tr.a.y) * tr.t;
+        var glow = Math.sin(tr.t * Math.PI); // 两端淡入淡出
+        ctx.beginPath();
+        ctx.arc(tx, ty, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + tr.hue + ',' + (0.55 * glow) + ')';
+        ctx.shadowColor = 'rgba(' + tr.hue + ',0.8)';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
       }
 
       // Update & draw paws
@@ -155,8 +222,9 @@
       requestAnimationFrame(animate);
     }
 
-    // Initial nodes
-    for (var i = 0; i < 30; i++) spawnNode();
+    // Initial nodes（直接铺满 70%，剩余由动画逐渐生成）
+    var initialCount = Math.floor(maxNodes * 0.7);
+    for (var i = 0; i < initialCount; i++) spawnNode();
     // Initial paws
     for (var j = 0; j < 4; j++) {
       paws.push({
