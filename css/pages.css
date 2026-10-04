@@ -1,0 +1,451 @@
+/* ============================
+   冉暖科技 RanNuan Tech
+   Content Pages — 使用教程 / 常见问题 / 更新日志 / 功能路线图
+   仅这四个页面加载（tutorials / faq / changelog / roadmap）
+   依赖 css/style.css 中的设计令牌，不重复定义通用组件与 .section
+   ============================ */
+
+/* --- 页面头部区 --- */
+.page-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  padding: calc(var(--nav-height, 72px) + var(--space-xl)) 24px var(--space-xl);
+  text-align: center;
+  background: var(--gradient-hero);
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 100%, var(--color-primary-20) 0%, transparent 60%);
+  pointer-events: none;
+}
+/* 熔金科技：琥珀蓝图网格（自底部向上升腾渐隐，呼应首页产品矩阵） */
+.page-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(232,184,109,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,184,109,0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 90% at 50% 100%, #000 20%, transparent 75%);
+          mask-image: radial-gradient(ellipse 80% 90% at 50% 100%, #000 20%, transparent 75%);
+  pointer-events: none;
+}
+.page-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+}
+.page-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 6px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-primary-light);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.page-hero-title {
+  margin-bottom: 12px;
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: var(--color-dark-text);
+}
+.page-hero-desc {
+  color: var(--color-dark-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* --- 内容外壳 --- */
+.page-content {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--space-2xl) 24px var(--space-3xl);
+}
+.page-content-narrow { max-width: 880px; }
+
+/* --- 正文排版（行宽上限 75ch） --- */
+.prose {
+  max-width: 75ch;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+/* --- 图标语义色（替代原内联 style="color:…"） --- */
+.icon-primary { color: var(--color-primary); }
+.icon-primary-dark { color: var(--color-primary-dark); }
+.icon-accent { color: var(--color-accent); }
+.icon-green { color: var(--color-green); }
+
+/* --- 使用教程 --- */
+.tutorial-category { margin-bottom: 56px; }
+.tutorial-category:last-child { margin-bottom: 0; }
+.tutorial-category h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+.tutorial-category h2 i { font-size: 1.1rem; }
+.tutorial-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.tutorial-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  transition: transform 0.4s var(--ease-out-expo), border-color 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+}
+.tutorial-step:hover {
+  transform: translateX(4px);
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-md);
+}
+.step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-10);
+  color: var(--color-primary-ink);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.tutorial-step-body h3 {
+  margin-bottom: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.tutorial-step-body p {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+/* --- 常见问题（原生 details/summary，无需 JS） --- */
+.faq-group { margin-bottom: 48px; }
+.faq-group:last-child { margin-bottom: 0; }
+.faq-group[id] { scroll-margin-top: 96px; }
+.faq-group h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+.faq-group h2 i { font-size: 1.05rem; }
+.faq-item {
+  margin-bottom: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+}
+.faq-item:hover { box-shadow: var(--shadow-md); }
+.faq-item[open] { border-color: var(--color-primary-light); }
+.faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q i {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  transition: transform 0.35s var(--ease-out-expo);
+}
+.faq-item[open] .faq-q i { transform: rotate(180deg); }
+.faq-a {
+  padding: 0 22px 18px;
+  color: var(--color-text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+/* --- 更新日志：产品筛选（交互由 js/pages.js 提供，本页单独加载） --- */
+.changelog-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+.changelog-filter-btn {
+  padding: 8px 18px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.3s var(--ease-out-expo), color 0.3s var(--ease-out-expo), border-color 0.3s var(--ease-out-expo);
+}
+.changelog-filter-btn:hover {
+  background: var(--color-primary-10);
+  border-color: var(--color-primary-light);
+  color: var(--color-primary-ink);
+}
+.changelog-filter-btn[aria-pressed="true"] {
+  background: var(--color-primary-ink);
+  border-color: var(--color-primary-ink);
+  color: white;
+}
+
+/* --- 更新日志时间线 --- */
+.timeline { position: relative; }
+.timeline-item {
+  position: relative;
+  padding: 0 0 32px 32px;
+  border-left: 2px solid var(--color-border-light);
+}
+.timeline-item:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-surface);
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-20);
+}
+.timeline-item[data-product="music"]::before {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-10);
+}
+.timeline-item[data-product="epos"]::before {
+  background: var(--color-green);
+  box-shadow: 0 0 0 2px var(--color-green-10);
+}
+.timeline-date {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.timeline-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.timeline-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.timeline-badge-new {
+  background: var(--color-accent-10);
+  color: var(--color-accent-ink);
+}
+.timeline-badge-fix {
+  background: var(--color-primary-10);
+  color: var(--color-primary-ink);
+}
+.timeline-item ul { margin-top: 2px; }
+.timeline-item li {
+  position: relative;
+  margin-bottom: 6px;
+  padding-left: 18px;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+.timeline-item li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-green);
+}
+
+/* --- 功能路线图 --- */
+.roadmap-intro {
+  max-width: 62ch;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.roadmap-card {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+}
+/* 顶部状态条：基类即「进行中」，done / todo 为两个修饰态 */
+.roadmap-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--color-primary);
+}
+.roadmap-card[data-status="done"]::before { background: var(--color-green); }
+.roadmap-card[data-status="todo"]::before { background: var(--color-border); }
+.roadmap-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.roadmap-card h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+.roadmap-card h2 i { font-size: 1rem; }
+/* 状态徽标：基类即「进行中」，done / todo 为两个修饰态 */
+.roadmap-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-10);
+  color: var(--color-primary-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.roadmap-status[data-status="done"] {
+  background: var(--color-green-10);
+  color: var(--color-green-ink);
+}
+.roadmap-status[data-status="todo"] {
+  background: var(--color-bg-alt);
+  color: var(--color-text-secondary);
+}
+.roadmap-period {
+  margin-bottom: 16px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.roadmap-list { margin-top: 2px; }
+.roadmap-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+.roadmap-list li:last-child { border-bottom: none; }
+.roadmap-list li i {
+  flex-shrink: 0;
+  margin-top: 5px;
+  color: var(--color-primary);
+  font-size: 0.7rem;
+}
+.roadmap-card[data-status="done"] .roadmap-list li i { color: var(--color-green); }
+.roadmap-card[data-status="todo"] .roadmap-list li i { color: var(--color-text-muted); }
+
+/* --- 响应式：与 style.css 保持 992 / 768 / 480 三段 --- */
+@media (max-width: 992px) {
+  .page-hero { min-height: 36vh; }
+  .page-hero-title { font-size: 2.2rem; }
+  .roadmap-grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    min-height: 32vh;
+    padding: calc(var(--nav-height, 72px) + var(--space-lg)) 16px var(--space-lg);
+  }
+  .page-hero-title { font-size: 1.9rem; }
+  .page-hero-desc { font-size: 0.98rem; }
+  .page-content { padding: var(--space-xl) 16px var(--space-2xl); }
+  .tutorial-list { grid-template-columns: 1fr; }
+  .tutorial-category { margin-bottom: 40px; }
+  .timeline-item { padding-left: 26px; }
+  .roadmap-intro { margin-bottom: 32px; }
+}
+
+@media (max-width: 480px) {
+  .page-hero-title { font-size: 1.65rem; }
+  .page-hero-badge { font-size: 0.78rem; }
+  .tutorial-step { padding: 16px; }
+  .faq-q {
+    padding: 16px 18px;
+    font-size: 0.92rem;
+  }
+  .faq-a { padding: 0 18px 16px; }
+  .timeline-item { padding-left: 20px; }
+  .timeline-title { font-size: 1rem; }
+  .roadmap-card { padding: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tutorial-step:hover,
+  .roadmap-card:hover { transform: none; }
+}

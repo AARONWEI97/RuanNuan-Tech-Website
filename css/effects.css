@@ -1,0 +1,658 @@
+/* ============================================
+   冉暖科技 RanNuan Tech — 全站特效层 effects.css
+   ---------------------------------------------------------------
+   本文件由原 css/scifi-effects.css + css/enhanced-effects.css 合并而来，
+   并按 UPGRADE-CONTRACT §6 重写：
+
+   1. 命名空间：全部类以 fx- 前缀，或挂在文档化宿主类
+      （.hero / .product-hero / .nav-links a / .btn）之下。
+   2. 不再定义裸 .fluid-blob（B9）→ .fx-fluid-bg .fx-fluid-blob。
+   3. 不再对 .product-showcase / .card-3d-enhanced 写 ::before（B10）。
+   4. 动画/过渡只使用 transform / opacity（filter 仅静态）。
+   5. 每个 @keyframes 都在 prefers-reduced-motion: reduce 下有关闭规则。
+   6. 已彻底移除 body.fx-boot 整页 opacity 淡入（会延迟内容可见，属反模式）。
+
+   本层提供的可选装饰类（HTML 可直接使用）：
+   .fx-sweep .fx-float(.fx-float-slow/.fx-float-delay) .fx-pulse-ring
+   .fx-magnetic（需 effects.js） .fx-ripple（需 effects.js）
+   .fx-tilt（或 data-tilt） .fx-flow-divider .fx-glow-track 不提供（已废弃）
+   ============================================ */
+
+/* --------------------------------------------
+   1. 顶部滚动进度条 — 暖金→珊瑚流光
+   （JS 只写 transform: scaleX()；内部高光用 transform 平移，避免 background-position 动画）
+   -------------------------------------------- */
+.fx-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 1001;
+  pointer-events: none;
+  overflow: hidden;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #D4943A 0%, #E8B86D 35%, #F06B5E 70%, #F4928A 100%);
+  box-shadow: 0 0 12px rgba(212, 148, 58, 0.55), 0 0 4px rgba(240, 107, 94, 0.4);
+}
+.fx-scroll-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 32%;
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0));
+  animation: fxProgressSheen 2.6s linear infinite;
+}
+@keyframes fxProgressSheen {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(420%); }
+}
+
+/* --------------------------------------------
+   2. 全局鼠标光晕 — 柔和暖光跟随（JS lerp 平滑）
+   -------------------------------------------- */
+.fx-cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 520px;
+  height: 520px;
+  margin: -260px 0 0 -260px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle,
+    rgba(232, 184, 109, 0.10) 0%,
+    rgba(212, 148, 58, 0.06) 32%,
+    transparent 65%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.fx-cursor-glow.fx-on { opacity: 1; }
+/* 深色区域（hero / product-hero / footer）上切换为提亮模式 */
+.fx-cursor-glow.fx-on-dark {
+  mix-blend-mode: screen;
+  background: radial-gradient(circle,
+    rgba(232, 184, 109, 0.16) 0%,
+    rgba(212, 148, 58, 0.08) 32%,
+    transparent 65%);
+}
+
+/* --------------------------------------------
+   3. 鼠标粒子拖尾 Canvas（触屏禁用，由 effects.js 注入）
+   -------------------------------------------- */
+#fx-trail-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.9;
+}
+
+/* --------------------------------------------
+   4. 全站流体背景层（effects.js 注入；滚动时整体轻漂移）
+   -------------------------------------------- */
+.fx-fluid-bg {
+  position: fixed;
+  inset: -10%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fx-fluid-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.4;
+  animation: fxBlobDrift 24s ease-in-out infinite;
+}
+.fx-fluid-blob.b1 {
+  width: 55vmax; height: 55vmax;
+  background: radial-gradient(circle, rgba(212, 148, 58, 0.20), transparent 65%);
+  top: -18%; right: -12%;
+}
+.fx-fluid-blob.b2 {
+  width: 45vmax; height: 45vmax;
+  background: radial-gradient(circle, rgba(123, 174, 127, 0.16), transparent 65%);
+  bottom: -15%; left: -10%;
+  animation-delay: -8s;
+}
+.fx-fluid-blob.b3 {
+  width: 38vmax; height: 38vmax;
+  background: radial-gradient(circle, rgba(240, 107, 94, 0.13), transparent 65%);
+  top: 40%; left: 45%;
+  animation-delay: -16s;
+}
+@keyframes fxBlobDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(4%, -3%) scale(1.08); }
+  50%      { transform: translate(2%, 4%) scale(0.94); }
+  75%      { transform: translate(-3%, 2%) scale(1.05); }
+}
+
+/* --------------------------------------------
+   5. 爪印粒子飘浮（effects.js 注入容器与粒子，颜色由 --fx-paw-color 控制）
+   说明：容器 opacity 已压低，避免干扰正文可读性
+   -------------------------------------------- */
+.fx-paw-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.fx-paw-particle {
+  position: absolute;
+  bottom: -60px;
+  width: 22px;
+  height: 22px;
+  opacity: 0;
+  animation: fxPawFloat 15s linear infinite;
+}
+.fx-paw-particle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--fx-paw-color, #D4943A);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cellipse cx='14' cy='17' rx='7' ry='8.5' fill='%23000'/%3E%3Ccircle cx='6' cy='8' r='3.2' fill='%23000'/%3E%3Ccircle cx='10.5' cy='4.5' r='3' fill='%23000'/%3E%3Ccircle cx='17.5' cy='4.5' r='3' fill='%23000'/%3E%3Ccircle cx='22' cy='8' r='3.2' fill='%23000'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cellipse cx='14' cy='17' rx='7' ry='8.5' fill='%23000'/%3E%3Ccircle cx='6' cy='8' r='3.2' fill='%23000'/%3E%3Ccircle cx='10.5' cy='4.5' r='3' fill='%23000'/%3E%3Ccircle cx='17.5' cy='4.5' r='3' fill='%23000'/%3E%3Ccircle cx='22' cy='8' r='3.2' fill='%23000'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+@keyframes fxPawFloat {
+  0%   { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
+  10%  { opacity: 0.45; }
+  90%  { opacity: 0.45; }
+  100% { transform: translateY(-115vh) rotate(320deg) scale(1); opacity: 0; }
+}
+
+/* --------------------------------------------
+   6. 通用 3D 倾斜（data-tilt / .fx-tilt）
+   最大角度取 data-tilt 值；transform 由 effects.js 写入。
+   注意：will-change 只在倾斜进行中出现（契约 §9.6）；永久 will-change 已移除。
+   -------------------------------------------- */
+[data-tilt],
+.fx-tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fx-tilt-active {
+  transition: transform 0.08s linear,
+              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+/* 倾斜时可选抬升的子元素 */
+.fx-tilt-lift { transform: translateZ(28px); }
+
+/* 倾斜卡片上的动态光泽（跟随鼠标） */
+.fx-tilt-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(600px circle at var(--fx-shine-x, 50%) var(--fx-shine-y, 50%),
+    rgba(255, 255, 255, 0.22), rgba(232, 184, 109, 0.08) 35%, transparent 55%);
+}
+.fx-tilt-active .fx-tilt-shine { opacity: 1; }
+
+/* --------------------------------------------
+   7. 流光扫过（hover 时一道暖光斜扫过容器）
+   -------------------------------------------- */
+.fx-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.fx-sweep::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 55%;
+  height: 120%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.14) 35%,
+    rgba(232, 184, 109, 0.22) 50%,
+    rgba(255, 255, 255, 0.14) 65%,
+    transparent 100%);
+  transform: translateX(-140%) skewX(-18deg);
+  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.fx-sweep:hover::before,
+.fx-sweep:focus-visible::before,
+.fx-sweep:focus-within::before { transform: translateX(240%) skewX(-18deg); }
+
+/* --------------------------------------------
+   8. 缓慢浮动装饰（.fx-float / -slow / -delay）
+   -------------------------------------------- */
+.fx-float { animation: fxFloat 7s ease-in-out infinite; }
+.fx-float-slow { animation-duration: 11s; }
+.fx-float-delay { animation-delay: -3.5s; }
+@keyframes fxFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%      { transform: translateY(-12px) rotate(1.5deg); }
+  66%      { transform: translateY(-5px) rotate(-1deg); }
+}
+
+/* --------------------------------------------
+   9. 图标/徽章脉冲光环
+   -------------------------------------------- */
+.fx-pulse-ring { position: relative; }
+.fx-pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  border: 2px solid rgba(212, 148, 58, 0.45);
+  pointer-events: none;
+  animation: fxPulseRing 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes fxPulseRing {
+  0%        { transform: scale(0.92); opacity: 0.8; }
+  70%, 100% { transform: scale(1.18); opacity: 0; }
+}
+
+/* --------------------------------------------
+   10. 磁吸按钮 .fx-magnetic（需 effects.js）
+   位移由 --fx-mx / --fx-my（无单位数值，0–100）驱动，最大 ±20px。
+   用独立的 translate 属性而非 transform，避免覆盖 .btn:hover 的位移与
+   .reveal 的入场 transform（两者可叠加）。
+   -------------------------------------------- */
+.fx-magnetic {
+  translate: calc((var(--fx-mx, 50) - 50) * 0.4px) calc((var(--fx-my, 50) - 50) * 0.4px);
+  transition: translate 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fx-magnetic.fx-magnetic-active { transition: translate 0.12s linear; }
+
+/* --------------------------------------------
+   11. 点击涟漪 .fx-ripple（需 effects.js）
+   一次性 .fx-ripple-wave 元素，动画结束由 JS 移除，不泄漏节点。
+   -------------------------------------------- */
+.fx-ripple {
+  position: relative;
+  overflow: hidden;
+}
+.fx-ripple-wave {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0) 70%);
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: fxRippleOut 620ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes fxRippleOut {
+  0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+/* --------------------------------------------
+   12. 区块标题字符动画（effects.js 仅在标题无子元素时拆分）
+   -------------------------------------------- */
+.fx-title-chars { position: relative; }
+.fx-title-chars .fx-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(26px) rotateX(-55deg);
+  transform-origin: 50% 100%;
+}
+.fx-title-chars.fx-chars-in .fx-char {
+  animation: fxCharIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--fx-ci, 0) * 0.035s);
+}
+@keyframes fxCharIn {
+  0%   { opacity: 0; transform: translateY(26px) rotateX(-55deg); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) rotateX(0); }
+}
+/* 标题下方暖色流体下划线（scaleX 展开，不用 width 过渡） */
+.fx-title-chars::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 3px;
+  margin: 14px auto 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, #D4943A, #F06B5E, transparent);
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+}
+.fx-title-chars.fx-chars-in::after { transform: scaleX(1); }
+
+/* --------------------------------------------
+   13. 区块间流体衔接过渡带
+   -------------------------------------------- */
+.fx-flow-divider {
+  position: relative;
+  height: 90px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fx-flow-divider::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    var(--fx-flow-from, rgba(212, 148, 58, 0)) 0%,
+    var(--fx-flow-mid, rgba(212, 148, 58, 0.05)) 50%,
+    var(--fx-flow-to, rgba(212, 148, 58, 0)) 100%);
+  animation: fxFlowBreathe 6s ease-in-out infinite;
+}
+@keyframes fxFlowBreathe {
+  0%, 100% { opacity: 0.5; transform: scaleY(1); }
+  50%      { opacity: 1; transform: scaleY(1.15); }
+}
+
+/* --------------------------------------------
+   14. Hero 顶部微光呼吸
+   用 JS 注入的 .fx-hero-glow 元素承载，避免与 home.css 的 .hero::before/::after、
+   product.css 的 .product-hero::before/::after 抢同一个伪元素。
+   -------------------------------------------- */
+.hero > .fx-hero-glow,
+.product-hero > .fx-hero-glow {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  width: 70%;
+  height: 50%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse, rgba(232, 184, 109, 0.07) 0%, transparent 65%);
+  animation: fxHeroTopGlow 9s ease-in-out infinite;
+}
+@keyframes fxHeroTopGlow {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scaleX(1); }
+  50%      { opacity: 1; transform: translateX(-50%) scaleX(1.12); }
+}
+
+/* 产品页 Hero 注入的粒子画布（z-index 0，位于内容层之下） */
+.fx-hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* --------------------------------------------
+   15. 按钮悬停增强 — 暖光斑跟随鼠标（--fx-bx / --fx-by）
+   叠加在既有 .btn 背景之上，soft-light 混合保证按钮文字对比度不被冲淡。
+   -------------------------------------------- */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  background: radial-gradient(circle 120px at var(--fx-bx, 50%) var(--fx-by, 50%),
+    rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%);
+  transition: opacity 0.35s ease;
+}
+.btn:hover::after,
+.btn:focus-visible::after { opacity: 1; }
+
+/* --------------------------------------------
+   16. 导航链接悬停微光点（挂在文档化宿主类 .nav-links a 下）
+   -------------------------------------------- */
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(212, 148, 58, 0.65);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-14px, -50%);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+.nav-links a:hover::before,
+.nav-links a:focus-visible::before,
+.nav-links a.active::before { opacity: 1; transform: translate(6px, -50%); }
+
+/* --------------------------------------------
+   17. 响应式与动效降级
+   -------------------------------------------- */
+@media (max-width: 768px) {
+  .fx-cursor-glow,
+  #fx-trail-canvas { display: none; }
+  .fx-scroll-progress { height: 2px; }
+  .fx-fluid-blob { filter: blur(50px); opacity: 0.28; }
+  .fx-paw-particles { opacity: 0.35; }
+  .fx-title-chars::after { margin-top: 10px; }
+}
+
+/* prefers-reduced-motion：关闭本文件全部 @keyframes 动画，
+   并把“默认隐藏、靠动画显现”的元素直接还原为可见 */
+@media (prefers-reduced-motion: reduce) {
+  .fx-scroll-progress::after,
+  .fx-fluid-blob,
+  .fx-paw-particle,
+  .fx-float,
+  .fx-float-slow,
+  .fx-float-delay,
+  .fx-pulse-ring::after,
+  .fx-title-chars.fx-chars-in .fx-char,
+  .hero > .fx-hero-glow,
+  .product-hero > .fx-hero-glow,
+  .fx-flow-divider::before,
+  .fx-ripple-wave {
+    animation: none !important;
+  }
+  .fx-title-chars .fx-char { opacity: 1 !important; transform: none !important; }
+  .fx-title-chars::after { transform: scaleX(1); transition: none; }
+  .fx-magnetic,
+  .fx-magnetic.fx-magnetic-active { translate: none; transition: none; }
+  .fx-tilt,
+  .fx-tilt-active,
+  [data-tilt] { transition: none; will-change: auto; }
+  .fx-tilt-shine { display: none; }
+  .fx-sweep::before { transform: translateX(-140%) skewX(-18deg); transition: none; }
+}
+
+/* ============================================================
+   熔金科技 Molten Tech · 深色科技特效层（2026-10-04 设计决策）
+   18. 蓝图网格 / 19. 扫描光束 / 20. 深色玻璃拟态 /
+   21. 科技角括号 / 22. 流光过渡带 / 23. 错步揭示
+   发光色严格使用品牌琥珀金；深色一律用暖棕黑 --color-ink-*。
+   ============================================================ */
+
+/* --------------------------------------------
+   18. 蓝图网格（fx-blueprint）：细线 + 主线双层网格，径向渐隐
+   用法：作为深色区块的绝对定位背景层（aria-hidden）
+   -------------------------------------------- */
+.fx-blueprint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(232,184,109,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,184,109,0.055) 1px, transparent 1px),
+    linear-gradient(rgba(232,184,109,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,184,109,0.1) 1px, transparent 1px);
+  background-size: 36px 36px, 36px 36px, 180px 180px, 180px 180px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, #000 30%, transparent 78%);
+}
+/* 网格呼吸微光 */
+.fx-blueprint::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(232,184,109,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,184,109,0.05) 1px, transparent 1px);
+  background-size: 180px 180px;
+  animation: fxBlueprintPulse 6s ease-in-out infinite;
+}
+@keyframes fxBlueprintPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* --------------------------------------------
+   19. 扫描光束（fx-scanbeam）：横向掠过的琥珀光束
+   用法：深色区块内的绝对定位元素（aria-hidden）
+   -------------------------------------------- */
+.fx-scanbeam {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 0;
+  height: 120px;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(212,148,58,0.02) 30%,
+    rgba(232,184,109,0.09) 50%,
+    rgba(212,148,58,0.02) 70%,
+    transparent 100%);
+  filter: blur(1px);
+  animation: fxScanbeam 9s var(--ease-smooth, cubic-bezier(0.4,0,0.2,1)) infinite;
+}
+@keyframes fxScanbeam {
+  0% { transform: translateY(-160px); opacity: 0; }
+  12% { opacity: 1; }
+  55% { opacity: 1; }
+  70%, 100% { transform: translateY(110vh); opacity: 0; }
+}
+
+/* --------------------------------------------
+   20. 深色玻璃拟态（fx-glass-dark）
+   -------------------------------------------- */
+.fx-glass-dark {
+  background: var(--glass-dark-bg, rgba(245,237,223,0.045));
+  border: 1px solid var(--glass-dark-border, rgba(232,184,109,0.14));
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+}
+
+/* --------------------------------------------
+   21. 科技角括号（fx-corners）：四角 L 型描边，蓝图装饰
+   父元素需 position:relative；颜色默认琥珀发丝线
+   -------------------------------------------- */
+.fx-corners { position: relative; }
+.fx-corners::before,
+.fx-corners::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  opacity: 0.55;
+  transition: opacity 0.35s ease, width 0.35s var(--ease-out-expo, ease), height 0.35s var(--ease-out-expo, ease);
+}
+.fx-corners::before {
+  top: -1px; left: -1px;
+  border-top: 1.5px solid var(--hairline-amber-strong, rgba(232,184,109,0.32));
+  border-left: 1.5px solid var(--hairline-amber-strong, rgba(232,184,109,0.32));
+  border-top-left-radius: 6px;
+}
+.fx-corners::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 1.5px solid var(--hairline-amber-strong, rgba(232,184,109,0.32));
+  border-right: 1.5px solid var(--hairline-amber-strong, rgba(232,184,109,0.32));
+  border-bottom-right-radius: 6px;
+}
+.fx-corners:hover::before,
+.fx-corners:hover::after { opacity: 1; width: 26px; height: 26px; }
+
+/* --------------------------------------------
+   22. 流光过渡带（fx-glowline）：深浅区块衔接的 1px 流光线
+   -------------------------------------------- */
+.fx-glowline {
+  position: relative;
+  height: 1px;
+  margin: 0;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(212,148,58,0.12) 20%,
+    rgba(232,184,109,0.55) 50%,
+    rgba(212,148,58,0.12) 80%,
+    transparent 100%);
+  overflow: visible;
+}
+.fx-glowline::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0;
+  width: 120px; height: 3px;
+  transform: translateY(-50%);
+  border-radius: 3px;
+  background: radial-gradient(ellipse at center, rgba(232,184,109,0.8), transparent 70%);
+  filter: blur(1px);
+  animation: fxGlowlineTravel 5s linear infinite;
+}
+@keyframes fxGlowlineTravel {
+  0% { left: -120px; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* --------------------------------------------
+   23. 错步揭示（fx-stagger）：容器加 .fx-stagger，
+   JS(effects.js initStagger) 进入视口时加 .fx-stagger-in，
+   直接子元素按 --fx-i（或 nth-child 兜底）依次上浮显现。
+   -------------------------------------------- */
+.fx-stagger > * {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s var(--ease-out-expo, cubic-bezier(0.16,1,0.3,1)),
+    transform 0.7s var(--ease-out-expo, cubic-bezier(0.16,1,0.3,1));
+  transition-delay: calc(var(--fx-i, 0) * 90ms);
+}
+.fx-stagger.fx-stagger-in > * { opacity: 1; transform: translateY(0); }
+/* 无 JS 兜底：未标记 fx-stagger 时不影响渲染；JS 缺失时 1.2s 后自动显现 */
+.fx-stagger > * { animation: fxStaggerFallback 0s 1.2s forwards; }
+@keyframes fxStaggerFallback { to { opacity: 1; transform: none; } }
+.fx-stagger.fx-stagger-armed > * { animation: none; }
+
+/* --------------------------------------------
+   熔金科技 · 响应式与动效降级
+   -------------------------------------------- */
+@media (max-width: 768px) {
+  .fx-scanbeam { animation-duration: 12s; }
+  .fx-blueprint { background-size: 28px 28px, 28px 28px, 140px 140px, 140px 140px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fx-blueprint::after,
+  .fx-scanbeam,
+  .fx-glowline::before { animation: none !important; }
+  .fx-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "冉暖科技 RanNuan Tech",
+  "short_name": "冉暖科技",
+  "description": "用技术创造温暖。专注鞋服零售、视频娱乐平台与音乐领域的软件开发团队。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FDF8F0",
+  "theme_color": "#D4943A",
+  "categories": ["business", "productivity", "music"],
+  "icons": [
+    {
+      "src": "assets/logo.ico",
+      "sizes": "any",
+      "type": "image/x-icon",
+      "purpose": "any"
+    }
+  ]
+}

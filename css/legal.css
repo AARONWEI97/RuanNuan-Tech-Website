@@ -1,0 +1,771 @@
+/* ============================
+   冉暖科技 RanNuan Tech
+   Legal & Pricing Layer — pricing.html / privacy.html / terms.html
+   Extracted from the three pages' inline <style> blocks (B8 / B11 / B19)
+   Palette fully remapped from the legacy blue scheme to the warm
+   brand tokens declared in css/style.css. No hard-coded brand colours.
+   ============================ */
+
+/* ---------------------------------------------------------------
+   1. Page hero (shared by all three pages)
+   --------------------------------------------------------------- */
+.legal-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 150px 24px 70px;
+  background: var(--gradient-hero);
+  text-align: center;
+}
+.legal-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 20% 85%, var(--color-primary-20) 0%, transparent 55%),
+    radial-gradient(circle at 82% 15%, var(--color-accent-10) 0%, transparent 55%);
+}
+.legal-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.legal-hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 18px;
+}
+.legal-hero h1 i {
+  color: var(--color-primary-light);
+  margin-right: 14px;
+}
+.legal-hero-sub {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------------
+   2. Layout wrappers
+   --------------------------------------------------------------- */
+.legal-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.legal-doc {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--space-xl) 24px var(--space-3xl);
+}
+
+/* ---------------------------------------------------------------
+   3. Pricing grid & cards
+   --------------------------------------------------------------- */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+.price-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  text-align: center;
+  /* 浅色玻璃拟态：奶白渐变 + 顶部内高光 */
+  background: linear-gradient(168deg, #FFFFFF 0%, var(--color-surface) 55%, #FDF6EC 100%);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.85);
+  transition:
+    transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s var(--ease-out-expo),
+    border-color 0.4s var(--ease-out-expo);
+}
+.price-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.85);
+  border-color: var(--color-primary-20);
+}
+/* Featured：熔金发光描边，琥珀光晕托底 */
+.price-card.featured {
+  background: var(--gradient-dark);
+  border-color: var(--hairline-amber-strong);
+  box-shadow: var(--shadow-xl), var(--glow-amber-md);
+}
+.price-card.featured:hover {
+  box-shadow: var(--shadow-xl), var(--glow-amber-lg);
+  border-color: rgba(232,184,109,0.55);
+}
+.price-badge {
+  position: absolute;
+  top: 14px;
+  right: -32px;
+  padding: 5px 40px;
+  background: var(--gradient-coral);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transform: rotate(45deg);
+}
+.price-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--color-primary);
+  background: var(--color-primary-10);
+  border-radius: var(--radius-full);
+}
+.price-card.featured .price-icon {
+  color: var(--color-primary-light);
+  background: rgba(255, 255, 255, 0.1);
+}
+.price-plan {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+.price-amount {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-primary-dark);
+  margin-bottom: 6px;
+}
+.price-amount span {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.price-period {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 18px;
+}
+.price-features {
+  margin-bottom: 14px;
+}
+.price-feature {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  padding: 9px 10px;
+  margin-bottom: 8px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-sm);
+}
+.price-feature i {
+  color: var(--color-primary);
+  margin-right: 6px;
+}
+.price-save {
+  display: inline-block;
+  margin-top: auto;
+  padding: 5px 15px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text);
+  background: var(--color-green-10);
+  border-radius: var(--radius-full);
+}
+.price-card.featured .price-plan,
+.price-card.featured .price-amount,
+.price-card.featured .price-period,
+.price-card.featured .price-feature {
+  color: var(--color-dark-text);
+}
+.price-card.featured .price-feature {
+  background: rgba(255, 255, 255, 0.08);
+}
+.price-card.featured .price-feature i {
+  color: var(--color-primary-light);
+}
+.price-card.featured .price-save {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ---------------------------------------------------------------
+   4. Info panels (extra fees / discounts / rights / notes)
+   --------------------------------------------------------------- */
+.legal-panel {
+  padding: 45px;
+  margin-top: var(--space-xl);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.legal-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 26px;
+}
+.legal-panel-title i {
+  color: var(--color-primary);
+}
+.legal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+.legal-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.legal-item {
+  padding: 24px;
+  background: var(--color-bg-alt);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius-md);
+}
+.legal-item h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+.legal-item h3 i {
+  color: var(--color-primary);
+  margin-right: 8px;
+}
+.legal-item p {
+  font-size: 0.93rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+.legal-item p + p {
+  margin-top: 14px;
+}
+.legal-grid-4 .legal-item {
+  border-left: none;
+  text-align: center;
+}
+.legal-grid-4 .legal-item:nth-child(1) { background: var(--color-primary-10); }
+.legal-grid-4 .legal-item:nth-child(2) { background: var(--color-green-10); }
+.legal-grid-4 .legal-item:nth-child(4) { background: var(--color-accent-10); }
+.legal-item-icon {
+  font-size: 2rem;
+  margin-bottom: 14px;
+}
+.legal-grid-4 .legal-item:nth-child(1) .legal-item-icon { color: var(--color-primary); }
+.legal-grid-4 .legal-item:nth-child(2) .legal-item-icon { color: var(--color-green); }
+.legal-grid-4 .legal-item:nth-child(3) .legal-item-icon { color: var(--color-primary-dark); }
+.legal-grid-4 .legal-item:nth-child(4) .legal-item-icon { color: var(--color-accent); }
+.legal-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.93rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+.legal-list li i {
+  color: var(--color-green);
+  margin-top: 6px;
+}
+.legal-list li strong {
+  color: var(--color-text);
+}
+.legal-list .legal-list-note {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+.legal-list .legal-list-note i {
+  color: var(--color-primary);
+  margin-right: 6px;
+}
+.legal-price-tag {
+  margin-top: 16px;
+  padding: 15px;
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+}
+.legal-price-tag strong {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-primary-dark);
+}
+.legal-price-tag span {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+}
+.legal-callout {
+  padding: 26px 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-primary-10) 0%, var(--color-accent-10) 100%);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+}
+.legal-callout h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.legal-example {
+  padding: 18px 22px;
+  background: var(--color-green-10);
+  border-left: 4px solid var(--color-green);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.legal-example p {
+  font-size: 0.93rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+.legal-example p + p {
+  margin-top: 10px;
+  font-size: 1.02rem;
+}
+.legal-example strong {
+  color: var(--color-primary-ink);
+}
+.legal-item .legal-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+}
+.legal-item .legal-note i {
+  color: var(--color-primary);
+  margin-top: 5px;
+}
+
+/* ---------------------------------------------------------------
+   5. Contact band (pricing page)
+   --------------------------------------------------------------- */
+.contact-section {
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-hero);
+}
+.contact-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 0% 100%, var(--color-primary-20) 0%, transparent 55%),
+    radial-gradient(circle at 100% 0%, var(--color-accent-10) 0%, transparent 55%);
+}
+.contact-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+.contact-info h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.contact-lead {
+  font-size: 1.02rem;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 36px;
+}
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+button.contact-item {
+  cursor: pointer;
+}
+.contact-item-icon {
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  color: var(--color-primary-light);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  transition: all 0.35s var(--ease-out-expo);
+}
+button.contact-item:hover .contact-item-icon {
+  color: #fff;
+  background: var(--color-primary);
+  transform: translateY(-3px);
+}
+.contact-item-text {
+  flex: 1;
+  min-width: 0;
+}
+.contact-item-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.contact-item-desc {
+  display: block;
+  font-size: 0.93rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.contact-item-desc-accent {
+  color: var(--color-primary-light);
+}
+.contact-item-desc a {
+  color: var(--color-primary-light);
+  transition: color 0.3s ease;
+}
+.contact-item-desc a:hover {
+  color: #fff;
+}
+
+/* Contact form */
+.contact-form-wrap {
+  padding: 42px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.contact-form-wrap h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 28px;
+}
+.contact-form-wrap h3 i {
+  color: var(--color-primary-light);
+}
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.contact-form-group {
+  margin-bottom: 20px;
+}
+.contact-form-group label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 8px;
+}
+.contact-form-group input,
+.contact-form-group textarea,
+.contact-form-group select {
+  width: 100%;
+  padding: 14px 18px;
+  font-family: inherit;
+  font-size: 0.98rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+}
+.contact-form-group input::placeholder,
+.contact-form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+.contact-form-group input:focus,
+.contact-form-group textarea:focus,
+.contact-form-group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.14);
+}
+.contact-form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+.contact-form-group select option {
+  background: var(--color-dark);
+  color: #fff;
+}
+.contact-submit {
+  width: 100%;
+}
+/* 表单状态提示：main.js 会把 .form-status-* 状态类写到这个元素上，
+   因此这里只负责容器外观，文字颜色交给状态类（见下方按深色底色的覆盖）。 */
+.success-msg {
+  display: none;
+  margin-top: 18px;
+  padding: 15px;
+  text-align: center;
+  background: var(--color-green-10);
+  border: 1px solid var(--color-green);
+  border-radius: var(--radius-md);
+}
+.contact-form-wrap .form-status-pending { color: rgba(255, 255, 255, 0.78); }
+.contact-form-wrap .form-status-ok { color: var(--color-green-light); font-weight: 600; }
+.contact-form-wrap .form-status-error { color: var(--color-accent-light); font-weight: 600; }
+.success-msg i {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  color: var(--color-green-light);
+}
+
+/* ---------------------------------------------------------------
+   6. Long-form legal document (privacy / terms)
+   --------------------------------------------------------------- */
+.legal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 9px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary-ink);
+  background: var(--color-primary-10);
+  border-radius: var(--radius-full);
+  transition: all 0.35s var(--ease-out-expo);
+}
+.legal-back:hover {
+  color: #fff;
+  background: var(--color-primary);
+  transform: translateX(-4px);
+  box-shadow: var(--shadow-primary);
+}
+.legal-card {
+  position: relative;
+  overflow: hidden;
+  padding: 50px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+.legal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--gradient-warm);
+}
+.legal-toc {
+  padding: 24px 26px;
+  margin-bottom: 34px;
+  background: var(--color-bg-alt);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius-md);
+}
+.legal-toc-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 14px;
+}
+.legal-toc ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 20px;
+}
+.legal-toc a {
+  display: block;
+  padding: 8px 12px;
+  font-size: 0.93rem;
+  color: var(--color-primary-ink);
+  border-radius: var(--radius-sm);
+  transition: all 0.25s var(--ease-out-expo);
+}
+.legal-toc a:hover {
+  color: var(--color-primary-ink);
+  background: var(--color-primary-10);
+  padding-left: 16px;
+}
+.legal-prose {
+  max-width: 75ch;
+  margin: 0 auto;
+  color: var(--color-text-secondary);
+  line-height: 1.85;
+}
+.legal-prose > p {
+  margin-bottom: 15px;
+}
+.legal-meta {
+  font-size: 0.92rem;
+  color: var(--color-text-secondary);
+}
+.legal-prose strong {
+  color: var(--color-text);
+}
+.legal-prose ul {
+  margin: 0 0 15px;
+  padding-left: 22px;
+  list-style: none;
+}
+.legal-prose ul li {
+  position: relative;
+  margin-bottom: 8px;
+  padding-left: 18px;
+}
+.legal-prose ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  background: var(--color-primary);
+  border-radius: 50%;
+}
+.legal-section {
+  scroll-margin-top: 90px;
+}
+.legal-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 34px 0 18px;
+  padding: 14px 18px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text);
+  background: linear-gradient(90deg, var(--color-primary-10) 0%, transparent 100%);
+  border-left: 5px solid var(--color-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  transition: background 0.3s ease;
+}
+.legal-section h2:hover {
+  background: linear-gradient(90deg, var(--color-primary-20) 0%, transparent 100%);
+}
+.legal-num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-primary-ink);
+  border-radius: var(--radius-full);
+}
+
+/* ---------------------------------------------------------------
+   7. Responsive — same breakpoints as css/style.css (992 / 768 / 480)
+   --------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .price-grid { grid-template-columns: repeat(3, 1fr); }
+  .legal-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: 1fr; gap: 44px; }
+  .legal-hero h1 { font-size: 2.6rem; }
+}
+
+@media (max-width: 768px) {
+  .legal-hero { padding: 120px 20px 55px; }
+  .legal-hero h1 { font-size: 2.1rem; }
+  .legal-hero-sub { font-size: 1.02rem; }
+  .price-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .price-amount { font-size: 2rem; }
+  .legal-panel { padding: 28px 20px; }
+  .legal-grid,
+  .legal-grid-4 { grid-template-columns: 1fr; }
+  .legal-doc { padding: var(--space-lg) 16px var(--space-2xl); }
+  .legal-card { padding: 30px 22px; border-radius: var(--radius-md); }
+  .legal-toc ul { grid-template-columns: 1fr; }
+  .legal-section h2 { font-size: 1.18rem; padding: 12px 15px; }
+  .contact-form-wrap { padding: 28px 22px; }
+  .contact-form-row { grid-template-columns: 1fr; gap: 0; }
+  .contact-info h2 { font-size: 1.8rem; }
+}
+
+@media (max-width: 480px) {
+  .legal-hero { padding: 110px 16px 45px; }
+  .legal-hero h1 { font-size: 1.8rem; }
+  .legal-hero h1 i { display: block; margin: 0 0 10px; }
+  .price-grid { grid-template-columns: 1fr; }
+  .price-card { padding: 24px 18px; }
+  .legal-card { padding: 22px 16px; }
+  .legal-panel { padding: 22px 16px; }
+  .legal-item { padding: 18px; }
+  .legal-back { width: 100%; justify-content: center; }
+  .contact-form-wrap { padding: 22px 16px; }
+}
+
+/* ---------------------------------------------------------------
+   8. Motion / contrast preferences
+   --------------------------------------------------------------- */
+@media (hover: none) and (pointer: coarse) {
+  .price-card:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+  }
+  .price-card:active {
+    transform: scale(0.98);
+  }
+  .contact-item-icon {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .price-card,
+  .legal-card,
+  .legal-panel {
+    border: 2px solid var(--color-text);
+  }
+}
+
+@media print {
+  .legal-hero {
+    padding: 20px !important;
+    background: none !important;
+    color: #000;
+  }
+  .legal-hero h1,
+  .legal-hero h1 i { color: #000; }
+  .price-card { break-inside: avoid; }
+}

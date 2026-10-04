@@ -1,8 +1,27 @@
 /* ============================
    冉暖科技 RanNuan Tech
-   Global Design System
+   Global Design System（共享底座）
    Aesthetic: Playful Organic — Warm, Pet-personality
-   ============================ */
+   ---------------------------------------------------------------
+   本文件是 UPGRADE-CONTRACT §6 的共享底座：
+   设计令牌 / 重置 / 排版 / 容器 / 按钮 / 导航 / 移动菜单 / 区块 /
+   卡片配色钩子 / 显露动画 / 弹窗 / 页脚 / 返回顶部 / 404 页 / 无障碍。
+   页面专属样式：home.css、product.css、pages.css、legal.css
+   特效层（fx- 命名空间）：effects.css
+
+   ============================================================
+   设计决策记录（2026-10-04 · design-first 流程已批准）
+   ------------------------------------------------------------
+   方向：「熔金科技 Molten Tech」—— 参考 flashcoding.ai / 续杯工具站
+   的深色科技感，但发光色严格使用品牌琥珀金体系，深色一律用暖棕黑
+   （--color-ink-*），禁止冷蓝黑，守住品牌温度。
+   结构：深浅交响 —— Hero / 产品矩阵 / 联系 为深色科技区块，
+   About 等保持米白浅色，区块间用流光过渡带衔接。
+   动效：视觉冲击全开 —— 蓝图网格 / 扫描光束 / 发光描边流转 /
+   粒子网络 / 错步揭示 / 数字滚动；均带 prefers-reduced-motion 兜底。
+   品牌不变量：琥珀金 #D4943A / 珊瑚橙 #F06B5E / 鼠尾草绿 #7BAE7F、
+   米白 #FDF8F0、爪印元素、圆润边角 —— 本升级一律保留。
+   ============================================================ */
 
 /* --- Design Tokens --- */
 :root {
@@ -12,16 +31,26 @@
   --color-primary-dark: #B87A2A;
   --color-primary-10: rgba(212,148,58,0.1);
   --color-primary-20: rgba(212,148,58,0.2);
+  /* 浅色背景上的品牌文字色：与 #FDF8F0 对比度 ≈ 5.6:1（契约 §8.8） */
+  --color-primary-ink: #8A5A16;
 
   /* Coral Accent */
   --color-accent: #F06B5E;
   --color-accent-light: #F4928A;
   --color-accent-10: rgba(240,107,94,0.1);
+  /* 浅色背景上的珊瑚色文字：对比度 ≈ 5.1:1 */
+  --color-accent-ink: #C0392B;
 
   /* Sage Green */
   --color-green: #7BAE7F;
   --color-green-light: #9FC4A2;
   --color-green-10: rgba(123,174,127,0.1);
+  /* 浅色背景上的绿色文字：对比度 ≈ 5.8:1 */
+  --color-green-ink: #3F6B43;
+
+  /* QQ 品牌蓝（仅弹窗图标/强调，保持第三方品牌识别度） */
+  --color-qq: #4F46E5;
+  --color-qq-10: rgba(99,102,241,0.12);
 
   /* Neutrals — Warm undertone */
   --color-bg: #FDF8F0;
@@ -29,7 +58,8 @@
   --color-surface: #FFFFFF;
   --color-text: #2D2A32;
   --color-text-secondary: #6B6574;
-  --color-text-muted: #9E96A3;
+  /* 弱化文字：白底对比度 ≈ 5.0:1、米白底 ≈ 4.8:1（原 #9E96A3 仅 2.7:1） */
+  --color-text-muted: #736C7A;
   --color-border: #E8DFD4;
   --color-border-light: #F0EAE2;
 
@@ -37,14 +67,38 @@
   --color-dark: #2D2A32;
   --color-dark-surface: #3A3640;
   --color-dark-text: #F0EAE2;
-  --color-dark-muted: rgba(240,234,226,0.6);
+  --color-dark-muted: rgba(240,234,226,0.66);
+
+  /* 熔金科技 · 暖棕黑系列（深色科技区块专用，禁止冷蓝黑） */
+  --color-ink-950: #100C08;
+  --color-ink-900: #171209;
+  --color-ink-800: #221A10;
+  --color-ink-700: #2E2416;
+  --color-ink-600: #3D301E;
+  /* 深色区块上的文字：与 --color-ink-900 对比度 ≈ 12.6:1 / 8.2:1 / 5.4:1 */
+  --color-ink-text: #F5EDDF;
+  --color-ink-text-secondary: rgba(245,237,223,0.72);
+  --color-ink-text-muted: rgba(245,237,223,0.55);
+  /* 深色区块上的琥珀描边/发丝线 */
+  --hairline-amber: rgba(232,184,109,0.16);
+  --hairline-amber-strong: rgba(232,184,109,0.32);
+  /* 熔金光晕 */
+  --glow-amber-sm: 0 0 16px rgba(212,148,58,0.25);
+  --glow-amber-md: 0 0 32px rgba(212,148,58,0.28), 0 0 64px rgba(212,148,58,0.12);
+  --glow-amber-lg: 0 0 40px rgba(212,148,58,0.35), 0 0 120px rgba(212,148,58,0.18);
+  /* 深色玻璃拟态 */
+  --glass-dark-bg: rgba(245,237,223,0.045);
+  --glass-dark-border: rgba(232,184,109,0.14);
 
   /* Gradients */
   --gradient-warm: linear-gradient(135deg, #D4943A 0%, #E8B86D 100%);
+  /* 深暖渐变：用于需要白字/白图标达标的深色底（对比度 ≥ 3.6:1） */
+  --gradient-warm-deep: linear-gradient(135deg, #B87A2A 0%, #8A5A16 100%);
   --gradient-coral: linear-gradient(135deg, #F06B5E 0%, #F4928A 100%);
   --gradient-green: linear-gradient(135deg, #7BAE7F 0%, #9FC4A2 100%);
   --gradient-dark: linear-gradient(135deg, #2D2A32 0%, #3A3640 100%);
-  --gradient-hero: linear-gradient(160deg, #2D2A32 0%, #3A3640 40%, #4A4452 100%);
+  /* 熔金科技：Hero 底色改为暖棕黑纵深渐变（原冷灰紫 #2D2A32 系已弃用） */
+  --gradient-hero: linear-gradient(165deg, #100C08 0%, #1C1510 45%, #2A1F12 100%);
 
   /* Shadows — warm tinted */
   --shadow-sm: 0 2px 8px rgba(45,42,50,0.06);
@@ -78,6 +132,12 @@
   --space-xl: 40px;
   --space-2xl: 64px;
   --space-3xl: 100px;
+
+  /* Layout */
+  --container-max: 1280px;
+  --container-pad: 24px;
+  --nav-height: 72px;
+  --nav-height-scrolled: 64px;
 }
 
 /* --- Reset --- */
@@ -90,17 +150,39 @@ body {
   background: var(--color-bg);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  /* Custom paw cursor — default */
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cellipse cx='14' cy='17' rx='7' ry='8.5' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='6' cy='8' r='3.2' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='10.5' cy='4.5' r='3' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='17.5' cy='4.5' r='3' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='22' cy='8' r='3.2' fill='%23D4943A' opacity='0.85'/%3E%3C/svg%3E") 14 14, auto;
 }
-/* Paw pointer cursor for interactive elements */
-a, button, .btn, [onclick], .product-card-3d, .product-showcase, .contact-item, .nav-links a, .nav-logo, .mobile-menu a, input[type='submit'], select {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='20' rx='8' ry='9.5' fill='%23D4943A'/%3E%3Ccircle cx='7' cy='10' r='3.8' fill='%23D4943A'/%3E%3Ccircle cx='12' cy='5.5' r='3.5' fill='%23D4943A'/%3E%3Ccircle cx='20' cy='5.5' r='3.5' fill='%23D4943A'/%3E%3Ccircle cx='25' cy='10' r='3.8' fill='%23D4943A'/%3E%3Ccircle cx='16' cy='20' r='3' fill='%23E8B86D' opacity='0.5'/%3E%3C/svg%3E") 16 16, pointer;
-}
+
+/* 锚点跳转时给固定导航留出空间（JS 平滑滚动使用同一偏移量） */
+[id] { scroll-margin-top: calc(var(--nav-height) + 16px); }
+
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 ul, ol { list-style: none; }
 button { cursor: pointer; font-family: inherit; }
+input, textarea, select { font-family: inherit; font-size: inherit; color: inherit; }
+
+/* --- 自定义光标策略 ---
+   爪印光标仅在“精确指针”（鼠标）设备启用；触屏 / 粗指针设备保持系统默认光标。
+   输入控件一律不使用爪印光标，避免影响文本选择与输入体验。 */
+a, button, .btn, [role="button"], label[for], summary,
+input[type="submit"], input[type="button"], input[type="reset"] { cursor: pointer; }
+input, textarea, select, [contenteditable="true"] { cursor: auto; }
+input[type="text"], input[type="search"], input[type="email"], input[type="tel"],
+input[type="url"], input[type="password"], input[type="number"], textarea { cursor: text; }
+
+@media (pointer: fine) {
+  body {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cellipse cx='14' cy='17' rx='7' ry='8.5' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='6' cy='8' r='3.2' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='10.5' cy='4.5' r='3' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='17.5' cy='4.5' r='3' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='22' cy='8' r='3.2' fill='%23D4943A' opacity='0.85'/%3E%3C/svg%3E") 14 14, auto;
+  }
+  a, button, .btn, [role="button"], label[for], summary,
+  .product-showcase, .contact-item,
+  input[type="submit"], input[type="button"], input[type="reset"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='20' rx='8' ry='9.5' fill='%23D4943A'/%3E%3Ccircle cx='7' cy='10' r='3.8' fill='%23D4943A'/%3E%3Ccircle cx='12' cy='5.5' r='3.5' fill='%23D4943A'/%3E%3Ccircle cx='20' cy='5.5' r='3.5' fill='%23D4943A'/%3E%3Ccircle cx='25' cy='10' r='3.8' fill='%23D4943A'/%3E%3Ccircle cx='16' cy='20' r='3' fill='%23E8B86D' opacity='0.5'/%3E%3C/svg%3E") 16 16, pointer;
+  }
+  input, textarea, select, [contenteditable="true"] { cursor: auto; }
+  input[type="text"], input[type="search"], input[type="email"], input[type="tel"],
+  input[type="url"], input[type="password"], input[type="number"], textarea { cursor: text; }
+}
 
 /* Noise texture overlay (global) */
 body::after {
@@ -123,6 +205,25 @@ body::after {
 /* --- Typography --- */
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.2; color: var(--color-text); }
 
+/* --- Layout: Container --- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+/* 仅供读屏使用（JS 注入 aria-live 状态区时复用） */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* --- Buttons --- */
 .btn {
   display: inline-flex;
@@ -139,6 +240,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  isolation: isolate;
   transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
 }
 .btn::before {
@@ -148,10 +250,12 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   background: rgba(255,255,255,0.15);
   transform: translateY(100%);
   transition: transform 0.4s var(--ease-out-expo);
+  pointer-events: none;
 }
 .btn:hover::before { transform: translateY(0); }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0) scale(0.98); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.55; pointer-events: none; }
 
 .btn-primary {
   background: var(--gradient-warm);
@@ -167,21 +271,27 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
 }
 .btn-accent:hover { box-shadow: 0 8px 30px rgba(240,107,94,0.4); }
 
+/* 浅底描边按钮：文字用深暖色保证 ≥ 4.5:1；hover 填充深暖底色 */
 .btn-outline {
   background: transparent;
-  color: var(--color-primary);
+  color: var(--color-primary-ink);
   border: 2px solid var(--color-primary);
 }
-.btn-outline:hover { background: var(--color-primary); color: white; }
+.btn-outline:hover {
+  background: var(--color-primary-ink);
+  border-color: var(--color-primary-ink);
+  color: white;
+}
 
 .btn-ghost {
   background: transparent;
   color: var(--color-text-secondary);
   padding: 8px 16px;
 }
-.btn-ghost:hover { color: var(--color-primary); background: var(--color-primary-10); }
+.btn-ghost:hover { color: var(--color-primary-ink); background: var(--color-primary-10); }
 
 .btn-sm { padding: 8px 20px; font-size: 0.82rem; }
+.btn-lg { padding: 16px 40px; font-size: 1rem; gap: 10px; }
 
 /* --- Navigation --- */
 .nav {
@@ -192,22 +302,24 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid transparent;
-  transition: all 0.4s var(--ease-out-expo);
+  transition: background 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo),
+              border-color 0.4s var(--ease-out-expo);
 }
 .nav.scrolled {
   background: rgba(253,248,240,0.97);
   border-bottom-color: var(--color-border-light);
   box-shadow: var(--shadow-sm);
 }
-.nav.scrolled .nav-inner { height: 64px; }
+.nav.scrolled .nav-inner { height: var(--nav-height-scrolled); }
 .nav-inner {
-  max-width: 1280px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--container-pad);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 72px;
+  gap: 16px;
+  height: var(--nav-height);
   transition: height 0.4s var(--ease-out-expo);
 }
 .nav-logo {
@@ -238,7 +350,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   position: relative;
   padding: 8px 14px;
   border-radius: var(--radius-md);
-  transition: all 0.3s var(--ease-out-expo);
+  transition: color 0.3s var(--ease-out-expo), background 0.3s var(--ease-out-expo);
 }
 .nav-links a::after {
   content: '';
@@ -251,17 +363,15 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   transition: width 0.4s var(--ease-out-expo);
 }
 .nav-links a:hover {
-  color: var(--color-primary);
+  color: var(--color-primary-ink);
   background: var(--color-primary-10);
 }
 .nav-links a:hover::after { width: 20px; }
 .nav-links a.active {
-  color: var(--color-primary);
+  color: var(--color-primary-ink);
   background: var(--color-primary-10);
 }
-.nav-links a.active::after {
-  width: 20px;
-}
+.nav-links a.active::after { width: 20px; }
 .nav-cta { display: flex; gap: 12px; align-items: center; }
 
 /* Mobile menu button */
@@ -273,41 +383,41 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   border: none;
   cursor: pointer;
   padding: 10px;
+  border-radius: var(--radius-sm);
 }
 .mobile-menu-btn span {
   display: block;
   width: 22px; height: 2.5px;
   background: var(--color-text);
   border-radius: 3px;
-  transition: all 0.35s var(--ease-out-expo);
+  transition: transform 0.35s var(--ease-out-expo), opacity 0.35s var(--ease-out-expo);
 }
-.mobile-menu-btn.active span:nth-child(1) {
-  transform: translateY(7.5px) rotate(45deg);
-}
-.mobile-menu-btn.active span:nth-child(2) {
-  opacity: 0; transform: scaleX(0);
-}
-.mobile-menu-btn.active span:nth-child(3) {
-  transform: translateY(-7.5px) rotate(-45deg);
-}
+.mobile-menu-btn.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.mobile-menu-btn.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-/* Mobile menu overlay */
+/* Mobile menu overlay
+   注意：用 visibility 控制键盘可达性（契约定：不加 aria-hidden，避免与内部可聚焦元素冲突） */
 .mobile-menu {
   position: fixed;
   inset: 0;
   background: rgba(253,248,240,0.98);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 999;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 28px;
+  padding: 88px 24px 40px;
+  overflow-y: auto;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s var(--ease-out-expo);
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease-out-expo), visibility 0.4s var(--ease-out-expo);
 }
-.mobile-menu.active { opacity: 1; visibility: visible; }
+.mobile-menu.active { opacity: 1; visibility: visible; pointer-events: auto; }
 .mobile-menu a {
   font-family: var(--font-display);
   font-size: 1.4rem;
@@ -315,16 +425,23 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   color: var(--color-text);
   transition: color 0.3s ease;
 }
-.mobile-menu a:hover { color: var(--color-primary); }
+.mobile-menu a:hover { color: var(--color-primary-ink); }
 .mobile-menu-close {
   position: absolute;
-  top: 24px; right: 24px;
-  font-size: 1.8rem;
+  top: 20px; right: 20px;
+  width: 48px; height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
   background: none;
   border: none;
+  border-radius: 50%;
   color: var(--color-text);
   cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
 }
+.mobile-menu-close:hover { background: var(--color-primary-10); color: var(--color-primary-ink); }
 
 /* --- Section Common --- */
 .section {
@@ -341,7 +458,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   align-items: center;
   gap: 8px;
   background: var(--color-primary-10);
-  color: var(--color-primary);
+  color: var(--color-primary-ink);
   padding: 6px 18px;
   border-radius: var(--radius-full);
   font-family: var(--font-display);
@@ -361,16 +478,76 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   line-height: 1.8;
 }
 
+/* --- 熔金科技 · 区块编号系统（技术蓝图感） ---
+   用法：<span class="section-index">01</span> 置于 .section-badge 前。
+   深色区块内自动反白为琥珀描边（父级加 .section-dark 或由页面 CSS 覆盖）。 */
+.section-index {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-primary-ink);
+  margin-bottom: 14px;
+}
+.section-index::before {
+  content: '';
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-primary));
+}
+.section-index::after {
+  content: '';
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+}
+/* 深色区块变体 */
+.section-dark .section-index,
+.section-index.on-dark {
+  color: var(--color-primary-light);
+  text-shadow: 0 0 14px rgba(212,148,58,0.4);
+}
+/* 深色区块通用反白钩子：页面可将容器标记为 .section-dark */
+.section-dark .section-title { color: var(--color-ink-text); }
+.section-dark .section-subtitle { color: var(--color-ink-text-secondary); }
+.section-dark .section-badge {
+  background: rgba(212,148,58,0.12);
+  color: var(--color-primary-light);
+  border: 1px solid var(--hairline-amber);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* --- 卡片配色钩子（通用，修复 B15：.card-4 曾无图标配色） ---
+   仅提供“强调色 -> 图标底色”的通用映射，不含首页专属布局。
+   首页布局仍归 home.css；页面 CSS 若定义了更具体的规则会自然覆盖这里。 */
+.card-1 { --card-accent: var(--color-primary); --card-accent-gradient: var(--gradient-warm); }
+.card-2 { --card-accent: var(--color-accent); --card-accent-gradient: var(--gradient-coral); }
+.card-3 { --card-accent: var(--color-green); --card-accent-gradient: var(--gradient-green); }
+.card-4 { --card-accent: #6495ED; --card-accent-gradient: linear-gradient(135deg, #6495ED 0%, #93B5F0 100%); }
+.card-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+  background: var(--card-accent-gradient, var(--gradient-warm));
+  flex-shrink: 0;
+}
+
 /* --- Scroll Reveal --- */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
 }
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal.visible { opacity: 1; transform: translateY(0); }
 .reveal-left { transform: translateX(-40px); }
 .reveal-left.visible { transform: translateX(0); }
 .reveal-right { transform: translateX(40px); }
@@ -385,6 +562,14 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
 .delay-4 { transition-delay: 0.4s; }
 .delay-5 { transition-delay: 0.5s; }
 
+/* 无 JS 环境兜底：直接显示，避免内容永久不可见 */
+@media (scripting: none) {
+  .reveal, .reveal-left, .reveal-right, .reveal-scale {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* --- Paw Decorations --- */
 .paw-decoration {
   position: absolute;
@@ -394,47 +579,86 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   transform: rotate(var(--rotate, 0deg));
 }
 
-/* --- Modal --- */
+/* --- Modal ---
+   .modal-overlay 用 visibility 控制隐藏：关闭时不参与 Tab 序列，
+   打开时 JS 负责焦点陷阱 / ESC / 遮罩点击 / 滚动锁 / 焦点归还。 */
 .modal-overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(45,42,50,0.6);
-  backdrop-filter: blur(8px);
   z-index: 10000;
+  display: flex;
   justify-content: center;
   align-items: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: rgba(45,42,50,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-.modal-overlay.active { display: flex; opacity: 1; }
+.modal-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+body.modal-open,
+body.menu-open { overflow: hidden; }
+
 .modal-content {
   background: var(--color-surface);
   padding: 36px;
   border-radius: var(--radius-lg);
   text-align: center;
   position: relative;
+  margin: auto;
   max-width: 380px;
-  width: 90%;
-  transform: scale(0.9);
+  width: 100%;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  transform: scale(0.92);
   transition: transform 0.4s var(--ease-spring);
   box-shadow: var(--shadow-xl);
 }
 .modal-overlay.active .modal-content { transform: scale(1); }
+
 .modal-close {
   position: absolute;
-  top: 12px; right: 12px;
+  top: 10px; right: 10px;
+  width: 40px; height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
-  font-size: 1.3rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
 }
-.modal-close:hover { color: var(--color-accent); transform: rotate(90deg); }
+.modal-close:hover { color: var(--color-accent-ink); background: var(--color-accent-10); transform: rotate(90deg); }
+
+/* 弹窗图标（微信 / QQ 品牌色） */
+.modal-icon {
+  width: 56px; height: 56px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+.modal-icon-wechat { background: var(--color-primary-10); color: var(--color-primary-ink); }
+.modal-icon-qq { background: var(--color-qq-10); color: var(--color-qq); }
+
+.modal-content h3 { font-size: 1.2rem; margin-bottom: 4px; }
+.modal-sub {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  margin-bottom: 6px;
+}
 .modal-qr {
   width: 200px; height: 200px;
-  margin: 20px auto;
+  margin: 18px auto;
   border: 1px solid var(--color-border);
   padding: 8px;
   border-radius: var(--radius-md);
@@ -443,6 +667,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   justify-content: center;
 }
 .modal-qr img { width: 100%; height: 100%; object-fit: contain; }
+.modal-cta { margin: 4px 0 12px; display: flex; justify-content: center; }
+
 .modal-id {
   font-size: 1.05rem;
   font-weight: 700;
@@ -453,8 +679,17 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   border-radius: var(--radius-full);
   display: inline-flex;
   align-items: center;
+  gap: 4px;
+  max-width: 100%;
   border: 1px solid var(--color-border);
 }
+.modal-id-label {
+  color: var(--color-text-muted);
+  font-weight: 400;
+  font-size: 0.82rem;
+  margin-right: 4px;
+}
+.modal-id-value { user-select: all; word-break: break-all; }
 .copy-btn {
   background: var(--color-primary);
   color: white;
@@ -465,10 +700,16 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   font-weight: 600;
   cursor: pointer;
   margin-left: 8px;
-  transition: all 0.3s ease;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 .copy-btn:hover { background: var(--color-primary-dark); transform: translateY(-1px); }
+.copy-btn.copied { background: var(--color-green-ink); }
+.copy-btn-qq { background: var(--color-qq); }
+.copy-btn-qq:hover { background: #3F37C9; }
 .modal-tip { color: var(--color-text-muted); font-size: 0.85rem; margin-top: 8px; }
+.modal-tip span { color: var(--color-primary-ink); font-weight: 500; }
+.modal-tip .modal-tip-qq { color: var(--color-qq); }
 
 /* --- Footer --- */
 .footer {
@@ -476,7 +717,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   color: var(--color-dark-muted);
   padding: 60px 24px 24px;
 }
-.footer-inner { max-width: 1280px; margin: 0 auto; }
+.footer-inner { max-width: var(--container-max); margin: 0 auto; }
 .footer-top {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -489,20 +730,20 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
 .footer-brand p { line-height: 1.8; font-size: 0.9rem; margin-bottom: 20px; }
 .footer-social { display: flex; gap: 12px; }
 .footer-social a {
-  width: 36px; height: 36px;
+  width: 40px; height: 40px;
   border-radius: 50%;
   background: rgba(255,255,255,0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 .footer-social a:hover { background: var(--color-primary); transform: translateY(-2px); }
 .footer-column h4 { font-size: 0.95rem; font-weight: 600; color: white; margin-bottom: 20px; }
 .footer-column ul li { margin-bottom: 10px; }
 .footer-column ul a {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.66);
   font-size: 0.88rem;
   transition: color 0.3s ease;
 }
@@ -512,10 +753,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   font-size: 0.82rem;
 }
 .footer-bottom-links { display: flex; gap: 24px; }
-.footer-bottom-links a { color: rgba(255,255,255,0.4); transition: color 0.3s ease; }
+.footer-bottom-links a { color: rgba(255,255,255,0.66); transition: color 0.3s ease; }
 .footer-bottom-links a:hover { color: white; }
 
 /* --- Back to Top --- */
@@ -523,7 +765,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   position: fixed;
   bottom: 24px; right: 24px;
   width: 48px; height: 48px;
-  background: var(--gradient-warm);
+  background: var(--gradient-warm-deep);
   color: white;
   border: none;
   border-radius: 50%;
@@ -535,26 +777,118 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   box-shadow: var(--shadow-primary);
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s var(--ease-out-expo);
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease-out-expo), visibility 0.4s var(--ease-out-expo),
+              transform 0.4s var(--ease-out-expo);
   z-index: 1000;
 }
-.back-to-top.visible { opacity: 1; visibility: visible; }
-.back-to-top:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(212,148,58,0.4); }
+.back-to-top.visible { opacity: 1; visibility: visible; pointer-events: auto; }
+.back-to-top:hover { transform: translateY(-4px); }
 
 /* --- Skip Link --- */
 .skip-link {
   position: absolute;
-  top: -40px; left: 6px;
-  background: var(--color-primary);
+  top: -60px; left: 6px;
+  background: var(--color-primary-ink);
   color: white;
-  padding: 8px;
-  text-decoration: none;
+  padding: 10px 16px;
   border-radius: var(--radius-sm);
   z-index: 1002;
+  font-weight: 600;
   transition: top 0.3s ease;
 }
 .skip-link:focus { top: 6px; }
-:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+/* --- Focus Visible --- */
+:focus-visible {
+  outline: 3px solid var(--color-primary-dark);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.modal-content :focus-visible,
+.footer :focus-visible,
+.hero :focus-visible,
+.product-hero :focus-visible { outline-color: var(--color-primary-light); }
+
+/* ============================
+   404 错误页（契约增补 v3）
+   结构：.section.error-section > .container > .error-inner
+   ============================ */
+.error-section { padding-top: calc(var(--space-3xl) + 20px); }
+.error-inner { text-align: center; max-width: 860px; margin: 0 auto; position: relative; }
+.error-code {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(6rem, 20vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  background: var(--gradient-warm);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.45;
+  user-select: none;
+  margin-bottom: -0.12em;
+}
+.error-title {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.error-desc {
+  color: var(--color-text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.9;
+  max-width: 620px;
+  margin: 0 auto 28px;
+}
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 44px;
+}
+.error-links {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.error-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-align: left;
+  transition: transform 0.3s var(--ease-out-expo), border-color 0.3s ease, color 0.3s ease;
+}
+.error-links a i { color: var(--color-primary-ink); font-size: 1rem; }
+.error-links a:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+.error-help { font-size: 0.9rem; color: var(--color-text-muted); }
+.error-help a { color: var(--color-primary-ink); font-weight: 600; text-decoration: underline; }
+
+/* --- 表单状态提示（JS 注入或复用于 .success-msg；aria-live 由 main.js 设置） --- */
+.form-status {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+.form-status-pending { color: var(--color-text-secondary); }
+.form-status-ok { color: var(--color-green-ink); font-weight: 600; }
+.form-status-error { color: var(--color-accent-ink); font-weight: 600; }
 
 /* --- Responsive --- */
 @media (max-width: 992px) {
@@ -562,6 +896,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   .nav-cta { display: none; }
   .mobile-menu-btn { display: flex; }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .error-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 768px) {
   .section { padding: 60px 16px; }
@@ -569,11 +904,24 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height
   .footer-top { grid-template-columns: 1fr; gap: 24px; }
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
   .btn { min-height: 44px; }
+  .modal-content { padding: 28px 20px; }
+  .modal-qr { width: 176px; height: 176px; }
+  .error-actions { flex-direction: column; align-items: stretch; }
+  .error-links { grid-template-columns: 1fr; }
 }
+
+/* --- Reduced motion：禁用位移/缩放动画，保留透明度（契约 §8.9） --- */
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .reveal, .reveal-left, .reveal-right, .reveal-scale { transform: none; }
+  .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible { opacity: 1; }
+  .btn:hover { transform: none; }
+  .mobile-menu-btn.active span:nth-child(1),
+  .mobile-menu-btn.active span:nth-child(3) { transform: none; }
+  .back-to-top:hover { transform: none; }
 }
