@@ -656,3 +656,51 @@
     animation: none !important;
   }
 }
+
+/* --------------------------------------------
+   爪印光标收口
+   本文件最后加载，压过各页后来写的 cursor:pointer，
+   让按钮 / 卡片也保持爪印，而不是退回系统箭头。
+   图档与热点同 style.css。输入框仍强制文本光标。
+   -------------------------------------------- */
+@media (pointer: fine) {
+  /* 热点在掌垫中心。图档：assets/cursor/paw*.svg
+     深色底用 paw-light，避免琥珀爪印陷进暖黑背景。 */
+  body {
+    cursor: url("../assets/cursor/paw.svg") 16 24, auto;
+  }
+  a, button, .btn, [role="button"], label[for], summary,
+  .product-showcase, .product-card-3d, .screenshot-frame, .screenshot-tab,
+  .faq-q, .pwd-hint, .copy-btn, .back-to-top, .modal-close,
+  .mobile-menu-btn, .mobile-menu-close, button.contact-item,
+  input[type="submit"], input[type="button"], input[type="reset"] {
+    cursor: url("../assets/cursor/paw-pointer.svg") 18 27, pointer;
+  }
+  .hero,
+  .contact-section,
+  .section-dark,
+  .footer,
+  .product-hero,
+  .price-card.featured {
+    cursor: url("../assets/cursor/paw-light.svg") 16 24, auto;
+  }
+  .hero :is(a, button, .btn, [role="button"], .product-card-3d),
+  .contact-section :is(a, button, .btn, [role="button"]),
+  .section-dark :is(a, button, .btn, [role="button"], summary, .product-card-3d, .product-showcase),
+  .footer :is(a, button, .btn),
+  .product-hero :is(a, button, .btn, [role="button"], .screenshot-tab),
+  .price-card.featured :is(a, button, .btn) {
+    cursor: url("../assets/cursor/paw-light-pointer.svg") 18 27, pointer;
+  }
+  input, textarea, select, [contenteditable="true"] { cursor: auto; }
+  input[type="text"], input[type="search"], input[type="email"], input[type="tel"],
+  input[type="url"], input[type="password"], input[type="number"], textarea { cursor: text; }
+  input[type="submit"], input[type="button"], input[type="reset"] {
+    cursor: url("../assets/cursor/paw-pointer.svg") 18 27, pointer;
+  }
+  .hero :is(input, textarea),
+  .contact-section :is(input, textarea),
+  .section-dark :is(input, textarea),
+  .product-hero :is(input, textarea),
+  .footer :is(input, textarea) { cursor: text; }
+}

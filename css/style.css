@@ -171,18 +171,47 @@ input[type="text"], input[type="search"], input[type="email"], input[type="tel"]
 input[type="url"], input[type="password"], input[type="number"], textarea { cursor: text; }
 
 @media (pointer: fine) {
+  /* 热点在掌垫中心。图档：assets/cursor/paw*.svg
+     深色底用 paw-light，避免琥珀爪印陷进暖黑背景。 */
   body {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cellipse cx='14' cy='17' rx='7' ry='8.5' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='6' cy='8' r='3.2' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='10.5' cy='4.5' r='3' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='17.5' cy='4.5' r='3' fill='%23D4943A' opacity='0.85'/%3E%3Ccircle cx='22' cy='8' r='3.2' fill='%23D4943A' opacity='0.85'/%3E%3C/svg%3E") 14 14, auto;
+    cursor: url("../assets/cursor/paw.svg") 16 24, auto;
   }
   a, button, .btn, [role="button"], label[for], summary,
-  .product-showcase, .contact-item,
+  .product-showcase, .product-card-3d, .screenshot-frame, .screenshot-tab,
+  .faq-q, .pwd-hint, .copy-btn, .back-to-top, .modal-close,
+  .mobile-menu-btn, .mobile-menu-close, button.contact-item,
   input[type="submit"], input[type="button"], input[type="reset"] {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='20' rx='8' ry='9.5' fill='%23D4943A'/%3E%3Ccircle cx='7' cy='10' r='3.8' fill='%23D4943A'/%3E%3Ccircle cx='12' cy='5.5' r='3.5' fill='%23D4943A'/%3E%3Ccircle cx='20' cy='5.5' r='3.5' fill='%23D4943A'/%3E%3Ccircle cx='25' cy='10' r='3.8' fill='%23D4943A'/%3E%3Ccircle cx='16' cy='20' r='3' fill='%23E8B86D' opacity='0.5'/%3E%3C/svg%3E") 16 16, pointer;
+    cursor: url("../assets/cursor/paw-pointer.svg") 18 27, pointer;
+  }
+  .hero,
+  .contact-section,
+  .section-dark,
+  .footer,
+  .product-hero,
+  .price-card.featured {
+    cursor: url("../assets/cursor/paw-light.svg") 16 24, auto;
+  }
+  .hero :is(a, button, .btn, [role="button"], .product-card-3d),
+  .contact-section :is(a, button, .btn, [role="button"]),
+  .section-dark :is(a, button, .btn, [role="button"], summary, .product-card-3d, .product-showcase),
+  .footer :is(a, button, .btn),
+  .product-hero :is(a, button, .btn, [role="button"], .screenshot-tab),
+  .price-card.featured :is(a, button, .btn) {
+    cursor: url("../assets/cursor/paw-light-pointer.svg") 18 27, pointer;
   }
   input, textarea, select, [contenteditable="true"] { cursor: auto; }
   input[type="text"], input[type="search"], input[type="email"], input[type="tel"],
   input[type="url"], input[type="password"], input[type="number"], textarea { cursor: text; }
+  input[type="submit"], input[type="button"], input[type="reset"] {
+    cursor: url("../assets/cursor/paw-pointer.svg") 18 27, pointer;
+  }
+  .hero :is(input, textarea),
+  .contact-section :is(input, textarea),
+  .section-dark :is(input, textarea),
+  .product-hero :is(input, textarea),
+  .footer :is(input, textarea) { cursor: text; }
 }
+
 
 /* Noise texture overlay (global) */
 body::after {

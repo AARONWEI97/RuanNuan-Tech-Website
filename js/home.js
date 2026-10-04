@@ -1,6 +1,8 @@
 /* ============================
    冉暖科技 — Homepage Animations
    Hero 星座粒子 Canvas + 鼠标光晕 + 3D 卡片倾斜 + 标题字符拆分
+   + 科幻动效升级层（2026-10-04）：
+     fx-terminal 终端打字 / fx-decode 解码文字 / fx-reticle 科幻准星 / fx-beam 滚动能量束
    仅首页加载；ES5 写法（var + function）+ IIFE + 'use strict'
    约定：
    - `.product-card-3d` 的 transform 由本文件独占写入（其他层不得写入）
@@ -8,6 +10,8 @@
      本文件不再包含计数器实现（B5/B6）
    - 标题拆分只包裹纯文本节点，含元素子节点（如 .highlight）不拆分，
      以保留主标题的渐变文字（B4）
+   - fx-decode 同理：只处理「无元素子节点」的 [data-fx-decode]，
+     且动画结束后必须把文本精确还原为原文（不破坏 SEO 与复制粘贴）
    ============================ */
 (function () {
   'use strict';
@@ -37,6 +41,12 @@
     initMouseGlow();
     init3DCards();
     initTitleChars();
+
+    /* 科幻动效升级层（2026-10-04） */
+    initTerminalTyping();
+    initDecodeText();
+    initReticle();
+    initScrollBeams();
   });
 
   /* --- Constellation Network + Paw Particles (Canvas) --- */
@@ -497,6 +507,416 @@
 
     parent.replaceChild(frag, textNode);
     return index;
+  }
+
+  /* ============================================================
+     科幻动效升级层（2026-10-04）
+     fx-terminal / fx-decode / fx-reticle / fx-beam
+     共同纪律：
+     · 全部由 requestAnimationFrame 驱动，document.hidden 时冻结进度；
+       元素离屏即停止循环（IntersectionObserver）
+     · 事件监听一律 { passive: true }（滚动再做 rAF 节流）
+     · prefers-reduced-motion 与 pointer: coarse 自动降级
+     · 每个功能在 DOM 中找不到宿主时静默返回，绝不影响其他初始化
+     ============================================================ */
+
+  /* --- fx-terminal：终端逐字打字循环 ---
+     文案全部取自 index.html 既有词句（Hero 徽章 / 四张产品卡描述），
+     不新增任何事实；文本节点由本函数独占写入。 */
+  function initTerminalTyping() {
+    var el = document.querySelector('.home-terminal-text');
+    if (!el) return;
+
+    var phrases = [
+      '用技术创造温暖',
+      'AI智能订货，批量分配，尺码占比',
+      '双平台音乐播放，独家3D宇宙相册，7音源聚合',
+      '专卖店收银，库存管理，CRM会员',
+      '桌面端 / 移动端 / 电视端三端视频聚合平台'
+    ];
+
+    /* 降低动效偏好：直接给出首句静止文案，不做任何逐字动画 */
+    if (prefersReducedMotion()) {
+      el.textContent = phrases[0];
+      return;
+    }
+
+    var TYPE_MS = 62;    /* 逐字打出间隔 */
+    var HOLD_MS = 1500;  /* 整句停留 */
+    var DEL_MS = 26;     /* 逐字删除间隔 */
+    var GAP_MS = 240;    /* 句间空档 */
+
+    var pi = 0;
+    var ci = 0;
+    var mode = 'type';
+    var wait = 0;
+    var prev = 0;
+    var rafId = 0;
+    var running = false;
+    var visible = false;
+    var started = false;
+
+    function setText(str) {
+      if (el.textContent !== str) el.textContent = str;
+    }
+    function duration() {
+      if (mode === 'type') return TYPE_MS;
+      if (mode === 'hold') return HOLD_MS;
+      if (mode === 'del') return DEL_MS;
+      return GAP_MS;
+    }
+    function advance() {
+      var phrase = phrases[pi];
+      if (mode === 'type') {
+        if (ci < phrase.length) {
+          ci++;
+          setText(phrase.slice(0, ci));
+        }
+        if (ci >= phrase.length) mode = 'hold';
+        return;
+      }
+      if (mode === 'hold') { mode = 'del'; return; }
+      if (mode === 'del') {
+        if (ci > 0) {
+          ci--;
+          setText(phrase.slice(0, ci));
+        }
+        if (ci <= 0) mode = 'gap';
+        return;
+      }
+      pi = (pi + 1) % phrases.length;
+      ci = 0;
+      mode = 'type';
+    }
+    function frame(ts) {
+      if (!running) return;
+      rafId = 0;
+      if (document.hidden) { prev = 0; rafId = requestAnimationFrame(frame); return; }
+      if (!prev) prev = ts;
+      var dt = ts - prev;
+      prev = ts;
+      if (dt > 200) dt = 200;            /* 长时间挂起后不追赶，避免一次跳出一整句 */
+      wait += dt;
+      var guard = 0;
+      while (wait >= duration() && guard < 24) {
+        wait -= duration();
+        advance();
+        guard++;
+      }
+      rafId = requestAnimationFrame(frame);
+    }
+    function start() {
+      if (running || !visible || document.hidden) return;
+      running = true;
+      wait = 0;
+      prev = 0;
+      if (!started) { started = true; setText(''); }   /* 首次进入视口才清空静态文案 */
+      rafId = requestAnimationFrame(frame);
+    }
+    function stop() {
+      running = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    }
+
+    if (typeof IntersectionObserver === 'function') {
+      var observer = new IntersectionObserver(function (entries) {
+        visible = !!(entries[0] && entries[0].isIntersecting);
+        if (visible) start(); else stop();
+      }, { threshold: 0 });
+      observer.observe(el);
+    } else {
+      visible = true;
+      start();
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden && visible) start();
+    });
+  }
+
+  /* --- fx-decode：区块标题「字符乱码 → 逐字解析」 ---
+     安全约定：
+     · 只处理没有元素子节点的宿主（含 <span class="highlight"> / <br> 的一律跳过）
+     · 全程只改写 textContent，动画结束（或被降级打断）时精确还原原文
+     · 乱码期同样保留空格换行，不改变文本长度与断行位置 */
+  function initDecodeText() {
+    var nodes = document.querySelectorAll('[data-fx-decode]');
+    if (!nodes.length) return;
+
+    var targets = [];
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      if (el.children.length > 0) continue;      /* 含子元素：跳过，不拆结构 */
+      var raw = el.textContent || '';
+      if (!raw.length) continue;
+      targets.push({ el: el, raw: raw, done: false });
+    }
+    if (!targets.length) return;
+
+    /* 降低动效偏好：保留准确原文，不做任何改写（也不加下划线的预备类） */
+    if (prefersReducedMotion()) return;
+
+    /* 先把 .section-title 置为「下划线待展开」状态（进入视口后再展开） */
+    for (var s = 0; s < targets.length; s++) {
+      var title = targets[s].el.closest ? targets[s].el.closest('.section-title') : null;
+      if (title && !title.classList.contains('home-title-in')) {
+        title.classList.add('home-title-armed');
+      }
+    }
+
+    var GLYPHS = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#$%&*+=<>/|';
+    var STEP_MS = 46;     /* 乱码刷新间隔 */
+    var PER_CHAR = 52;    /* 每个字符的解析时长 */
+    var START_DELAY = 260; /* 等 .reveal 入场动画先启动 */
+
+    function run(item) {
+      if (item.done) return;
+      item.done = true;
+
+      var title = item.el.closest ? item.el.closest('.section-title') : null;
+      if (title) title.classList.add('home-title-in');
+
+      var chars = typeof Array.from === 'function' ? Array.from(item.raw) : item.raw.split('');
+      var len = chars.length;
+      var total = 320 + len * PER_CHAR;
+      var elapsed = 0;
+      var prev = 0;
+      var lastPaint = -9999;
+
+      function paint(progress) {
+        var shown = Math.floor(progress * (len + 1.2));
+        var out = '';
+        for (var k = 0; k < len; k++) {
+          var ch = chars[k];
+          if (k < shown || ch === ' ' || ch === '\n' || ch === '\t') out += ch;
+          else out += GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
+        }
+        item.el.textContent = out;
+      }
+
+      function frame(ts) {
+        if (!prev) prev = ts;
+        var dt = ts - prev;
+        prev = ts;
+        if (dt > 120) dt = 120;                 /* 切回前台不跳帧 */
+        if (!document.hidden) elapsed += dt;    /* 页面隐藏时冻结进度 */
+        var progress = elapsed / total;
+        if (progress >= 1) {
+          item.el.textContent = item.raw;       /* 精确还原，绝不留乱码 */
+          return;
+        }
+        if (ts - lastPaint >= STEP_MS) {
+          lastPaint = ts;
+          paint(progress);
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function schedule(item, delay) {
+      window.setTimeout(function () {
+        if (prefersReducedMotion()) {             /* 中途切换偏好：还原原文 */
+          item.el.textContent = item.raw;
+          return;
+        }
+        run(item);
+      }, delay);
+    }
+
+    if (typeof IntersectionObserver !== 'function') {
+      for (var f = 0; f < targets.length; f++) schedule(targets[f], START_DELAY + f * 120);
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      for (var n = 0; n < entries.length; n++) {
+        var entry = entries[n];
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        for (var t = 0; t < targets.length; t++) {
+          if (targets[t].el === entry.target) schedule(targets[t], START_DELAY);
+        }
+      }
+    }, { threshold: 0.45 });
+    for (var m = 0; m < targets.length; m++) observer.observe(targets[m].el);
+  }
+
+  /* --- fx-reticle：桌面端科幻准星（环 + 十字 + 光点，三级跟随延迟） ---
+     只在 Hero 区域内显示；触屏、<992px、prefers-reduced-motion 一律不启用。
+     与既有爪印光标共存：本层 pointer-events: none，不改变任何光标样式。 */
+  function initReticle() {
+    var hero = document.querySelector('.hero');
+    var box = document.querySelector('.home-reticle');
+    if (!hero || !box || !box.parentNode) return;
+    if (isCoarsePointer() || prefersReducedMotion()) return;
+
+    var ring = box.querySelector('.home-reticle-ring');
+    var cross = box.querySelector('.home-reticle-cross');
+    var dot = box.querySelector('.home-reticle-dot');
+    if (!ring || !cross || !dot) return;
+
+    var host = box.parentNode;      /* .hero-inner：准星的坐标参考系 */
+    var rect = null;
+    var lastX = -9999;
+    var lastY = -9999;
+    var tx = -200, ty = -200;
+    var rx = -200, ry = -200;
+    var cx = -200, cy = -200;
+    var dx = -200, dy = -200;
+    var live = false;
+    var running = false;
+    var rafId = 0;
+
+    function measure() { rect = host.getBoundingClientRect(); }
+    function place(node, x, y) {
+      node.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+    }
+    function frame() {
+      rafId = 0;
+      if (!live) { running = false; return; }
+      if (document.hidden) { rafId = requestAnimationFrame(frame); return; }
+      rx += (tx - rx) * 0.14; ry += (ty - ry) * 0.14;   /* 外环：最慢，形成拖尾 */
+      cx += (tx - cx) * 0.34; cy += (ty - cy) * 0.34;   /* 十字：中速 */
+      dx += (tx - dx) * 0.60; dy += (ty - dy) * 0.60;   /* 光点：最快，几乎贴合 */
+      place(ring, rx, ry);
+      place(cross, cx, cy);
+      place(dot, dx, dy);
+      /* 三级都已收敛（以最慢的外环为准）即停帧，鼠标再动时由 start() 唤醒 */
+      if (Math.abs(tx - rx) < 0.5 && Math.abs(ty - ry) < 0.5) { running = false; return; }
+      rafId = requestAnimationFrame(frame);
+    }
+    function start() {
+      if (running) return;
+      running = true;
+      rafId = requestAnimationFrame(frame);
+    }
+    function stop() {
+      running = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    }
+    function hide() {
+      if (!live) return;
+      live = false;
+      box.classList.remove('home-reticle-on');
+      stop();
+    }
+    function show() {
+      live = true;
+      rx = cx = dx = tx;
+      ry = cy = dy = ty;
+      box.classList.add('home-reticle-on');
+      start();
+    }
+
+    hero.addEventListener('mousemove', function (e) {
+      if (window.innerWidth < 992) { hide(); return; }
+      if (!rect) measure();
+      lastX = e.clientX;
+      lastY = e.clientY;
+      tx = e.clientX - rect.left;
+      ty = e.clientY - rect.top;
+      if (!live) show(); else start();   /* 收敛后已停帧，移动时重新唤醒 */
+    }, { passive: true });
+
+    hero.addEventListener('mouseleave', hide, { passive: true });
+
+    /* 滚动/缩放后 Hero 已移动：重算局部坐标，移出 Hero 则隐藏
+       （容差取宽屏留白量级，避免鼠标进入 Hero 两侧留白时准星闪烁） */
+    var queued = false;
+    function reposition() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () {
+        queued = false;
+        if (!live) return;
+        measure();
+        tx = lastX - rect.left;
+        ty = lastY - rect.top;
+        if (tx < -240 || ty < -240 || tx > rect.width + 240 || ty > rect.height + 240) { hide(); return; }
+        start();          /* 坐标已变，唤醒帧循环重新贴合 */
+      });
+    }
+    window.addEventListener('scroll', reposition, { passive: true });
+    window.addEventListener('resize', reposition, { passive: true });
+  }
+
+  /* --- fx-beam：区块分隔处的能量束，随滚动推进 ---
+     容器高度 0（不产生布局位移）；进度 = 分隔线穿过视口的比例。
+     只写 transform：fill 用 scaleX、head 用 translate3d(百分比)。
+     触屏保留（滚动驱动，与指针无关）；降低动效偏好下由 CSS 静态呈现。 */
+  function initScrollBeams() {
+    var boxes = document.querySelectorAll('[data-beam]');
+    if (!boxes.length) return;
+    if (prefersReducedMotion()) return;   /* 降级：CSS 给出静态完整光带 */
+
+    var items = [];
+    for (var i = 0; i < boxes.length; i++) {
+      var box = boxes[i];
+      var fill = box.querySelector('.home-beam-fill');
+      var head = box.querySelector('.home-beam-head');
+      if (!fill || !head) continue;
+      items.push({ box: box, fill: fill, head: head, top: 0, p: -1, near: true, live: false });
+    }
+    if (!items.length) return;
+
+    function scrollTop() {
+      return window.pageYOffset || document.documentElement.scrollTop || 0;
+    }
+
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight || 1;
+      var y = scrollTop();
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i];
+        if (!it.near) continue;
+        var p = (y + vh - it.top) / (vh * 0.9);
+        p = p < 0 ? 0 : (p > 1 ? 1 : p);
+        if (Math.abs(p - it.p) < 0.002) continue;
+        it.p = p;
+        it.fill.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+        it.head.style.transform = 'translate3d(' + (p * 100).toFixed(3) + '%,0,0)';
+        if (p > 0.005 && p < 0.995) {
+          if (!it.live) { it.live = true; it.box.classList.add('home-beam-live'); }
+        } else if (it.live) {
+          it.live = false;
+          it.box.classList.remove('home-beam-live');
+        }
+      }
+    }
+    function request() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+    function measure() {
+      for (var i = 0; i < items.length; i++) {
+        var r = items[i].box.getBoundingClientRect();
+        items[i].top = r.top + scrollTop();
+      }
+      request();
+    }
+
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', measure, { passive: true });
+    window.addEventListener('load', measure, { passive: true });
+    window.setTimeout(measure, 1500);     /* 图片加载完成后重新测量 */
+
+    if (typeof IntersectionObserver === 'function') {
+      var observer = new IntersectionObserver(function (entries) {
+        for (var n = 0; n < entries.length; n++) {
+          for (var k = 0; k < items.length; k++) {
+            if (items[k].box === entries[n].target) items[k].near = entries[n].isIntersecting;
+          }
+        }
+        request();
+      }, { rootMargin: '240px 0px' });
+      for (var m = 0; m < items.length; m++) observer.observe(items[m].box);
+    }
+
+    measure();
   }
 
 })();

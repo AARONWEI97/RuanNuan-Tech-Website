@@ -25,7 +25,7 @@
   overflow: hidden;
   padding-top: 72px;
   /* Light paw cursor for dark bg */
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cellipse cx='14' cy='17' rx='7' ry='8.5' fill='%23E8B86D' opacity='0.9'/%3E%3Ccircle cx='6' cy='8' r='3.2' fill='%23E8B86D' opacity='0.9'/%3E%3Ccircle cx='10.5' cy='4.5' r='3' fill='%23E8B86D' opacity='0.9'/%3E%3Ccircle cx='17.5' cy='4.5' r='3' fill='%23E8B86D' opacity='0.9'/%3E%3Ccircle cx='22' cy='8' r='3.2' fill='%23E8B86D' opacity='0.9'/%3E%3C/svg%3E") 14 14, auto;
+  cursor: url("../assets/cursor/paw-light.svg") 16 24, auto;
 }
 /* Fluid gradient orbs */
 .hero-fluid-orbs {
@@ -76,7 +76,7 @@
   50% { transform: translate(-40px, -40px) scale(1.15); }
 }
 .hero a, .hero button, .hero .btn, .hero .product-card-3d {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='20' rx='8' ry='9.5' fill='%23E8B86D'/%3E%3Ccircle cx='7' cy='10' r='3.8' fill='%23E8B86D'/%3E%3Ccircle cx='12' cy='5.5' r='3.5' fill='%23E8B86D'/%3E%3Ccircle cx='20' cy='5.5' r='3.5' fill='%23E8B86D'/%3E%3Ccircle cx='25' cy='10' r='3.8' fill='%23E8B86D'/%3E%3Ccircle cx='16' cy='20' r='3' fill='%23FDF8F0' opacity='0.4'/%3E%3C/svg%3E") 16 16, pointer;
+  cursor: url("../assets/cursor/paw-light-pointer.svg") 18 27, pointer;
 }
 .hero::before {
   content: '';
@@ -1088,10 +1088,10 @@
   background: linear-gradient(160deg, var(--color-ink-950) 0%, var(--color-ink-900) 55%, #241A0E 100%);
   position: relative;
   overflow: hidden;
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cellipse cx='14' cy='17' rx='7' ry='8.5' fill='%23E8B86D' opacity='0.9'/%3E%3Ccircle cx='6' cy='8' r='3.2' fill='%23E8B86D' opacity='0.9'/%3E%3Ccircle cx='10.5' cy='4.5' r='3' fill='%23E8B86D' opacity='0.9'/%3E%3Ccircle cx='17.5' cy='4.5' r='3' fill='%23E8B86D' opacity='0.9'/%3E%3Ccircle cx='22' cy='8' r='3.2' fill='%23E8B86D' opacity='0.9'/%3E%3C/svg%3E") 14 14, auto;
+  cursor: url("../assets/cursor/paw-light.svg") 16 24, auto;
 }
-.contact-section a, .contact-section button, .contact-section .btn, .contact-section input, .contact-section textarea, .contact-section select {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='20' rx='8' ry='9.5' fill='%23E8B86D'/%3E%3Ccircle cx='7' cy='10' r='3.8' fill='%23E8B86D'/%3E%3Ccircle cx='12' cy='5.5' r='3.5' fill='%23E8B86D'/%3E%3Ccircle cx='20' cy='5.5' r='3.5' fill='%23E8B86D'/%3E%3Ccircle cx='25' cy='10' r='3.8' fill='%23E8B86D'/%3E%3Ccircle cx='16' cy='20' r='3' fill='%23FDF8F0' opacity='0.4'/%3E%3C/svg%3E") 16 16, pointer;
+.contact-section a, .contact-section button, .contact-section .btn {
+  cursor: url("../assets/cursor/paw-light-pointer.svg") 18 27, pointer;
 }
 .contact-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 0% 100%, rgba(212,148,58,0.15) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(240,107,94,0.1) 0%, transparent 50%); pointer-events: none; }
 .contact-section::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(232,184,109,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(232,184,109,0.045) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
@@ -1338,4 +1338,391 @@
     transform: none;
   }
   .hero-mouse-glow { display: none; }
+}
+
+/* ============================================================
+   科幻动效升级层 Sci-Fi Motion Layer（2026-10-04，仅首页）
+   ------------------------------------------------------------
+   1) .home-pipeline    Hero 四卡数据总线（SVG + CSS 关键帧）
+   2) .home-terminal    终端逐字打字循环（js/home.js 驱动文本）
+   3) .home-hud         HUD 四角括号 + 扫描光带
+   4) [data-fx-decode]  区块标题「乱码 → 逐字解析」（js/home.js）
+   5) .home-reticle     桌面端科幻准星（js/home.js）
+   6) .home-beam        区块分隔处随滚动推进的能量束（js/home.js）
+
+   纪律：
+   · 只驱动 transform / opacity（filter / 渐变 / 阴影均静态）
+   · 新增 @keyframes 一律 home- 前缀，避免覆盖 effects.css 同名关键帧
+   · 每个 @keyframes 均在本文件末尾 prefers-reduced-motion 块中有对应关闭规则
+   · pointer: coarse 不启用任何鼠标跟随类效果（准星）
+   · 不接管任何既有元素（.product-card-3d / .showcase-track / .reveal）的 transform
+   ============================================================ */
+
+/* ---------- 1) 数据总线 fx-pipeline：四卡之间的数据包流动 ---------- */
+.home-pipeline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;                 /* 位于 .product-card-3d(z-index:1) 之上，纯装饰覆盖层 */
+  pointer-events: none;
+}
+.home-pipeline .home-pipe-rail {
+  fill: none;
+  stroke: rgba(232, 184, 109, 0.26);
+  stroke-width: 1;
+  stroke-dasharray: 1.2 2.4;
+}
+.home-pipeline .home-pipe-branch {
+  fill: none;
+  stroke-width: 1;      /* 渐变色引用写在 SVG 的 stroke 呈现属性上（外链 CSS 里 url(#id) 解析基准不可靠） */
+}
+.home-pipeline .home-pipe-port {
+  fill: rgba(232, 184, 109, 0.5);
+  stroke: rgba(232, 184, 109, 0.85);
+  stroke-width: 0.3;
+}
+/* 结点脉冲环：几何中心缩放（transform-box: fill-box），只动 transform/opacity */
+.home-pipeline .home-pipe-pulse {
+  fill: none;
+  stroke: rgba(232, 184, 109, 0.75);
+  stroke-width: 0.22;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.home-pipeline .home-pipe-pulse-1 { animation: home-pipe-pulse 3.4s ease-out 0.95s infinite; }
+.home-pipeline .home-pipe-pulse-2 { animation: home-pipe-pulse 3.4s ease-out 1.8s infinite; }
+.home-pipeline .home-pipe-pulse-3 { animation: home-pipe-pulse 3.4s ease-out 2.65s infinite; }
+.home-pipeline .home-pipe-pulse-4 { animation: home-pipe-pulse 3.4s ease-out 3.5s infinite; }
+.home-pipeline .home-pipe-packet {
+  fill: #E8B86D;
+  opacity: 0;
+  /* 静态发光（动画期间不改变 filter） */
+  filter: drop-shadow(0 0 1.6px rgba(232, 184, 109, 0.85));
+}
+/* 第 3 条支线（收银系统）改用品牌绿，呼应卡片配色 */
+.home-pipeline .home-pipe-packet-3 { fill: #7BAE7F; filter: drop-shadow(0 0 1.6px rgba(123, 174, 127, 0.85)); }
+
+.home-pipeline .home-pipe-spine-packet { animation: home-pipe-spine 7s linear infinite; }
+.home-pipeline .home-pipe-packet-1 { animation: home-pipe-branch 3.4s cubic-bezier(0.4, 0, 0.2, 1) 0s infinite; }
+.home-pipeline .home-pipe-packet-2 { animation: home-pipe-branch 3.4s cubic-bezier(0.4, 0, 0.2, 1) 0.85s infinite; }
+.home-pipeline .home-pipe-packet-3 { animation: home-pipe-branch 3.4s cubic-bezier(0.4, 0, 0.2, 1) 1.7s infinite; }
+.home-pipeline .home-pipe-packet-4 { animation: home-pipe-branch 3.4s cubic-bezier(0.4, 0, 0.2, 1) 2.55s infinite; }
+
+@keyframes home-pipe-spine {
+  0%   { transform: translate(0, -2px); opacity: 0; }
+  6%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translate(0, 101px); opacity: 0; }
+}
+@keyframes home-pipe-branch {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  16%  { opacity: 1; }
+  68%  { opacity: 1; }
+  100% { transform: translate(2px, 0); opacity: 0; }
+}
+@keyframes home-pipe-pulse {
+  0%   { transform: scale(0.7); opacity: 0; }
+  14%  { opacity: 0.85; }
+  62%  { transform: scale(2.1); opacity: 0; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+
+/* ---------- 2) 终端打字 fx-terminal ---------- */
+.home-terminal {
+  position: relative;
+  max-width: 460px;
+  margin-top: 30px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  animation: home-slide-up 0.8s var(--ease-out-expo) 0.85s both;
+}
+.home-terminal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232, 184, 109, 0.55), transparent);
+}
+.home-terminal-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+.home-terminal-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(232, 184, 109, 0.32); }
+.home-terminal-dot:nth-child(2) { background: rgba(240, 107, 94, 0.32); }
+.home-terminal-dot:nth-child(3) { background: rgba(123, 174, 127, 0.32); }
+.home-terminal-label {
+  margin-left: 8px;
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(232, 184, 109, 0.55);
+}
+/* 固定两行高度：打字/删字过程中不引起 hero 高度抖动（防 CLS） */
+.home-terminal-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 2.9em;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.home-terminal-prompt {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-primary-light);
+}
+.home-terminal-text { color: rgba(255, 255, 255, 0.85); }
+.home-terminal-caret {
+  flex-shrink: 0;
+  width: 8px;
+  height: 15px;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #E8B86D 0%, #F06B5E 100%);
+  box-shadow: 0 0 8px rgba(232, 184, 109, 0.55);
+  animation: home-caret-blink 1.05s steps(1, end) infinite;
+}
+@keyframes home-caret-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0.12; }
+}
+
+/* ---------- 3) HUD 边框 fx-hud：四角括号 + 扫描光带 ---------- */
+.home-hud {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  animation: home-hud-breathe 7s ease-in-out infinite;
+}
+.home-hud-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 0 solid rgba(232, 184, 109, 0.42);
+  animation: home-hud-corner-in 1.1s var(--ease-out-expo) 0.3s both;
+}
+.home-hud-corner.tl { top: 0; left: 0; border-top-width: 1.5px; border-left-width: 1.5px; border-top-left-radius: 5px; }
+.home-hud-corner.tr { top: 0; right: 0; border-top-width: 1.5px; border-right-width: 1.5px; border-top-right-radius: 5px; }
+.home-hud-corner.bl { bottom: 0; left: 0; border-bottom-width: 1.5px; border-left-width: 1.5px; border-bottom-left-radius: 5px; }
+.home-hud-corner.br { bottom: 0; right: 0; border-bottom-width: 1.5px; border-right-width: 1.5px; border-bottom-right-radius: 5px; }
+/* 扫描光带：元素自身铺满容器，靠 translateY(自身高度百分比) 位移（transform only） */
+.home-hud-scan {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(180deg,
+    rgba(232, 184, 109, 0) 0%,
+    rgba(232, 184, 109, 0.05) 42%,
+    rgba(232, 184, 109, 0.13) 50%,
+    rgba(232, 184, 109, 0.05) 58%,
+    rgba(232, 184, 109, 0) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 170px;
+  opacity: 0;
+  animation: home-hud-scan 9s cubic-bezier(0.45, 0, 0.55, 1) 1.4s infinite;
+}
+@keyframes home-hud-breathe {
+  0%, 100% { opacity: 0.72; }
+  50%      { opacity: 1; }
+}
+@keyframes home-hud-corner-in {
+  from { opacity: 0; transform: scale(0.55); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes home-hud-scan {
+  0%   { transform: translateY(-14%); opacity: 0; }
+  8%   { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateY(104%); opacity: 0; }
+}
+
+/* ---------- 4) 解码文字 fx-decode ---------- */
+/* 解码只改写文本节点，不改结构；结束后由 js/home.js 精确还原原文。
+   注意：不对 [data-fx-decode] 写 display —— 宿主可能是 <h2>（块级），
+   改动 display 会连带丢掉它的垂直外边距，等于动了版式。 */
+/* 产品矩阵标题的字符拆分由 effects.js 的 .section-title 逻辑承担，
+   该标题改用解码入场，这里补齐与 .fx-title-chars::after 等价的暖色下划线，
+   保持原本的视觉重量；无 JS 时下划线默认可见（渐进增强）。 */
+.products-section .section-title::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 3px;
+  margin: 14px auto 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, #D4943A, #F06B5E, transparent);
+  transform: scaleX(1);
+  transform-origin: 50% 50%;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+}
+.products-section .section-title.home-title-armed::after { transform: scaleX(0); }
+.products-section .section-title.home-title-armed.home-title-in::after { transform: scaleX(1); }
+
+/* ---------- 5) 科幻准星 fx-reticle（仅桌面端、仅 Hero 内） ---------- */
+.home-reticle {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.home-reticle.home-reticle-on { opacity: 1; }
+.home-reticle-ring,
+.home-reticle-cross,
+.home-reticle-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.home-reticle-ring {
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 184, 109, 0.5);
+}
+.home-reticle-ticks {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px dashed rgba(232, 184, 109, 0.35);
+  animation: home-reticle-spin 7s linear infinite;
+}
+.home-reticle-cross {
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+}
+.home-reticle-cross::before,
+.home-reticle-cross::after {
+  content: '';
+  position: absolute;
+  background: rgba(232, 184, 109, 0.85);
+}
+.home-reticle-cross::before { top: 50%; left: 0; width: 100%; height: 1px; margin-top: -0.5px; }
+.home-reticle-cross::after { left: 50%; top: 0; height: 100%; width: 1px; margin-left: -0.5px; }
+.home-reticle-dot {
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  box-shadow: 0 0 8px rgba(232, 184, 109, 0.9);
+}
+@keyframes home-reticle-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ---------- 6) 流光进度梁 fx-beam：区块分隔处的能量束 ---------- */
+/* 容器高度为 0：作为分隔元素的同级/子级插入时不产生任何布局位移 */
+.home-beam {
+  position: relative;
+  height: 0;
+  z-index: 2;
+}
+.paw-divider > .home-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 0;
+}
+.home-beam-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1.5px;
+  height: 3px;
+  border-radius: 3px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg,
+    rgba(212, 148, 58, 0) 0%,
+    rgba(232, 184, 109, 0.55) 45%,
+    rgba(232, 184, 109, 0.85) 78%,
+    rgba(240, 107, 94, 0.95) 100%);
+  box-shadow: 0 0 10px rgba(232, 184, 109, 0.35);
+}
+/* 束头：宽度撑满容器，靠 translateX(自身宽度百分比) 与 fill 同步推进 */
+.home-beam-head {
+  position: absolute;
+  left: 0;
+  top: -6px;
+  width: 100%;
+  height: 13px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background-image: radial-gradient(circle 5px at 3px 50%,
+    rgba(255, 236, 205, 0.95) 0%,
+    rgba(232, 184, 109, 0.5) 45%,
+    rgba(232, 184, 109, 0) 75%);
+  background-repeat: no-repeat;
+}
+.home-beam.home-beam-live .home-beam-head {
+  opacity: 1;
+  animation: home-beam-head-pulse 2.6s ease-in-out infinite;
+}
+@keyframes home-beam-head-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* ---------- 科幻动效层 · 响应式 ---------- */
+@media (max-width: 992px) {
+  /* 单列 Hero：数据总线与 HUD 边框失去参考系，直接隐藏 */
+  .home-pipeline { display: none; }
+  .home-hud { display: none; }
+  .home-reticle { display: none; }
+}
+@media (max-width: 768px) {
+  .home-terminal { max-width: 100%; margin-top: 24px; }
+  .home-terminal-line { font-size: 0.8rem; }
+}
+@media (max-width: 480px) {
+  .home-terminal { padding: 10px 12px; }
+  .home-terminal-line { font-size: 0.76rem; }
+  .home-terminal-label { letter-spacing: 0.1em; }
+}
+
+/* ---------- 科幻动效层 · 触屏降级（关闭鼠标跟随类） ---------- */
+@media (pointer: coarse) {
+  .home-reticle { display: none; }
+}
+
+/* ---------- 科幻动效层 · 降低动效偏好 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .home-pipeline .home-pipe-spine-packet,
+  .home-pipeline .home-pipe-packet,
+  .home-pipeline .home-pipe-pulse,
+  .home-hud,
+  .home-hud-corner,
+  .home-hud-scan,
+  .home-terminal,
+  .home-terminal-caret,
+  .home-reticle-ticks,
+  .home-beam-head {
+    animation: none !important;
+  }
+  /* 数据包与脉冲环静止不显示；轨道/支线/端口保持静态蓝图感 */
+  .home-pipeline .home-pipe-packet,
+  .home-pipeline .home-pipe-pulse { opacity: 0 !important; }
+  .home-hud-scan { opacity: 0 !important; }
+  /* 打字效果整体关闭：终端直接显示首句静止文案（文本由 home.js 还原） */
+  .home-terminal-caret { opacity: 1 !important; }
+  /* 准星属鼠标跟随位移，整体关闭 */
+  .home-reticle { display: none !important; }
+  /* 能量束不做随滚动缩放：静态呈现为一条完整暖色分割光带 */
+  .home-beam-fill { transform: scaleX(1) !important; transition: none !important; }
+  .home-beam-head { display: none !important; }
+  /* 解码下划线直接给出终态 */
+  .products-section .section-title::after {
+    transform: scaleX(1) !important;
+    transition: none !important;
+  }
 }

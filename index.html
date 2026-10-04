@@ -115,6 +115,20 @@
         <div class="hero-orb" aria-hidden="true"></div>
         <canvas class="hero-particles" aria-hidden="true"></canvas>
         <div class="hero-inner">
+            <!-- 科幻 HUD：四角括号 + 扫描光带（纯装饰，CSS 驱动） -->
+            <div class="home-hud" aria-hidden="true">
+                <span class="home-hud-corner tl"></span>
+                <span class="home-hud-corner tr"></span>
+                <span class="home-hud-corner bl"></span>
+                <span class="home-hud-corner br"></span>
+                <span class="home-hud-scan"></span>
+            </div>
+            <!-- 科幻准星：仅桌面端、仅 Hero 内启用（触屏与降低动效偏好自动关闭） -->
+            <div class="home-reticle" aria-hidden="true">
+                <span class="home-reticle-ring"><span class="home-reticle-ticks"></span></span>
+                <span class="home-reticle-cross"></span>
+                <span class="home-reticle-dot"></span>
+            </div>
             <div class="hero-content">
                 <div class="hero-badge">
                     <i class="fas fa-paw" aria-hidden="true"></i>
@@ -149,8 +163,54 @@
                         <div class="stat-label">效率提升</div>
                     </div>
                 </div>
+                <!-- 终端打字：文案全部取自本页既有词句，纯装饰（aria-hidden） -->
+                <div class="home-terminal fx-glass-dark" aria-hidden="true">
+                    <div class="home-terminal-bar">
+                        <span class="home-terminal-dot"></span><span class="home-terminal-dot"></span><span class="home-terminal-dot"></span>
+                        <span class="home-terminal-label">RanNuan Tech</span>
+                    </div>
+                    <p class="home-terminal-line"><span class="home-terminal-prompt">&gt;</span><span class="home-terminal-text">用技术创造温暖</span><span class="home-terminal-caret"></span></p>
+                </div>
             </div>
             <div class="hero-visual">
+                <!-- 数据总线：四款产品互联的数据包流动（SVG 覆盖层，纯装饰） -->
+                <svg class="home-pipeline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <defs>
+                        <linearGradient id="homePipeFade" gradientUnits="userSpaceOnUse" x1="1.2" y1="0" x2="3.2" y2="0">
+                            <stop offset="0" stop-color="#E8B86D" stop-opacity="0.45"/>
+                            <stop offset="0.7" stop-color="#E8B86D" stop-opacity="0.2"/>
+                            <stop offset="1" stop-color="#F06B5E" stop-opacity="0.06"/>
+                        </linearGradient>
+                    </defs>
+                    <line class="home-pipe-rail" x1="1.2" y1="1" x2="1.2" y2="99" vector-effect="non-scaling-stroke"/>
+                    <g transform="translate(1.2 0)">
+                        <rect class="home-pipe-packet home-pipe-spine-packet" x="-0.65" y="-0.65" width="1.3" height="1.3" rx="0.3"/>
+                    </g>
+                    <g transform="translate(1.2 12.5)">
+                        <line class="home-pipe-branch" stroke="url(#homePipeFade)" x1="0" y1="0" x2="2" y2="0" vector-effect="non-scaling-stroke"/>
+                        <circle class="home-pipe-port" cx="2" cy="0" r="0.5"/>
+                        <circle class="home-pipe-pulse home-pipe-pulse-1" cx="2" cy="0" r="0.5"/>
+                        <rect class="home-pipe-packet home-pipe-packet-1" x="-0.7" y="-0.7" width="1.4" height="1.4" rx="0.3"/>
+                    </g>
+                    <g transform="translate(1.2 37.5)">
+                        <line class="home-pipe-branch" stroke="url(#homePipeFade)" x1="0" y1="0" x2="2" y2="0" vector-effect="non-scaling-stroke"/>
+                        <circle class="home-pipe-port" cx="2" cy="0" r="0.5"/>
+                        <circle class="home-pipe-pulse home-pipe-pulse-2" cx="2" cy="0" r="0.5"/>
+                        <rect class="home-pipe-packet home-pipe-packet-2" x="-0.7" y="-0.7" width="1.4" height="1.4" rx="0.3"/>
+                    </g>
+                    <g transform="translate(1.2 62.5)">
+                        <line class="home-pipe-branch" stroke="url(#homePipeFade)" x1="0" y1="0" x2="2" y2="0" vector-effect="non-scaling-stroke"/>
+                        <circle class="home-pipe-port" cx="2" cy="0" r="0.5"/>
+                        <circle class="home-pipe-pulse home-pipe-pulse-3" cx="2" cy="0" r="0.5"/>
+                        <rect class="home-pipe-packet home-pipe-packet-3" x="-0.7" y="-0.7" width="1.4" height="1.4" rx="0.3"/>
+                    </g>
+                    <g transform="translate(1.2 87.5)">
+                        <line class="home-pipe-branch" stroke="url(#homePipeFade)" x1="0" y1="0" x2="2" y2="0" vector-effect="non-scaling-stroke"/>
+                        <circle class="home-pipe-port" cx="2" cy="0" r="0.5"/>
+                        <circle class="home-pipe-pulse home-pipe-pulse-4" cx="2" cy="0" r="0.5"/>
+                        <rect class="home-pipe-packet home-pipe-packet-4" x="-0.7" y="-0.7" width="1.4" height="1.4" rx="0.3"/>
+                    </g>
+                </svg>
                 <div class="hero-orbit hero-orbit-1" aria-hidden="true"></div>
                 <div class="hero-orbit hero-orbit-2" aria-hidden="true"></div>
                 <!-- 3D Card 1: Order -->
@@ -252,6 +312,11 @@
         <div class="paw-divider-inner">
             <i class="fas fa-paw" aria-hidden="true"></i><i class="fas fa-paw" aria-hidden="true"></i><i class="fas fa-paw" aria-hidden="true"></i>
         </div>
+        <!-- 能量束：随滚动推进（零高度容器，不产生布局位移） -->
+        <div class="home-beam" data-beam aria-hidden="true">
+            <span class="home-beam-fill"></span>
+            <span class="home-beam-head"></span>
+        </div>
     </div>
 
     <!-- Products Showcase -->
@@ -259,7 +324,7 @@
         <div class="section-header reveal reveal-scale">
             <span class="section-index">01</span>
             <div class="section-badge"><i class="fas fa-paw" aria-hidden="true"></i> 产品矩阵</div>
-            <h2 class="section-title">四款产品，覆盖四大场景</h2>
+            <h2 class="section-title"><span data-fx-decode>四款产品，覆盖四大场景</span></h2>
             <p class="section-subtitle">每一款产品都源自真实业务需求，经过反复打磨，只为解决实际问题</p>
         </div>
         <!-- Carousel Wrapper -->
@@ -470,6 +535,10 @@
 </section>
 
     <hr class="fx-glowline" aria-hidden="true">
+    <div class="home-beam" data-beam aria-hidden="true">
+        <span class="home-beam-fill"></span>
+        <span class="home-beam-head"></span>
+    </div>
 
     <!-- About -->
     <section class="section about-section" id="about">
@@ -478,7 +547,7 @@
             <div class="about-content reveal reveal-left delay-1">
                 <span class="section-index">02</span>
                 <div class="section-badge"><i class="fas fa-paw" aria-hidden="true"></i> 关于我们</div>
-                <h2>冉暖科技<br>用技术创造温暖</h2>
+                <h2><span data-fx-decode>冉暖科技</span><br><span data-fx-decode>用技术创造温暖</span></h2>
                 <p>我是一名独立开发者，目前在某国产运动品牌担任商品运营工作。因为日常工作中遇到的各种痛点，我开始利用业余时间开发解决实际问题的软件工具。</p>
                 <p>从最初的订货管理工具，到跨平台音乐播放器、专卖店收银系统，再到 RanNuan TV 视频聚合平台——每一款产品都源自真实的业务场景，经过反复迭代打磨，逐渐形成了"冉暖科技"的产品矩阵。</p>
                 <p>我始终相信：好的软件不需要大而全，能真正解决一个具体问题就是好软件。</p>
@@ -509,13 +578,17 @@
     </section>
 
     <hr class="fx-glowline" aria-hidden="true">
+    <div class="home-beam" data-beam aria-hidden="true">
+        <span class="home-beam-fill"></span>
+        <span class="home-beam-head"></span>
+    </div>
 
     <!-- Contact -->
     <section class="section contact-section" id="contact">
         <div class="contact-inner">
             <div class="contact-info reveal reveal-left delay-1">
                 <span class="section-index on-dark">03</span>
-                <h2>联系我们</h2>
+                <h2 data-fx-decode>联系我们</h2>
                 <p>有任何问题、建议或合作意向，欢迎随时联系。通常在24小时内响应。</p>
                 <div class="contact-details fx-stagger">
                     <a href="#" class="contact-item contact-item-link" data-modal-open="wechat">
