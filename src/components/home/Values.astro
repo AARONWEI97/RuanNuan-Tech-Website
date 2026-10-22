@@ -1,0 +1,47 @@
+---
+/** 理念 Bento（浅色）：四条价值 + 技术云 + 两项数据。文案取自旧版 About 区 */
+import Icon from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import { allTech } from '../../data/products';
+
+const values = [
+  { icon: 'fa6-solid:crosshairs', title: '解决实际问题', en: 'REAL PROBLEMS', text: '每一款产品都源自真实的业务场景，从日常工作的痛点出发。' },
+  { icon: 'fa6-solid:feather', title: '保持简单好用', en: 'KEEP IT SIMPLE', text: '好的软件不需要大而全，能真正解决一个具体问题就是好软件。' },
+  { icon: 'fa6-solid:arrows-rotate', title: '持续迭代优化', en: 'ITERATE', text: '经过反复迭代打磨，逐渐形成了「冉暖科技」的产品矩阵。' },
+  { icon: 'fa6-solid:heart', title: '真诚服务用户', en: 'WITH WARMTH', text: '有任何问题、建议或合作意向，通常在 24 小时内响应。' },
+];
+---
+<section class="section values" data-theme="light" aria-labelledby="valuesTitle">
+  <div class="container">
+    <SectionHead index="02" eyebrow="PRINCIPLES" label="我们的理念" id="valuesTitle"
+      title="用技术，" highlight="解决真实业务问题" />
+
+    <div class="bento" data-stagger>
+      {values.map((v, i) => (
+        <article class={`bento-card bento-v bv-${i + 1}`} data-spotlight>
+          <span class="bento-icon"><Icon name={v.icon} /></span>
+          <p class="bento-en mono">{v.en}</p>
+          <h3>{v.title}</h3>
+          <p class="bento-text">{v.text}</p>
+        </article>
+      ))}
+      <article class="bento-card bento-stat bs-1" data-spotlight data-theme="dark">
+        <p class="bento-en mono">CRAFTED</p>
+        <p class="bento-num"><span data-counter="3">3</span><small>年</small></p>
+        <p class="bento-text">打磨 · 持续深耕</p>
+      </article>
+      <article class="bento-card bento-stat bs-2" data-spotlight>
+        <p class="bento-en mono">RELEASES</p>
+        <p class="bento-num"><span data-counter="50" data-counter-suffix="+">50+</span><small>次</small></p>
+        <p class="bento-text">迭代 · 不断优化</p>
+      </article>
+      <article class="bento-card bento-tech" data-spotlight>
+        <p class="bento-en mono">STACK · {allTech.length} TECHNOLOGIES</p>
+        <h3>四款产品背后的技术栈</h3>
+        <ul class="tech-cloud" role="list">
+          {allTech.map((t, i) => <li class="chip mono" style={`--t:${i}`}>{t}</li>)}
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>

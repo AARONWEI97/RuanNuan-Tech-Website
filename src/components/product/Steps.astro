@@ -1,0 +1,19 @@
+---
+/** 上手步骤：横向三步，进入视口时连线描出 */
+import Icon from '../Icon.astro';
+
+export interface Step { icon: string; title: string; text: string }
+interface Props { items: Step[] }
+const { items } = Astro.props;
+---
+<ol class="steps" role="list" data-reveal="up" style={`--n:${items.length}`}>
+  <span class="steps-rail" aria-hidden="true"><i></i></span>
+  {items.map((s, i) => (
+    <li class="step" style={`--i:${i}`}>
+      <span class="step-node"><Icon name={s.icon} /></span>
+      <span class="step-num mono">STEP 0{i + 1}</span>
+      <h3>{s.title}</h3>
+      <p>{s.text}</p>
+    </li>
+  ))}
+</ol>

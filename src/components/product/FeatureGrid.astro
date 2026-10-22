@@ -1,0 +1,17 @@
+---
+/** 功能卡片网格：图标 + 标题 + 说明，可带「桌面」这类小角标 */
+import Icon from '../Icon.astro';
+
+export interface Feature { icon: string; title: string; text: string; badge?: string }
+interface Props { items: Feature[]; cols?: 2 | 3 | 4 }
+const { items, cols = 3 } = Astro.props;
+---
+<ul class="fgrid" role="list" style={`--cols:${cols}`} data-stagger>
+  {items.map((f) => (
+    <li class="fcard" data-spotlight>
+      <span class="fcard-icon"><Icon name={f.icon} /></span>
+      <h3 class="fcard-title">{f.title}{f.badge && <span class="fcard-badge mono">{f.badge}</span>}</h3>
+      <p class="fcard-text">{f.text}</p>
+    </li>
+  ))}
+</ul>

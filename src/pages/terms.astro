@@ -1,0 +1,80 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import LegalDoc from '../components/LegalDoc.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const toc = [
+  { id: 'license', label: '授权许可' },
+  { id: 'ip', label: '知识产权' },
+  { id: 'disclaimer', label: '免责声明' },
+  { id: 'service', label: '服务变更与终止' },
+  { id: 'law', label: '适用法律' },
+  { id: 'contact-us', label: '联系方式' },
+];
+const n = (id: string) => String(toc.findIndex((t) => t.id === id) + 1);
+---
+<ContentLayout
+  title="使用条款 - 冉暖订货系统 | 冉暖科技"
+  description="冉暖订货系统的使用条款和用户协议：授权许可、知识产权、免责声明、服务变更与终止、适用法律与联系方式。"
+  keywords="使用条款,用户协议,授权许可,知识产权,免责声明,冉暖订货系统"
+  path="terms.html" page="terms"
+  eyebrow="TERMS OF USE" badge="法律信息" badgeIcon="fa6-solid:scale-balanced"
+  heading="使用" highlight="条款" desc="安装、复制或使用冉暖订货系统之前，请仔细阅读以下条款。"
+>
+  <LegalDoc {toc} sibling={{ href: 'privacy.html', label: '隐私政策' }}>
+    <p class="legal-meta"><Icon name="fa6-solid:calendar-check" /> 生效日期：2025年1月1日</p>
+    <p>欢迎使用“冉暖订货系统”（以下简称“本软件”）。本软件由个人开发者“AaronWei”独立开发。在您安装、复制或使用本软件之前，请仔细阅读以下条款。使用本软件即表示您同意并接受本条款的全部内容。</p>
+
+    <section id="license" aria-labelledby="license-h">
+      <h2 id="license-h"><span class="legal-num" aria-hidden="true">{n('license')}</span>授权许可</h2>
+      <p>本软件授予您在个人电脑或服务器上安装、使用、显示和运行本软件的非独占、不可转让的许可。</p>
+      <p>您可以：</p>
+      <ul>
+        <li>在多台设备上安装本软件的客户端（如适用）。</li>
+        <li>将本软件用于合法的商业或个人用途。</li>
+        <li>在授权期限内享受相应的技术支持与服务。</li>
+      </ul>
+      <p>您不得：</p>
+      <ul>
+        <li>对本软件进行反向工程、反编译或反汇编。</li>
+        <li>修改、破解、去除本软件的版权声明、授权验证机制。</li>
+        <li>将本软件出租、出售、转让或分发给第三方（除非获得开发者书面许可）。</li>
+      </ul>
+    </section>
+
+    <section id="ip" aria-labelledby="ip-h">
+      <h2 id="ip-h"><span class="legal-num" aria-hidden="true">{n('ip')}</span>知识产权</h2>
+      <p>本软件（包括但不限于代码、界面设计、图标、算法、文档）的所有权和知识产权归开发者所有。本软件受著作权法及国际版权条约保护。</p>
+      <p>您购买的是本软件的使用授权，而非本软件的所有权。</p>
+    </section>
+
+    <section id="disclaimer" aria-labelledby="disclaimer-h">
+      <h2 id="disclaimer-h"><span class="legal-num" aria-hidden="true">{n('disclaimer')}</span>免责声明</h2>
+      <p>本软件按“现状”提供，不包含任何形式的明示或暗示保证，包括但不限于适销性、特定用途适用性和非侵权性。</p>
+      <p>在任何情况下，对于因使用或无法使用本软件而导致的任何直接、间接、偶然、特殊或后果性的损害（包括但不限于业务中断、数据丢失、利润损失），开发者概不负责，即使已被告知可能发生此类损害。</p>
+      <p class="legal-key"><strong>请您务必定期备份重要数据。</strong></p>
+    </section>
+
+    <section id="service" aria-labelledby="service-h">
+      <h2 id="service-h"><span class="legal-num" aria-hidden="true">{n('service')}</span>服务变更与终止</h2>
+      <p>开发者保留随时修改、升级或终止本软件服务的权利。对于免费试用版本，开发者有权随时停止提供服务。</p>
+      <p>如果您违反本条款的任何规定，您的授权将自动终止，您必须立即停止使用本软件并销毁所有副本。</p>
+    </section>
+
+    <section id="law" aria-labelledby="law-h">
+      <h2 id="law-h"><span class="legal-num" aria-hidden="true">{n('law')}</span>适用法律</h2>
+      <p>本条款受中华人民共和国法律管辖。如发生争议，双方应友好协商解决；协商不成的，任何一方均有权向开发者所在地人民法院提起诉讼。</p>
+    </section>
+
+    <section id="contact-us" aria-labelledby="contact-us-h">
+      <h2 id="contact-us-h"><span class="legal-num" aria-hidden="true">{n('contact-us')}</span>联系方式</h2>
+      <p>如果您对本条款有任何疑问，请联系：</p>
+      <ul class="legal-contact" role="list">
+        <li><button type="button" data-modal-open="qq"><span>QQ</span><b>{site.qq}</b></button></li>
+        <li><button type="button" data-modal-open="wechat"><span>微信</span><b>{site.wechat}</b></button></li>
+        <li><a href={`mailto:${site.email}`}><span>邮箱</span><b>{site.email}</b></a></li>
+      </ul>
+    </section>
+  </LegalDoc>
+</ContentLayout>

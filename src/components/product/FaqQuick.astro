@@ -1,0 +1,21 @@
+---
+/** 常见问题速览：卡片直达 faq 页对应分组 */
+import Icon from '../Icon.astro';
+import { url } from '../../lib/url';
+
+export interface QuickFaq { icon: string; q: string; a: string; href: string }
+interface Props { items: QuickFaq[] }
+const { items } = Astro.props;
+---
+<ul class="fquick" role="list" data-stagger>
+  {items.map((f) => (
+    <li>
+      <a class="fquick-card" href={url(f.href)} data-spotlight>
+        <span class="fquick-icon"><Icon name={f.icon} /></span>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+        <span class="fquick-link">{f.href.includes('#') ? '查看详情' : '前往 FAQ'} <Icon name="fa6-solid:arrow-right" /></span>
+      </a>
+    </li>
+  ))}
+</ul>

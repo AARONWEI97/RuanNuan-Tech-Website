@@ -1,0 +1,29 @@
+---
+/**
+ * 区块标题：编号 + 描线 + 英文解码标签 + 标题（遮罩升起）+ 副标题
+ */
+interface Props {
+  index: string;
+  eyebrow: string;
+  label?: string;
+  title: string;
+  highlight?: string;
+  sub?: string;
+  center?: boolean;
+  id?: string;
+}
+const { index, eyebrow, label, title, highlight, sub, center = false, id } = Astro.props;
+---
+<header class:list={['shead', { 'is-center': center }]} data-reveal="mask">
+  <p class="shead-meta">
+    <span>{index}</span>
+    <span class="shead-rule" aria-hidden="true"></span>
+    <span data-scramble>{eyebrow}</span>
+    {label && <span class="shead-label">· {label}</span>}
+  </p>
+  <h2 class="shead-title" id={id}>
+    <span class="mask"><span>{title}</span></span>
+    {highlight && <span class="mask" style="--li:1"><span class="grad-text">{highlight}</span></span>}
+  </h2>
+  {sub && <p class="shead-sub" data-reveal="up" style="--rd:0.25s">{sub}</p>}
+</header>

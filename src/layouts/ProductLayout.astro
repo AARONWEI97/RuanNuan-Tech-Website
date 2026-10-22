@@ -1,0 +1,49 @@
+---
+/**
+ * 产品页外壳：在 BaseLayout 之上注入产品主题色、SoftwareApplication JSON-LD 与产品页运行时。
+ * 页脚 CTA 关闭：每个产品页以自己的 CtaBand 收尾。
+ */
+import BaseLayout from './BaseLayout.astro';
+import '../styles/product/hero.css';
+import '../styles/product/sections.css';
+import { site } from '../data/site';
+import type { Product } from '../data/products';
+
+interface Props {
+  product: Product;
+  title: string;
+  description: string;
+  keywords?: string;
+  /** JSON-LD：schema.org applicationCategory */
+  category: 'BusinessApplication' | 'MultimediaApplication';
+  /** JSON-LD：operatingSystem */
+  os: string;
+  /** JSON-LD 描述（比 meta description 更完整的一句话） */
+  ldDescription: string;
+}
+const { product, title, description, keywords, category, os, ldDescription } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: product.name,
+  alternateName: product.en,
+  applicationCategory: category,
+  operatingSystem: os,
+  softwareVersion: product.version.replace(/^[vV]\s*/, ''),
+  url: `${site.url}/${product.href}`,
+  image: `${site.url}/${product.shot.src}`,
+  description: ldDescription,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' },
+  publisher: { '@type': 'Organization', name: site.name, url: `${site.url}/` },
+};
+---
+<BaseLayout {title} {description} {keywords} {jsonLd} path={product.href} page={product.id} footerCta={false}>
+  <div class="ppage" style={`--accent:${product.accent}`}>
+    <slot />
+  </div>
+</BaseLayout>
+
+<script>
+  import '../scripts/product';
+</script>

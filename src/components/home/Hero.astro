@@ -1,0 +1,101 @@
+---
+/**
+ * 首页 Hero（深色）：温度场 WebGL 背景 + 信号网格 + 悬浮产品窗口叠层 + 版本信号条
+ * 外层 .hero-stack 由 index.astro 提供：Hero 吸顶，下一屏「产品章节」从下方覆盖上来
+ */
+import '../../styles/home/hero.css';
+import Icon from '../Icon.astro';
+import { productById, products, type ProductId } from '../../data/products';
+import { url } from '../../lib/url';
+
+const layout: ProductId[] = ['music', 'order', 'epos', 'tv'];
+const ticker = products.map((p) => ({
+  name: p.name,
+  ver: p.platforms ? p.platforms.map((x) => `${x.label} ${x.version}`).join(' / ') : p.version,
+  status: p.status,
+  stable: p.stable,
+}));
+const pulses = [
+  { cls: '', style: '--y:160px;--dur:9s;--delay:0s' },
+  { cls: '', style: '--y:400px;--dur:11s;--delay:3s' },
+  { cls: 'is-v', style: '--x:320px;--dur:10s;--delay:1.5s' },
+  { cls: 'is-v', style: '--x:960px;--dur:12s;--delay:5s' },
+];
+---
+<section class="hero" id="hero" data-theme="dark" aria-labelledby="heroTitle">
+  <div class="hero-scaler">
+    <div class="hero-bg" aria-hidden="true">
+      <canvas class="hero-canvas"></canvas>
+      <div class="signal-grid hero-grid">
+        {pulses.map((p) => <span class:list={['signal-pulse', p.cls]} style={p.style}></span>)}
+      </div>
+    </div>
+
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="hero-eyebrow mono" data-reveal="up">
+          <span class="dot"></span><span data-scramble>RANNUAN TECH · 4 PRODUCTS ONLINE</span>
+        </p>
+        <h1 class="hero-title" id="heroTitle" data-reveal="mask" style="--rd:0.1s">
+          <span class="mask"><span>冉暖科技</span></span>
+          <span class="mask hero-title-2" style="--li:1"><span class="grad-text">四款产品，四大领域</span></span>
+        </h1>
+        <p class="hero-sub" data-reveal="up" style="--rd:0.35s">
+          专注鞋服零售、视频娱乐平台与音乐领域的软件开发团队。从AI智能订货到3D宇宙相册音乐播放器，从专卖店收银到视频聚合播放平台，用技术解决真实业务问题。
+        </p>
+        <div class="hero-actions" data-reveal="up" style="--rd:0.45s">
+          <a href="#products" class="btn btn-primary btn-lg" data-magnetic>
+            <Icon name="fa6-solid:table-cells-large" /> 了解产品 <Icon name="fa6-solid:arrow-right" class="icon-arrow" />
+          </a>
+          <a href="#about" class="btn btn-ghost btn-lg"><Icon name="fa6-solid:circle-play" /> 关于我们</a>
+        </div>
+        <ul class="hero-stats" role="list" data-stagger style="--rd:0.55s">
+          <li><span class="hero-stat-num" data-counter="3">3</span><span class="hero-stat-label">成熟产品</span></li>
+          <li><span class="hero-stat-num" data-counter="10" data-counter-suffix="+">10+</span><span class="hero-stat-label">技术栈</span></li>
+          <li><span class="hero-stat-num" data-counter="80" data-counter-suffix="%+">80%+</span><span class="hero-stat-label">效率提升</span></li>
+        </ul>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-stage" data-hero-stage>
+          {layout.map((id, i) => {
+            const p = productById(id);
+            return (
+              <a class={`hero-win hw-${i + 1}`} href={url(p.href)} style={`--accent:${p.accent};--i:${i}`}
+                aria-label={`${p.name} ${p.version}，查看详情`}>
+                <div class="hero-win-float">
+                  <div class="win">
+                    <div class="win-bar"><i></i><i></i><i></i><span class="win-title">{p.en}</span></div>
+                    <img src={url(p.shot.src)} alt="" width={p.shot.width} height={p.shot.height}
+                      loading={i < 2 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async"
+                      style={`view-transition-name: shot-${p.id}`} />
+                  </div>
+                  <span class="hero-win-tag mono"><span class:list={['dot', { 'is-busy': !p.stable }]}></span>{p.version}</span>
+                </div>
+              </a>
+            );
+          })}
+          <span class="hero-chip hc-1 mono" aria-hidden="true"><Icon name="fa6-solid:wave-square" /> 7 大音源聚合</span>
+          <span class="hero-chip hc-2 mono" aria-hidden="true"><Icon name="fa6-solid:bolt" /> 订货效率 80%+</span>
+          <span class="hero-chip hc-3 mono" aria-hidden="true"><Icon name="fa6-solid:display" /> 桌面 · 移动 · 电视</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-ticker" aria-hidden="true">
+      <div class="hero-ticker-track">
+        {[0, 1].map(() => (
+          <div class="hero-ticker-row">
+            {ticker.map((t) => (
+              <span class="hero-ticker-item mono">
+                <span class:list={['dot', { 'is-busy': !t.stable }]}></span>
+                <b>{t.name}</b><span>{t.ver}</span><em>{t.status}</em>
+                <Icon name="fa6-solid:paw" class="hero-ticker-sep" />
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

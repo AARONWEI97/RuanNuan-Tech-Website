@@ -1,0 +1,46 @@
+---
+/** 最近更新（深色）：数据来自 src/data/changelog.ts */
+import Icon from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import { changelogSorted } from '../../data/changelog';
+import { productById } from '../../data/products';
+import { url } from '../../lib/url';
+
+const recent = changelogSorted.slice(0, 3);
+---
+<section class="section updates" data-theme="dark" aria-labelledby="updatesTitle">
+  <div class="signal-grid" aria-hidden="true">
+    <span class="signal-pulse" style="--y:120px;--dur:10s"></span>
+    <span class="signal-pulse is-v" style="--x:240px;--dur:12s;--delay:4s"></span>
+  </div>
+  <div class="container">
+    <div class="updates-head">
+      <SectionHead index="04" eyebrow="CHANGELOG" label="最近更新" id="updatesTitle"
+        title="一直在迭代，" highlight="从未停下" />
+      <a class="btn btn-ghost" href={url('changelog.html')} data-reveal="up">全部更新日志 <Icon name="fa6-solid:arrow-right" class="icon-arrow" /></a>
+    </div>
+    <ul class="updates-list" role="list" data-stagger>
+      {recent.map((e) => {
+        const p = productById(e.product);
+        return (
+          <li>
+            <article class="update" style={`--accent:${p.accent}`} data-spotlight>
+              <header class="update-head">
+                <span class="update-icon"><Icon name={p.icon} /></span>
+                <div>
+                  <h3>{p.name}</h3>
+                  <time class="mono" datetime={e.date}>{e.date.replaceAll('-', '.')}</time>
+                </div>
+                <span class="update-ver mono">{e.version}</span>
+              </header>
+              <ul class="update-items" role="list">
+                {(e.highlights ?? e.items.slice(0, 4)).map((it) => <li>{it}</li>)}
+              </ul>
+              <a class="update-link" href={url(p.href)}>了解{p.name} <Icon name="fa6-solid:arrow-right" /></a>
+            </article>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

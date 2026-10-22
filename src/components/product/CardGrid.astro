@@ -1,0 +1,21 @@
+---
+/**
+ * 能力卡片：比 FeatureGrid 更重，带标签行。
+ * featured：第一张卡占左侧整列（用于「AI 混合模型」这类主打能力）
+ */
+import Icon from '../Icon.astro';
+
+export interface Card { icon: string; title: string; text: string; tags?: string[] }
+interface Props { items: Card[]; featured?: boolean }
+const { items, featured = false } = Astro.props;
+---
+<ul class:list={['cgrid', { 'has-featured': featured }]} role="list" data-stagger>
+  {items.map((c, i) => (
+    <li class:list={['ccard', { 'is-featured': featured && i === 0 }]} data-spotlight>
+      <span class="ccard-icon"><Icon name={c.icon} /></span>
+      <h3 class="ccard-title">{c.title}</h3>
+      <p class="ccard-text">{c.text}</p>
+      {c.tags && <ul class="ccard-tags" role="list">{c.tags.map((t) => <li class="chip mono">{t}</li>)}</ul>}
+    </li>
+  ))}
+</ul>

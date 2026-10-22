@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Products from '../components/home/Products.astro';
+import Values from '../components/home/Values.astro';
+import Story from '../components/home/Story.astro';
+import Updates from '../components/home/Updates.astro';
+import Contact from '../components/home/Contact.astro';
+import '../styles/home/sections.css';
+import { site } from '../data/site';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${site.url}/#organization`,
+      name: site.name,
+      alternateName: site.nameEn,
+      url: `${site.url}/`,
+      logo: `${site.url}/assets/logo.png`,
+      email: site.email,
+      description: '专注鞋服零售、视频娱乐平台与音乐领域的软件开发团队，旗下产品包括冉暖订货系统、冉暖音乐播放器、冉暖收银系统与 RanNuan TV。',
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site.url}/#website`,
+      url: `${site.url}/`,
+      name: `${site.name} ${site.nameEn}`,
+      description: site.description,
+      inLanguage: 'zh-CN',
+      publisher: { '@id': `${site.url}/#organization` },
+    },
+  ],
+};
+---
+<BaseLayout
+  title="冉暖科技 RanNuan Tech — 用技术创造温暖"
+  description="冉暖科技 - 专注鞋服零售、视频娱乐平台与音乐领域的软件开发，旗下产品：冉暖订货系统、冉暖音乐播放器、冉暖收银系统、RanNuan TV"
+  keywords="冉暖科技,订货系统,音乐播放器,收银系统,RanNuan TV,ePOS,鞋服零售,AI订货,视频平台"
+  path=""
+  page="home"
+  footerCta={false}
+  {jsonLd}
+>
+  <div class="hero-stack">
+    <Hero />
+    <Products />
+  </div>
+  <Values />
+  <Story />
+  <Updates />
+  <Contact />
+</BaseLayout>
+
+<script>
+  import '../scripts/home';
+</script>

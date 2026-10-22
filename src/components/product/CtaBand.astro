@@ -1,0 +1,15 @@
+---
+/** 产品页收尾行动区（深色），替代页脚通用 CTA */
+interface Props { id?: string; eyebrow: string; title: string; desc: string }
+const { id = 'cta', eyebrow, title, desc } = Astro.props;
+---
+<section class="pcta" id={id} data-theme="dark" aria-labelledby={`${id}-title`}>
+  <div class="signal-grid pcta-grid" aria-hidden="true"></div>
+  <div class="pcta-glow" aria-hidden="true"></div>
+  <div class="container pcta-inner" data-reveal="mask">
+    <p class="mono pcta-eyebrow" data-scramble>{eyebrow}</p>
+    <h2 class="pcta-title" id={`${id}-title`}><span class="mask"><span>{title}</span></span></h2>
+    <p class="pcta-desc" data-reveal="up" style="--rd:0.2s">{desc}</p>
+    <div class="pcta-actions" data-reveal="up" style="--rd:0.3s"><slot /></div>
+  </div>
+</section>

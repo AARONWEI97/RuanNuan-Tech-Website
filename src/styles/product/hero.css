@@ -1,0 +1,188 @@
+/* ==========================================================
+   产品页 Hero + 页内目录胶囊
+   --accent 由 ProductLayout 注入（各产品主题色）
+   ========================================================== */
+.ppage { --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent); }
+
+.phero {
+  position: relative; overflow: hidden;
+  min-height: min(100svh, 980px);
+  display: flex; flex-direction: column;
+  background: var(--ink-950);
+}
+.phero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 60% at 75% 42%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 66%),
+    radial-gradient(ellipse 40% 40% at 10% 90%, rgba(212, 148, 58, 0.14), transparent 70%),
+    var(--ink-950);
+}
+.phero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.4s ease-out; mix-blend-mode: screen; }
+.phero.is-lit .phero-canvas { opacity: 0.85; }
+.phero-grid { --cell: 72px; z-index: 1; }
+.phero-bg::after {
+  content: ''; position: absolute; inset: auto 0 0; height: 40%; z-index: 2;
+  background: linear-gradient(180deg, transparent, rgba(13, 9, 5, 0.9));
+}
+
+.phero-inner {
+  position: relative; z-index: 3; flex: 1;
+  display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+  padding-top: calc(var(--nav-h) + clamp(48px, 8vh, 104px));
+  padding-bottom: clamp(40px, 6vh, 72px);
+}
+
+.phero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 6px 14px 6px 6px; border-radius: var(--radius-full);
+  font-size: 11.5px; letter-spacing: 0.12em; color: var(--fg-2);
+  background: rgba(245, 237, 223, 0.05); box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.phero-eyebrow-icon {
+  display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  font-size: 12px; color: var(--ink-950); background: var(--accent);
+}
+.phero-eyebrow-sep { width: 1px; height: 12px; background: var(--line-2); }
+.phero-title {
+  margin: 26px 0 10px;
+  font-size: clamp(2.75rem, 1.2rem + 5vw, 5.75rem); font-weight: 800; line-height: 1.04; letter-spacing: 0;
+  color: #FBF4E8;
+}
+.phero-accent {
+  font-style: normal;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--accent) 60%, #FFF3DC), var(--accent));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.phero-en { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+.phero-desc { margin-top: 26px; max-width: 560px; font-size: var(--fs-md); line-height: 1.85; color: var(--fg-2); }
+.phero-desc strong { color: var(--fg); font-weight: 600; }
+.phero-desc strong.is-accent { color: var(--accent); }
+.phero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.phero-actions .btn-primary { --btn-bg: var(--accent); box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--accent) 80%, transparent); }
+
+.phero-platforms { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; padding: 0; list-style: none; }
+.phero-platforms li {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  font-size: 11.5px; color: var(--fg-3);
+  background: rgba(13, 9, 5, 0.4); box-shadow: inset 0 0 0 1px var(--line);
+}
+.phero-platforms b { font-weight: 500; color: var(--fg); }
+
+/* --- 右：截图窗口 --- */
+.phero-visual { position: relative; transform-style: preserve-3d; }
+.phero-stage { position: relative; }
+.phero-win {
+  transform: rotateY(-7deg) rotateX(3deg) translateZ(0);
+  transition: transform 0.9s var(--ease-out), box-shadow 0.5s;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 34%, transparent),
+    0 50px 100px -30px rgba(13, 9, 5, 0.9),
+    0 30px 80px -40px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.phero-win:hover { transform: none; }
+.phero-win img { aspect-ratio: auto; max-height: 62vh; object-fit: cover; }
+.js .phero-win { animation: phero-in 1.3s var(--ease-out) 0.25s both; }
+@keyframes phero-in { from { opacity: 0; transform: translate3d(0, 50px, -100px) rotateY(-14deg) rotateX(10deg); } }
+.phero-chip {
+  position: absolute; left: -18px; bottom: 12%; z-index: 2;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: var(--radius-full);
+  font-size: 12px; color: #FBF4E8; white-space: nowrap;
+  background: rgba(34, 26, 16, 0.78); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent), 0 16px 34px -14px rgba(13, 9, 5, 0.8);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  animation: hero-float 6s ease-in-out infinite alternate;
+}
+.phero-chip .icon { color: var(--accent); }
+.phero-glow {
+  position: absolute; inset: 8% 4% -6%; z-index: -1; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 40%, transparent), transparent);
+  filter: blur(40px);
+}
+@keyframes hero-float { from { transform: translate3d(0, -6px, 0); } to { transform: translate3d(0, 8px, 0); } }
+
+/* --- 底部指标条 --- */
+.phero-stats-wrap { position: relative; z-index: 3; padding-bottom: clamp(28px, 5vh, 56px); }
+.phero-stats {
+  display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  padding: 0; list-style: none;
+  border-radius: var(--radius-lg); overflow: hidden;
+  background: rgba(13, 9, 5, 0.5); box-shadow: inset 0 0 0 1px var(--line);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.phero-stats li { position: relative; display: grid; gap: 6px; padding: 22px 26px 24px; }
+.phero-stats li + li { box-shadow: inset 1px 0 0 var(--line); }
+.phero-stat-num {
+  font-family: var(--font-display); font-weight: 700; line-height: 1;
+  font-size: clamp(1.875rem, 1.3rem + 1.6vw, 2.75rem); color: #FBF4E8; font-variant-numeric: tabular-nums;
+}
+.phero-stat-label { font-size: 11.5px; letter-spacing: 0.08em; color: var(--fg-3); }
+.phero-stat-bar { position: absolute; left: 26px; right: 26px; bottom: 0; height: 2px; background: var(--line); overflow: hidden; }
+.phero-stat-bar i {
+  position: absolute; inset: 0; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 50%, #FFF3DC));
+  transform: scaleX(var(--fill)); transform-origin: left;
+  transition: transform 1.6s var(--ease-out) 0.6s;
+}
+.js .phero-stats:not(.is-in) .phero-stat-bar i { transform: scaleX(0); }
+
+/* ==========================================================
+   页内目录胶囊：高度 0 的吸附容器，不占文档流
+   ========================================================== */
+.psub-wrap { position: sticky; top: 14px; z-index: 90; height: 0; }
+.psub {
+  --psub-fg: #F5EDDF; --psub-fg-2: rgba(245, 237, 223, 0.66); --psub-bg: rgba(21, 16, 10, 0.72); --psub-line: rgba(232, 184, 109, 0.16);
+  position: absolute; left: 50%; top: 0;
+  display: flex; align-items: center; gap: 6px;
+  max-width: min(100% - 28px, 980px);
+  padding: 5px 5px 5px 16px; border-radius: var(--radius-full);
+  background: var(--psub-bg); color: var(--psub-fg);
+  box-shadow: inset 0 0 0 1px var(--psub-line), 0 14px 34px -16px rgba(13, 9, 5, 0.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
+  transform: translate(-50%, 74px);
+  opacity: 0; visibility: hidden;
+  transition: transform 0.5s var(--ease-out), opacity 0.35s, visibility 0s 0.35s, background-color 0.4s, color 0.4s;
+}
+.psub.is-shown { opacity: 1; visibility: visible; transition-delay: 0s; }
+/* 主导航下滚隐藏时，目录上移到顶部补位 */
+body:has(.nav.is-hidden) .psub { transform: translate(-50%, 0); }
+body:has(.nav[data-tone='light']) .psub {
+  --psub-fg: #2D2A32; --psub-fg-2: #5C5664; --psub-bg: rgba(253, 248, 240, 0.8); --psub-line: rgba(45, 42, 50, 0.1);
+}
+.psub-name { display: inline-flex; align-items: center; gap: 8px; flex: none; padding-right: 10px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.psub-name .icon { color: var(--accent); }
+.psub-list {
+  display: flex; gap: 2px; min-width: 0; overflow-x: auto; scrollbar-width: none;
+  padding: 0 0 0 10px; list-style: none; box-shadow: inset 1px 0 0 var(--psub-line);
+}
+.psub-list::-webkit-scrollbar { display: none; }
+.psub-list a {
+  position: relative; display: block; padding: 8px 12px; border-radius: var(--radius-full);
+  font-size: 13px; white-space: nowrap; color: var(--psub-fg-2);
+  transition: color 0.25s, background-color 0.25s;
+}
+.psub-list a:hover { color: var(--psub-fg); }
+.psub-list a[aria-current] { color: var(--psub-fg); background: var(--accent-soft); }
+.psub-list a[aria-current]::after {
+  content: ''; position: absolute; left: 50%; bottom: 3px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--accent);
+}
+.psub-cta { flex: none; margin-left: 4px; --btn-bg: var(--accent); min-height: 36px; padding: 0 16px; box-shadow: none; }
+
+@media (max-width: 1023px) {
+  .phero-inner { grid-template-columns: 1fr; padding-top: calc(var(--nav-h) + 56px); }
+  .phero-visual { width: min(100%, 640px); margin-inline: auto; }
+  .phero-win img { max-height: none; }
+}
+@media (max-width: 760px) {
+  .phero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .phero-stats li:nth-child(3) { box-shadow: inset 0 1px 0 var(--line); }
+  .phero-stats li:nth-child(4) { box-shadow: inset 1px 1px 0 var(--line); }
+  .phero-stats li:nth-child(3):last-child { grid-column: 1 / -1; }
+  .phero-chip { left: 8px; bottom: -16px; }
+  .psub-name, .psub-cta { display: none; }
+  .psub { padding-left: 5px; }
+  .psub-list { padding-left: 0; box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .phero-chip, .js .phero-win { animation: none; }
+}

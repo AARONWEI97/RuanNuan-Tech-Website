@@ -1,0 +1,44 @@
+---
+/** 关于 + 故事线（浅色）：时间线随滚动逐段描出（home.ts 驱动 --draw） */
+import Icon from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import { url } from '../../lib/url';
+
+const steps = [
+  { tag: 'START', title: '日常工作的痛点', text: '在国产运动品牌做商品运营，遇到各种重复、低效的环节。', icon: 'fa6-solid:lightbulb' },
+  { tag: 'ORDER', title: '订货管理工具', text: '最初的产品：AI 智能订货，批量分配与尺码占比。', icon: 'fa6-solid:clipboard-list' },
+  { tag: 'MUSIC · ePOS', title: '音乐播放器与收银系统', text: '跨平台音乐播放器、专卖店收银系统相继诞生。', icon: 'fa6-solid:layer-group' },
+  { tag: 'TV', title: 'RanNuan TV', text: '桌面端、移动端与电视端的三端视频聚合平台。', icon: 'fa6-solid:tv' },
+  { tag: 'NOW', title: '持续迭代', text: '50+ 次迭代，产品矩阵仍在不断打磨。', icon: 'fa6-solid:arrows-rotate' },
+];
+---
+<section class="section story" id="about" data-theme="light" aria-labelledby="aboutTitle">
+  <div class="container story-inner">
+    <div class="story-copy">
+      <SectionHead index="03" eyebrow="ABOUT US" label="关于我们" id="aboutTitle"
+        title="冉暖科技，" highlight="用技术创造温暖" />
+      <div class="story-text" data-reveal="up">
+        <p>我是一名独立开发者，目前在某国产运动品牌担任商品运营工作。因为日常工作中遇到的各种痛点，我开始利用业余时间开发解决实际问题的软件工具。</p>
+        <p>从最初的订货管理工具，到跨平台音乐播放器、专卖店收银系统，再到 RanNuan TV 视频聚合平台——每一款产品都源自真实的业务场景，经过反复迭代打磨，逐渐形成了"冉暖科技"的产品矩阵。</p>
+        <p class="story-quote">我始终相信：好的软件不需要大而全，能真正解决一个具体问题就是好软件。</p>
+      </div>
+      <div class="story-dev" data-reveal="up">
+        <img src={url('assets/logo.png')} alt="" width="56" height="56" loading="lazy" decoding="async" />
+        <div><strong>Aaron Wei</strong><span>全栈开发 · UI 设计</span></div>
+        <a class="btn btn-ghost btn-sm" href={url('roadmap.html')}>功能路线图 <Icon name="fa6-solid:arrow-right" class="icon-arrow" /></a>
+      </div>
+    </div>
+
+    <ol class="story-line" role="list" data-story-line>
+      <span class="story-rail" aria-hidden="true"><span class="story-rail-fill"></span></span>
+      {steps.map((s, i) => (
+        <li class="story-step" data-reveal="up" style={`--rd:${i * 0.05}s`}>
+          <span class="story-node" aria-hidden="true"><Icon name={s.icon} /></span>
+          <p class="story-tag mono">{String(i + 1).padStart(2, '0')} · {s.tag}</p>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

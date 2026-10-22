@@ -1,0 +1,88 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import Icon from '../components/Icon.astro';
+import '../styles/pages/tutorials.css';
+import { productById, type ProductId } from '../data/products';
+import { faqGroups } from '../data/faq';
+import { url } from '../lib/url';
+
+/** 教程目录（标题与说明取自旧版 tutorials.html） */
+const tracks: { id: ProductId; steps: { icon: string; title: string; text: string }[] }[] = [
+  { id: 'order', steps: [
+    { icon: 'fa6-solid:right-to-bracket', title: '快速入门', text: '安装配置与首次登录，基础界面导览' },
+    { icon: 'fa6-solid:file-import', title: 'Excel导入订货', text: '模板格式说明、数据校验与批量导入' },
+    { icon: 'fa6-solid:chart-pie', title: 'AI尺码占比', text: '智能比例计算、历史数据学习与手动微调' },
+    { icon: 'fa6-solid:file-export', title: '数据报表导出', text: '同期对比、趋势分析、PDF/Excel导出' },
+  ] },
+  { id: 'music', steps: [
+    { icon: 'fa6-solid:download', title: '安装与源配置', text: 'Windows/Android安装、音源解析配置' },
+    { icon: 'fa6-solid:heart', title: '歌单与收藏', text: '创建歌单、同步收藏、离线下载' },
+    { icon: 'fa6-solid:align-left', title: '歌词与主题', text: '实时歌词显示、多主题风格切换' },
+  ] },
+  { id: 'epos', steps: [
+    { icon: 'fa6-solid:server', title: '系统部署', text: 'Electron客户端安装、后台NestJS服务部署' },
+    { icon: 'fa6-solid:barcode', title: 'POS收银台', text: '扫码开单、会员积分、打印小票' },
+    { icon: 'fa6-solid:gauge-high', title: '后台管理', text: '商品运营、库存盘点、财务报表' },
+  ] },
+];
+const hasFaq = (id: string) => faqGroups.some((g) => g.id === id);
+---
+<ContentLayout
+  title="使用教程 — 冉暖科技"
+  description="冉暖科技全系产品使用教程：订货系统快速入门、Excel 导入订货、AI 尺码占比与报表导出，音乐播放器安装与源配置，收银系统部署与后台管理。"
+  keywords="冉暖科技教程,订货系统教程,Excel导入订货,AI尺码占比,音乐播放器配置,收银系统部署"
+  path="tutorials.html" page="tutorials"
+  eyebrow="GETTING STARTED" badge="上手文档" badgeIcon="fa6-solid:book-open"
+  heading="使用" highlight="教程" desc="快速上手冉暖科技全系产品"
+>
+  <nav slot="hero" aria-label="选择产品教程">
+    <ul class="pills tut-jump" role="list">
+      {tracks.map((t) => {
+        const p = productById(t.id);
+        return <li data-product={t.id}><a class="pill" href={`#${t.id}`}><Icon name={p.icon} />{p.name}<span class="pill-count">{t.steps.length} 节</span></a></li>;
+      })}
+    </ul>
+  </nav>
+
+  <div class="container tut-tracks">
+    {tracks.map((t, ti) => {
+      const p = productById(t.id);
+      return (
+        <section class="tut-track" id={t.id} data-product={t.id} aria-labelledby={`${t.id}-title`}>
+          <header class="tut-meta" data-reveal="up">
+            <span class="tut-index mono">0{ti + 1} / 0{tracks.length}</span>
+            <span class="tut-icon"><Icon name={p.icon} /></span>
+            <h2 id={`${t.id}-title`}>{p.name}</h2>
+            <p class="mono tut-en">{p.en} · {p.version}</p>
+            <p class="tut-tag">{p.tagline}</p>
+            <div class="tut-links">
+              <a href={url(p.href)}>产品介绍 <Icon name="fa6-solid:arrow-right" /></a>
+              {hasFaq(t.id) && <a href={url(`faq.html#${t.id}`)}>相关问题 <Icon name="fa6-solid:arrow-right" /></a>}
+            </div>
+          </header>
+          <ol class="tut-steps" role="list" data-stagger>
+            {t.steps.map((s, i) => (
+              <li class="tut-step">
+                <span class="tut-step-num mono">{String(i + 1).padStart(2, '0')}</span>
+                <span class="tut-step-icon"><Icon name={s.icon} /></span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      );
+    })}
+
+    <div class="help-strip" data-theme="dark">
+      <div>
+        <h2>需要手把手指导？</h2>
+        <p>部署、导入模板或配置遇到问题，可以直接联系开发者远程协助。</p>
+      </div>
+      <div class="help-strip-actions">
+        <button type="button" class="btn btn-primary" data-modal-open="qq"><Icon name="fa6-brands:qq" /> 远程协助</button>
+        <a class="btn btn-ghost" href={url('faq.html')}><Icon name="fa6-solid:circle-question" /> 常见问题</a>
+      </div>
+    </div>
+  </div>
+</ContentLayout>

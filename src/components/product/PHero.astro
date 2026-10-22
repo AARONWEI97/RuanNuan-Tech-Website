@@ -1,0 +1,93 @@
+---
+/**
+ * 产品页 Hero（深色）：温度场背景 + 文案 + 产品窗口 + 底部指标条。
+ * 截图与首页 Hero 共用 view-transition-name，跨页时窗口会“飞”过来。
+ * slot: desc（描述，可含 <strong>）/ actions（按钮）/ visual（替换默认单窗口）
+ */
+import Icon from '../Icon.astro';
+import type { Product } from '../../data/products';
+import { url } from '../../lib/url';
+
+export interface Stat { value: number; suffix?: string; label: string; fill?: number }
+
+interface Props {
+  product: Product;
+  /** 徽标文字，如「订货系统」 */
+  kind: string;
+  /** 标题里用主题色高亮的片段（须是 product.name 的子串） */
+  accentWord?: string;
+  /** 英文副名，默认 product.en */
+  en?: string;
+  /** 截图上的悬浮标签 */
+  floatLabel?: string;
+  stats?: Stat[];
+}
+const { product, kind, accentWord, en = product.en, floatLabel, stats = [] } = Astro.props;
+
+const hasAccent = !!accentWord && product.name.includes(accentWord);
+const [before, after] = hasAccent ? product.name.split(accentWord!) : ['', ''];
+const pulses = [
+  { cls: '', style: '--y:180px;--dur:10s;--delay:0s' },
+  { cls: '', style: '--y:460px;--dur:12s;--delay:4s' },
+  { cls: 'is-v', style: '--x:280px;--dur:11s;--delay:2s' },
+];
+---
+<section class="phero" id="hero" data-theme="dark" aria-labelledby="pheroTitle">
+  <div class="phero-bg" aria-hidden="true">
+    <canvas class="phero-canvas"></canvas>
+    <div class="signal-grid phero-grid">
+      {pulses.map((p) => <span class:list={['signal-pulse', p.cls]} style={p.style}></span>)}
+    </div>
+  </div>
+
+  <div class="container phero-inner">
+    <div class="phero-copy">
+      <p class="phero-eyebrow mono" data-reveal="up">
+        <span class="phero-eyebrow-icon"><Icon name={product.icon} /></span>
+        <span>{kind}</span>
+        <span class="phero-eyebrow-sep" aria-hidden="true"></span>
+        <span class:list={['dot', { 'is-busy': !product.stable }]}></span>
+        <span>{product.status}</span>
+      </p>
+      <h1 class="phero-title" id="pheroTitle" data-reveal="mask" style="--rd:0.08s">
+        <span class="mask"><span>{hasAccent ? <>{before}<em class="phero-accent">{accentWord}</em>{after}</> : product.name}</span></span>
+      </h1>
+      <p class="phero-en mono" data-reveal="up" style="--rd:0.2s">{en}</p>
+      <div class="phero-desc" data-reveal="up" style="--rd:0.3s"><slot name="desc" /></div>
+      <div class="phero-actions" data-reveal="up" style="--rd:0.4s"><slot name="actions" /></div>
+      <ul class="phero-platforms" role="list" data-stagger style="--rd:0.5s">
+        {(product.platforms ?? [{ label: '当前版本', version: product.version }]).map((pf) => (
+          <li class="mono"><span>{pf.label}</span><b>{pf.version}</b></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="phero-visual" data-phero-visual>
+      {Astro.slots.has('visual') ? <slot name="visual" /> : (
+        <div class="phero-stage">
+          <div class="win phero-win">
+            <div class="win-bar"><i></i><i></i><i></i><span class="win-title">{product.en} · {product.version}</span></div>
+            <img src={url(product.shot.src)} alt={`${product.name}主界面`} width={product.shot.width} height={product.shot.height}
+              loading="eager" fetchpriority="high" decoding="async" style={`view-transition-name: shot-${product.id}`} />
+          </div>
+          {floatLabel && <span class="phero-chip mono" aria-hidden="true"><Icon name="fa6-solid:paw" /> {floatLabel}</span>}
+        </div>
+      )}
+      <div class="phero-glow" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  {stats.length > 0 && (
+    <div class="container phero-stats-wrap">
+      <ul class="phero-stats" role="list" data-reveal="up" style={`--rd:0.55s;--n:${stats.length}`}>
+        {stats.map((s) => (
+          <li>
+            <span class="phero-stat-num" data-counter={s.value} data-counter-suffix={s.suffix}>{s.value}{s.suffix}</span>
+            <span class="phero-stat-label mono">{s.label}</span>
+            {s.fill !== undefined && <span class="phero-stat-bar" style={`--fill:${s.fill / 100}`}><i></i></span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</section>

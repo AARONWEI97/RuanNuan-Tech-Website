@@ -1,0 +1,167 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import Icon from '../components/Icon.astro';
+import '../styles/pages/pricing.css';
+import { productById } from '../data/products';
+import { site } from '../data/site';
+import { url } from '../lib/url';
+
+const order = productById('order');
+/** 价格取自旧版 pricing.html；save 为原页面标注的节省比例，原样保留 */
+const plans = [
+  { key: 'week', name: '周付', icon: 'fa6-solid:calendar-week', price: 350, unit: '周', note: '月均约 ¥1400', perks: ['1台设备授权', '短期试用首选'] },
+  { key: 'month', name: '月付', icon: 'fa6-solid:calendar-days', price: 1200, unit: '月', note: '灵活短期使用', perks: ['1台设备授权', '随时可取消'] },
+  { key: 'quarter', name: '季度付', icon: 'fa6-solid:calendar-check', price: 3000, unit: '季', note: '月均 ¥1000', perks: ['1台设备授权'], save: '节省 17%' },
+  { key: 'half', name: '半年付', icon: 'fa6-solid:calendar', price: 5000, unit: '半年', note: '月均约 ¥833', perks: ['1台设备授权'], save: '节省 20%' },
+  { key: 'year', name: '年付', icon: 'fa6-solid:crown', price: 8000, unit: '年', note: '月均约 ¥667', perks: ['1台设备授权'], save: '节省 40%', featured: true },
+];
+const DEVICE_FEE = 300;
+const yen = (n: number) => `¥${n.toLocaleString('en-US')}`;
+
+const product = {
+  '@type': 'Product',
+  name: order.name,
+  description: '面向鞋服零售行业的订货管理软件，支持周付、月付、季度付、半年付、年付多种订阅周期，全功能权限、技术支持、定期更新与本地数据存储。',
+  brand: { '@type': 'Brand', name: site.name },
+  url: `${site.url}/pricing.html`,
+  image: `${site.url}/${order.shot.src}`,
+  offers: plans.map((p) => ({
+    '@type': 'Offer', name: p.name, price: String(p.price), priceCurrency: 'CNY',
+    url: `${site.url}/pricing.html`, availability: 'https://schema.org/InStock',
+  })),
+};
+---
+<ContentLayout
+  title="价格方案 - 冉暖订货系统 | 冉暖科技"
+  description="冉暖订货系统灵活的价格方案，支持周付、月付、季度付、半年付、年付等多种订阅方式，透明的价格体系与额外设备附加费说明"
+  keywords="订货系统价格,软件订阅,月付年付,企业软件定价,冉暖订货系统价格"
+  path="pricing.html" page="pricing"
+  eyebrow="PRICING" badge="价格方案" badgeIcon="fa6-solid:tags"
+  heading="价格" highlight="方案" desc="灵活的订阅周期，透明的价格体系，选择最适合您的方案"
+  graph={[product]}
+>
+  <ul slot="hero" class="pr-scope" role="list">
+    <li data-product="order"><Icon name={order.icon} /> 适用于 <a href={url(order.href)}>{order.name}</a></li>
+    <li data-product="music"><Icon name="fa6-solid:headphones" /> 冉暖音乐播放器完全免费</li>
+  </ul>
+
+  <div class="container">
+    <section aria-labelledby="plansTitle">
+      <h2 class="pr-h2" id="plansTitle" data-reveal="up">选择您的订阅周期</h2>
+      <ul class="pr-plans" role="list" data-stagger>
+        {plans.map((p) => (
+          <li>
+            <article class:list={['pr-plan', { 'is-featured': p.featured }]} data-spotlight>
+              {p.featured && <p class="pr-badge mono">推荐</p>}
+              <span class="pr-plan-icon"><Icon name={p.icon} /></span>
+              <h3>{p.name}</h3>
+              <p class="pr-price"><b>{yen(p.price)}</b><span>/{p.unit}</span></p>
+              <p class="pr-note mono">{p.note}</p>
+              <ul class="pr-perks" role="list">
+                {p.perks.map((x) => <li><Icon name="fa6-solid:check" />{x}</li>)}
+              </ul>
+              {p.save && <p class="pr-save mono">{p.save}</p>}
+            </article>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="pr-calc" aria-labelledby="calcTitle" data-pr-calc data-fee={DEVICE_FEE} data-reveal="up">
+      <div class="pr-calc-copy">
+        <h2 id="calcTitle"><Icon name="fa6-solid:calculator" /> 额外设备附加费</h2>
+        <p>系统支持无上限门店，多设备使用统一按以下标准付费（与订阅周期绑定）：</p>
+        <p class="pr-fee"><b>{yen(DEVICE_FEE)}</b> / 每增加1台设备</p>
+        <p class="pr-hint"><Icon name="fa6-solid:circle-info" /> 增加设备的费用不与年限挂钩</p>
+      </div>
+      <form class="pr-calc-box" aria-label="费用计算器">
+        <fieldset>
+          <legend class="mono">订阅周期</legend>
+          <div class="pr-seg">
+            {plans.map((p) => (
+              <label>
+                <input type="radio" name="plan" value={p.price} data-label={p.name} data-unit={p.unit} checked={p.featured} />
+                <span>{p.name}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <div class="pr-dev">
+          <label class="mono" for="prDevices">额外设备</label>
+          <div class="pr-stepper">
+            <button type="button" aria-label="减少一台" data-step="-1"><Icon name="fa6-solid:minus" /></button>
+            <input id="prDevices" type="number" inputmode="numeric" min="0" max="99" value="3" />
+            <button type="button" aria-label="增加一台" data-step="1"><Icon name="fa6-solid:plus" /></button>
+          </div>
+        </div>
+        <output class="pr-total" for="prDevices" aria-live="polite">
+          <span class="pr-total-formula mono" data-formula>年付 8000 + 300 × 3</span>
+          <span class="pr-total-num"><b data-total>¥8,900</b><span data-unit>/年</span></span>
+        </output>
+      </form>
+    </section>
+
+    <div class="pr-panels">
+      <section class="pr-panel" aria-labelledby="offerTitle" data-reveal="up">
+        <h2 id="offerTitle"><Icon name="fa6-solid:gift" /> 优惠方案</h2>
+        <div class="pr-pair">
+          <div>
+            <h3><Icon name="fa6-solid:user-plus" /> 新用户首单优惠</h3>
+            <ul class="pr-list" role="list">
+              <li>首月订阅：<strong>¥999</strong>（原价¥1200，省17%）</li>
+              <li>首季度订阅：<strong>¥2500</strong>（原价¥3000，省17%）</li>
+            </ul>
+            <p class="pr-hint"><Icon name="fa6-solid:circle-info" /> 优惠期结束后恢复原价</p>
+          </div>
+          <div>
+            <h3><Icon name="fa6-solid:handshake" /> 长期合约折扣</h3>
+            <ul class="pr-list" role="list">
+              <li>2年套餐：<strong>9折</strong>（¥14,400）</li>
+              <li>3年套餐：<strong>8.5折</strong>（¥20400）</li>
+            </ul>
+            <p class="pr-hint"><Icon name="fa6-solid:circle-info" /> 一次性付款享受折扣</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="pr-panel" aria-labelledby="perkTitle" data-reveal="up">
+        <h2 id="perkTitle"><Icon name="fa6-solid:star" /> 所有套餐均包含以下权益</h2>
+        <ul class="pr-perkgrid" role="list">
+          <li><Icon name="fa6-solid:unlock" /><h3>全功能权限</h3><p>订单管理、数据报表、批量分配、AI智能等</p></li>
+          <li><Icon name="fa6-solid:headset" /><h3>技术支持</h3><p>邮件/在线客服，工作日9:00-18:00</p></li>
+          <li><Icon name="fa6-solid:arrows-rotate" /><h3>定期更新</h3><p>功能迭代、Bug修复、性能优化</p></li>
+          <li><Icon name="fa6-solid:shield-halved" /><h3>数据安全</h3><p>本地存储，无需担心服务器依赖</p></li>
+        </ul>
+      </section>
+
+      <section class="pr-panel" aria-labelledby="ruleTitle" data-reveal="up">
+        <h2 id="ruleTitle"><Icon name="fa6-solid:circle-exclamation" /> 重要说明</h2>
+        <div class="pr-pair">
+          <div>
+            <h3><Icon name="fa6-solid:desktop" /> 设备定义</h3>
+            <p>指物理电脑终端（与门店数量无关），通过硬件ID绑定授权。一台设备可在多个门店间切换使用。</p>
+          </div>
+          <div>
+            <h3><Icon name="fa6-solid:rotate-right" /> 续费规则</h3>
+            <p>订阅到期前7天可自动续费，逾期未续费将暂停使用权限（数据保留30天），续费后可继续使用。</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="help-strip" data-theme="dark" id="contact">
+      <div>
+        <h2>申请试用或咨询价格</h2>
+        <p>微信（推荐）/ QQ 在线咨询，通常24小时内回复；也可以 <a href={`mailto:${site.email}`}>发邮件</a> 或 <a href={url('index.html#contact')}>在线留言</a>。</p>
+      </div>
+      <div class="help-strip-actions">
+        <button type="button" class="btn btn-primary" data-modal-open="wechat"><Icon name="fa6-brands:weixin" /> 微信咨询</button>
+        <button type="button" class="btn btn-ghost" data-modal-open="qq"><Icon name="fa6-brands:qq" /> QQ 咨询</button>
+      </div>
+    </div>
+  </div>
+</ContentLayout>
+
+<script>
+  import '../scripts/pages/pricing';
+</script>

@@ -1,0 +1,30 @@
+---
+/**
+ * 产品页区块外壳：主题 + 信号网格 + 统一的 SectionHead。
+ * tone：light 米白 / alt 浅米 / dark 暖棕黑
+ */
+import SectionHead from '../SectionHead.astro';
+
+interface Props {
+  id: string;
+  index: string;
+  eyebrow: string;
+  label?: string;
+  title: string;
+  highlight?: string;
+  sub?: string;
+  tone?: 'light' | 'alt' | 'dark';
+  center?: boolean;
+  grid?: boolean;
+  class?: string;
+}
+const { id, index, eyebrow, label, title, highlight, sub, tone = 'light', center = false, grid = false, class: cls } = Astro.props;
+---
+<section class:list={['section psec', `is-${tone}`, cls]} id={id} data-theme={tone === 'dark' ? 'dark' : 'light'}
+  aria-labelledby={`${id}-title`}>
+  {grid && <div class="signal-grid psec-grid" aria-hidden="true"></div>}
+  <div class="container psec-inner">
+    <SectionHead {index} {eyebrow} {label} {title} {highlight} {sub} {center} id={`${id}-title`} />
+    <slot />
+  </div>
+</section>

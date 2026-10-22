@@ -1,0 +1,120 @@
+---
+import ProductLayout from '../layouts/ProductLayout.astro';
+import PHero from '../components/product/PHero.astro';
+import SubNav from '../components/product/SubNav.astro';
+import PSection from '../components/product/PSection.astro';
+import FeatureGrid from '../components/product/FeatureGrid.astro';
+import TechStack from '../components/product/TechStack.astro';
+import Gallery from '../components/product/Gallery.astro';
+import Milestones from '../components/product/Milestones.astro';
+import FaqQuick from '../components/product/FaqQuick.astro';
+import CtaBand from '../components/product/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { productById } from '../data/products';
+
+const product = productById('epos');
+---
+<ProductLayout
+  {product}
+  title="冉暖收银系统 RanNuan ePOS — 运动品牌专卖店收银管理"
+  description="冉暖收银系统 - 运动品牌专卖店ePOS收银系统，前台收银+后台管理双系统架构，覆盖商品、库存、财务、CRM全链路"
+  keywords="收银系统,ePOS,专卖店收银,库存管理,CRM会员,Electron,NestJS"
+  category="BusinessApplication"
+  os="Windows, Web"
+  ldDescription="运动品牌专卖店 ePOS 收银系统，前台收银与后台管理双系统架构，覆盖商品运营、仓储物流、盘点管理、CRM 会员与财务对账全链路。"
+>
+  <PHero {product} kind="收银系统" accentWord="收银" en="RanNuan ePOS System" floatLabel="双系统 · 全链路"
+    stats={[
+      { value: 80, suffix: '%', label: '收银效率提升', fill: 80 },
+      { value: 100, suffix: '%', label: '数据实时同步', fill: 100 },
+      { value: 6, suffix: '+', label: '核心业务模块' },
+    ]}>
+    <Fragment slot="desc">
+      运动品牌专卖店 ePOS 收银系统，<strong class="is-accent">前台收银（Electron 桌面端）</strong>与<strong class="is-accent">后台管理（纯 Web 端）</strong>双系统架构，
+      共享 <strong>NestJS</strong> 后端 API。覆盖商品运营、仓储物流、盘点管理、CRM 会员、财务对账等全链路业务。
+    </Fragment>
+    <Fragment slot="actions">
+      <a href="#features" class="btn btn-primary btn-lg" data-magnetic><Icon name="fa6-solid:cash-register" /> 了解功能</a>
+      <a href="#progress" class="btn btn-ghost btn-lg"><Icon name="fa6-solid:road" /> 开发进度</a>
+    </Fragment>
+  </PHero>
+
+  <SubNav {product}
+    items={[
+      { id: 'features', label: '前台收银' },
+      { id: 'backoffice', label: '后台管理' },
+      { id: 'tech', label: '技术架构' },
+      { id: 'screenshots', label: '界面' },
+      { id: 'progress', label: '开发进度' },
+    ]}
+    cta={{ modal: 'qq', label: '预约演示' }} />
+
+  <PSection id="features" index="01" eyebrow="FRONT DESK" label="前台收银"
+    title="紧凑高效的" highlight="POS 收银台" sub="专为专卖店场景设计，键盘快捷键操作，快速收银结账">
+    <FeatureGrid cols={4} items={[
+      { icon: 'fa6-solid:desktop', title: 'POS收银台', text: '紧凑型布局，扫码/搜索快速添加商品，键盘快捷键操作' },
+      { icon: 'fa6-solid:percent', title: '整单折扣', text: '支持整单折扣、单品折扣、抹零，灵活应对各种场景' },
+      { icon: 'fa6-solid:credit-card', title: '多支付方式', text: '现金、微信、支付宝、银行卡、混合支付，一键切换' },
+      { icon: 'fa6-solid:receipt', title: '小票打印', text: '热敏小票打印机支持，自定义小票模板与Logo' },
+    ]} />
+  </PSection>
+
+  <PSection id="backoffice" tone="dark" grid index="02" eyebrow="BACK OFFICE" label="后台管理"
+    title="全链路" highlight="后台管理系统" sub="多标签页并发操作，Keep-Alive状态保留，高效管理门店运营">
+    <FeatureGrid items={[
+      { icon: 'fa6-solid:boxes-stacked', title: '商品运营', text: 'SPU/SKU管理、商品审核、价格调整、上下架控制' },
+      { icon: 'fa6-solid:warehouse', title: '仓储物流', text: '入库/出库/调拨/收发货/盘点，全流程库存管理' },
+      { icon: 'fa6-solid:user-group', title: 'CRM会员', text: '会员等级、积分倍率、储值支付、消费分析' },
+      { icon: 'fa6-solid:chart-line', title: '财务对账', text: '日结/月结报表、收银对账、差异分析、导出报表' },
+      { icon: 'fa6-solid:layer-group', title: '多标签后台', text: '并发操作多个页面，Keep-Alive状态保留，不丢失数据' },
+      { icon: 'fa6-solid:shield-halved', title: '权限管理', text: '角色权限、操作审计、数据隔离，安全可靠' },
+    ]} />
+  </PSection>
+
+  <PSection id="tech" tone="alt" index="03" eyebrow="TECH STACK" label="技术架构"
+    title="前后端分离" highlight="+ 桌面端" sub="Electron桌面收银 + React Web后台 + NestJS统一后端">
+    <TechStack items={[
+      { icon: 'fa6-solid:desktop', name: 'Electron', role: 'POS收银端', tone: 'primary' },
+      { icon: 'fa6-brands:react', name: 'React', role: 'Web后台', tone: 'primary' },
+      { icon: 'fa6-solid:wind', name: 'TailwindCSS', role: '样式方案', tone: 'primary' },
+      { icon: 'fa6-solid:server', name: 'NestJS', role: '统一后端', tone: 'accent' },
+      { icon: 'fa6-solid:sitemap', name: 'Prisma', role: 'ORM', tone: 'accent' },
+      { icon: 'fa6-solid:database', name: 'PostgreSQL', role: '数据库', tone: 'green' },
+      { icon: 'fa6-brands:square-js', name: 'TypeScript', role: '类型安全', tone: 'green' },
+    ]} />
+  </PSection>
+
+  <PSection id="screenshots" index="04" eyebrow="SCREENSHOTS" label="界面预览"
+    title="双系统" highlight="界面一览" sub="前台收银紧凑高效，后台管理多标签并发">
+    <Gallery en={product.en} groups={[{ key: 'epos', label: '收银 + 后台', shots: [
+      { src: 'assets/epos/screenshot-epos-1.png', width: 1920, height: 1020, label: 'POS收银台', alt: '冉暖收银系统POS收银台界面' },
+      { src: 'assets/epos/screenshot-epos-2.png', width: 1910, height: 873, label: '商品管理', alt: '冉暖收银系统商品管理界面' },
+      { src: 'assets/epos/screenshot-epos-3.png', width: 1910, height: 873, label: '库存管理', alt: '冉暖收银系统库存管理界面' },
+      { src: 'assets/epos/screenshot-epos-4.png', width: 1910, height: 873, label: '财务对账', alt: '冉暖收银系统财务对账界面' },
+    ] }]} />
+  </PSection>
+
+  <PSection id="progress" tone="alt" index="05" eyebrow="PROGRESS" label="开发进度"
+    title="项目" highlight="进展" sub="核心模块已完成，正在快速迭代中">
+    <Milestones items={[
+      'POS收银台', '商品管理(SPU/SKU)', '库存管理', '门店管理', '用户与角色权限', '审计日志',
+      'CRM会员系统', '储值支付', '财务对账', '盘点管理', '小票打印', '数据大屏',
+    ]} />
+  </PSection>
+
+  <PSection id="faq" index="06" eyebrow="FAQ" label="常见问题"
+    title="还有" highlight="疑问？" sub="快速找到你关心的问题">
+    <FaqQuick items={[
+      { icon: 'fa6-solid:cash-register', q: '支持哪些硬件？', a: '热敏打印机、扫码枪、钱箱等常见POS外设', href: 'faq.html#epos' },
+      { icon: 'fa6-solid:network-wired', q: '离线能用吗？', a: '前台Electron端支持断网收银，联网后自动同步', href: 'faq.html#epos' },
+      { icon: 'fa6-solid:store', q: '支持多门店吗？', a: '一套系统管理多门店，数据集中，权限隔离', href: 'faq.html#epos' },
+      { icon: 'fa6-solid:ellipsis', q: '更多问题', a: '查看完整常见问题列表', href: 'faq.html' },
+    ]} />
+  </PSection>
+
+  <CtaBand eyebrow="BOOK A DEMO · 预约演示" title="让收银更简单"
+    desc="冉暖收银系统正在紧锣密鼓开发中，欢迎预约演示，获取一对一产品讲解。">
+    <button type="button" class="btn btn-primary btn-lg" data-modal-open="qq" data-magnetic><Icon name="fa6-brands:qq" /> 联系开发者</button>
+    <button type="button" class="btn btn-ghost btn-lg" data-modal-open="wechat"><Icon name="fa6-brands:weixin" /> 添加微信</button>
+  </CtaBand>
+</ProductLayout>

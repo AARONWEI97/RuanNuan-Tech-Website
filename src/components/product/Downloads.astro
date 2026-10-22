@@ -1,0 +1,59 @@
+---
+/**
+ * 安装包下载卡 + 网盘密码「访问 GitHub 解锁」。
+ * 渐进增强：<details open> 默认展开，JS 失效时密码始终可见；
+ * product.ts 读取 data-unlock-* 后先收起，用户点过 GitHub 链接并在有效期内返回才展开。
+ * sessionStorage 键名与有效期沿用旧版，老访客的解锁状态不受影响。
+ */
+import Icon from '../Icon.astro';
+
+export interface Download {
+  key: string;
+  icon: string;
+  title: string;
+  version: string;
+  note: string;
+  href: string;
+  label: string;
+  repo: string;
+  pwd: string;
+  storage: string;
+}
+interface Props {
+  items: Download[];
+  /** 解锁有效期（分钟） */
+  expireMin: number;
+  /** 锁定态提示文案 */
+  lockedHint: string;
+}
+const { items, expireMin, lockedHint } = Astro.props;
+---
+<ul class="dl" role="list" data-stagger style={`--n:${items.length}`} data-unlock-expire={expireMin * 60_000} data-unlock-hint={lockedHint}>
+  {items.map((d) => (
+    <li class="dl-card" data-spotlight>
+      <div class="dl-head">
+        <span class="dl-icon"><Icon name={d.icon} /></span>
+        <div>
+          <h3>{d.title}</h3>
+          <span class="dl-ver mono">{d.version}</span>
+        </div>
+      </div>
+      <p class="dl-note">{d.note}</p>
+      <a href={d.href} target="_blank" rel="noopener" class="btn btn-primary dl-btn">
+        <Icon name="fa6-solid:download" /> {d.label}<span class="sr-only">（蓝奏云网盘，新窗口打开）</span>
+      </a>
+      <div class="dl-unlock">
+        <a class="dl-repo" href={d.repo} target="_blank" rel="noopener" data-unlock-link={d.key} data-unlock-storage={d.storage}>
+          <Icon name="fa6-brands:github" /> 访问 GitHub 仓库解锁密码 <Icon name="fa6-solid:arrow-up-right-from-square" class="dl-ext" />
+        </a>
+        <details class="dl-pwd" data-unlock-pwd={d.key} open>
+          <summary><Icon name="fa6-solid:lock" class="dl-lock" /><Icon name="fa6-solid:lock-open" class="dl-unlocked" /> <span data-unlock-hint-text>点击展开网盘密码</span></summary>
+          <p class="dl-pwd-row" aria-live="polite">
+            网盘密码 <code class="mono" id={`pwd-${d.key}`}>{d.pwd}</code>
+            <button type="button" class="dl-copy" data-copy={`#pwd-${d.key}`}>复制</button>
+          </p>
+        </details>
+      </div>
+    </li>
+  ))}
+</ul>

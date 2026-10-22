@@ -1,0 +1,35 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** 站内路径，如 'order.html'；首页传 '' */
+  path: string;
+  keywords?: string;
+  jsonLd?: Record<string, unknown>;
+  /** 不收录（404 等） */
+  noindex?: boolean;
+}
+
+const { title, description, path, keywords, jsonLd, noindex = false } = Astro.props;
+const canonical = `${site.url}/${path}`;
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+{keywords && <meta name="keywords" content={keywords} />}
+{noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={`${site.name} ${site.nameEn}`} />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={site.ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={site.ogImage} />
+
+{jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}

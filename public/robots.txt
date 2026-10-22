@@ -4,9 +4,6 @@
 User-agent: *
 Allow: /
 
-# 未被任何页面链接的历史转储文件（已改为跳转存根）
-Disallow: /epos_dump.html
-
 # 错误页无需收录
 Disallow: /404.html
 

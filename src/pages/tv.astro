@@ -1,0 +1,107 @@
+---
+import ProductLayout from '../layouts/ProductLayout.astro';
+import PHero from '../components/product/PHero.astro';
+import SubNav from '../components/product/SubNav.astro';
+import PSection from '../components/product/PSection.astro';
+import FeatureGrid from '../components/product/FeatureGrid.astro';
+import TechStack from '../components/product/TechStack.astro';
+import Gallery from '../components/product/Gallery.astro';
+import Downloads from '../components/product/Downloads.astro';
+import CtaBand from '../components/product/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { productById } from '../data/products';
+import { url } from '../lib/url';
+
+const product = productById('tv');
+const repo = 'https://github.com/AARONWEI97/RanNuan-TV';
+---
+<ProductLayout
+  {product}
+  title="RanNuan TV — 桌面端 + 移动端 + 电视端三端视频聚合平台 | 冉暖科技"
+  description="RanNuan TV 是冉暖科技的视频聚合播放平台，覆盖 Windows 桌面端、Android 移动端与 Android TV 电视端，支持多源聚合、详情直达、分类浏览与播放体验优化。"
+  keywords="RanNuan TV,视频平台,桌面端,Android,多源聚合,视频播放,详情页,分类浏览,冉暖科技"
+  category="MultimediaApplication"
+  os="Windows, Android"
+  ldDescription="覆盖 Windows 桌面端、Android 移动端与 Android TV 电视端的视频聚合播放平台，支持多源聚合、详情直达、分类浏览、选集动画与播放源切换。"
+>
+  <PHero {product} kind="视频聚合平台" accentWord="视频" en="RanNuan TV" floatLabel="三端 · 多源 · 播放优化"
+    stats={[
+      { value: 2, label: '覆盖平台', fill: 100 },
+      { value: 3, suffix: '+', label: '聚合数据源', fill: 85 },
+      { value: 100, suffix: '%', label: '三端完成度', fill: 100 },
+    ]}>
+    <Fragment slot="desc">
+      RanNuan TV 是冉暖科技的视频聚合播放平台，覆盖 <strong class="is-accent">Windows 桌面端、Android 移动端与 Android TV 电视端</strong>，
+      支持多源聚合、详情直达、分类浏览、选集动画与播放源切换，让内容发现和播放更顺手。
+    </Fragment>
+    <Fragment slot="actions">
+      <a href="#download" class="btn btn-primary btn-lg" data-magnetic><Icon name="fa6-solid:download" /> 下载三端</a>
+      <a href="#screenshots" class="btn btn-ghost btn-lg"><Icon name="fa6-solid:image" /> 界面预览</a>
+    </Fragment>
+  </PHero>
+
+  <SubNav {product}
+    items={[
+      { id: 'features', label: '核心能力' },
+      { id: 'screenshots', label: '界面' },
+      { id: 'tech', label: '技术栈' },
+      { id: 'download', label: '下载' },
+    ]}
+    cta={{ href: '#download', label: '立即下载' }} />
+
+  <PSection id="features" index="01" eyebrow="CORE FEATURES" label="核心能力"
+    title="围绕播放体验" highlight="做的优化" sub="先保证能快进到内容，再把细节做顺">
+    <FeatureGrid items={[
+      { icon: 'fa6-solid:arrows-rotate', title: '三端一致体验', text: '桌面端、移动端与 TV 端共享聚合逻辑，保持一致的分类、详情、搜索与播放体验' },
+      { icon: 'fa6-solid:layer-group', title: '多源资源合并', text: '搜索页按标题归一化合并资源，减少重复卡片，方便快速切源和进入详情' },
+      { icon: 'fa6-solid:up-right-and-down-left-from-center', title: '详情页直达', text: '首页、Banner、分类页都直接进入详情页，减少中间层跳转和等待感' },
+      { icon: 'fa6-solid:circle-play', title: '播放页更直观', text: '选集动画、播放源名称、线路切换和加载提示都做了更清晰的状态反馈' },
+      { icon: 'fa6-solid:list', title: '分类浏览', text: '按类型、地区、年份多维度分类，快速定位感兴趣的内容' },
+      { icon: 'fa6-solid:magnifying-glass', title: '智能搜索', text: '支持模糊匹配与源切换，搜索结果快速响应，体验流畅' },
+    ]} />
+  </PSection>
+
+  <PSection id="screenshots" tone="alt" index="02" eyebrow="SCREENSHOTS" label="界面预览"
+    title="多端" highlight="界面一览" sub="桌面端 + Android 端界面预览">
+    <Gallery en={product.en} groups={[
+      { key: 'desktop', label: '桌面端', icon: 'fa6-solid:desktop', shots: [
+        { src: 'assets/video/home.png', width: 1920, height: 1020, label: '首页', alt: 'RanNuan TV 桌面端首页截图' },
+        { src: 'assets/video/detail.png', width: 1920, height: 1020, label: '详情页', alt: 'RanNuan TV 桌面端详情页截图' },
+      ] },
+      { key: 'mobile', label: '移动端', icon: 'fa6-solid:mobile-screen', shots: [
+        { src: 'assets/video/category.jpg', width: 1440, height: 3120, label: '分类页', alt: 'RanNuan TV 移动端分类页截图' },
+        { src: 'assets/video/player.jpg', width: 1440, height: 3120, label: '播放页', alt: 'RanNuan TV 移动端播放页截图' },
+      ] },
+    ]} />
+  </PSection>
+
+  <PSection id="tech" index="03" eyebrow="TECH STACK" label="技术架构"
+    title="三端" highlight="技术栈" sub="桌面端、移动端与 TV 端协同，稳定可靠的技术选型">
+    <TechStack items={[
+      { icon: 'fa6-brands:android', name: 'Kotlin Compose', role: 'Android 移动端', tone: 'primary' },
+      { icon: 'fa6-brands:react', name: 'React', role: '桌面端 Web', tone: 'primary' },
+      { icon: 'fa6-brands:node-js', name: 'Node.js', role: '聚合后端', tone: 'accent' },
+      { icon: 'fa6-solid:plug', name: 'API 网关', role: '多源调度', tone: 'accent' },
+      { icon: 'fa6-solid:database', name: '爬虫引擎', role: '数据采集', tone: 'green' },
+      { icon: 'fa6-solid:film', name: '播放器', role: '多格式支持', tone: 'green' },
+    ]} />
+  </PSection>
+
+  <PSection id="download" tone="dark" grid index="04" eyebrow="DOWNLOAD" label="立即下载"
+    title="三端" highlight="安装包" sub="桌面端 + 移动端 + Android TV 端，已打包发布">
+    <Downloads expireMin={30} lockedHint="点赞后返回本页自动解锁" items={[
+      { key: 'desktop', icon: 'fa6-solid:desktop', title: '桌面端', version: 'v2.1.1', note: 'Windows · 安装即用',
+        href: 'https://wwbjj.lanzoum.com/iBY3D3yjb8kb', label: '下载桌面端', repo, pwd: 'RR2018', storage: 'rannuan_tv_desktop_visit' },
+      { key: 'mobile', icon: 'fa6-solid:mobile-screen', title: '移动端', version: 'v2.1.6', note: 'Android · .apk 安装包',
+        href: 'https://wwbjj.lanzoum.com/iUpmo42woqfe', label: '下载 APK', repo, pwd: 'RR2233', storage: 'rannuan_tv_mobile_visit' },
+      { key: 'tv', icon: 'fa6-solid:tv', title: '电视端', version: 'v1.0.0', note: 'Android TV · .apk 安装包',
+        href: 'https://wwbjj.lanzouc.com/itIbw4aufz3i', label: '下载 APK', repo, pwd: 'RR11', storage: 'rannuan_tv_tv_visit' },
+    ]} />
+  </PSection>
+
+  <CtaBand eyebrow="PRODUCT STATUS · 产品状态" title="三端已完成，持续迭代优化中"
+    desc="如果你对视频聚合平台感兴趣，或者有定制开发需求，欢迎随时联系交流。">
+    <button type="button" class="btn btn-primary btn-lg" data-modal-open="qq" data-magnetic><Icon name="fa6-brands:qq" /> 联系开发者</button>
+    <a href={url('index.html#contact')} class="btn btn-ghost btn-lg"><Icon name="fa6-solid:envelope" /> 留言咨询</a>
+  </CtaBand>
+</ProductLayout>

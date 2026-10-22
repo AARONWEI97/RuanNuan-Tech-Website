@@ -1,0 +1,75 @@
+---
+/**
+ * 产品章节（浅色）：左侧四个章节随滚动推进，右侧窗口吸顶并切换截图。
+ * 用 CSS sticky 而不是 GSAP pin：无 JS 时也是完整可读的四段内容；
+ * home.ts 只负责切换 .is-active 和进度条。
+ */
+import '../../styles/home/products.css';
+import Icon from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import { products } from '../../data/products';
+import { url } from '../../lib/url';
+---
+<section class="section chapters" id="products" data-theme="light" aria-labelledby="productsTitle">
+  <div class="signal-grid chapters-grid" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHead index="01" eyebrow="PRODUCT MATRIX" label="产品矩阵" id="productsTitle"
+      title="四款产品，" highlight="覆盖四大场景"
+      sub="每一款产品都源自真实业务需求，经过反复打磨，只为解决实际问题" />
+
+    <div class="chapters-body" data-chapters>
+      <ol class="chapters-list" role="list">
+        {products.map((p, i) => (
+          <li class="chapter" data-chapter={i} style={`--accent:${p.accent}`}>
+            <div class="chapter-head">
+              <span class="chapter-num mono">0{i + 1}</span>
+              <span class="chapter-icon"><Icon name={p.icon} /></span>
+              <span class="chapter-status mono"><span class:list={['dot', { 'is-busy': !p.stable }]}></span>{p.status}</span>
+            </div>
+            <h3 class="chapter-title">{p.name}<span class="chapter-en mono">{p.en}</span></h3>
+            <p class="chapter-desc">{p.desc}</p>
+            <ul class="chapter-features" role="list">
+              {p.features.map((f) => <li><Icon name="fa6-solid:check" />{f}</li>)}
+            </ul>
+            <div class="chapter-foot">
+              <ul class="chapter-tech" role="list">{p.tech.map((t) => <li class="chip mono">{t}</li>)}</ul>
+              <a class="chapter-link" href={url(p.href)}>
+                查看详情<span class="sr-only">：{p.name}</span> <Icon name="fa6-solid:arrow-right" />
+              </a>
+            </div>
+            <!-- 窄屏：截图跟在章节内 -->
+            <div class="win chapter-shot-inline">
+              <div class="win-bar"><i></i><i></i><i></i><span class="win-title">{p.en} · {p.version}</span></div>
+              <img src={url(p.shot.src)} alt={`${p.name}界面截图`} width={p.shot.width} height={p.shot.height} loading="lazy" decoding="async" />
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="chapters-visual" aria-hidden="true">
+        <div class="chapters-sticky">
+          <div class="chapters-progress">
+            {products.map((p, i) => (
+              <span class="chapters-tick mono" data-tick={i} style={`--accent:${p.accent}`}>0{i + 1}<i></i></span>
+            ))}
+          </div>
+          <div class="win chapters-win">
+            <div class="win-bar">
+              <i></i><i></i><i></i>
+              <span class="win-title chapters-win-title">
+                {products.map((p, i) => <span data-title={i}>{p.en} · {p.version}</span>)}
+              </span>
+            </div>
+            <div class="chapters-shots">
+              {products.map((p, i) => (
+                <img data-shot={i} src={url(p.shot.src)} alt="" width={p.shot.width} height={p.shot.height} loading="lazy" decoding="async" />
+              ))}
+              <span class="chapters-scan"></span>
+            </div>
+          </div>
+          <div class="chapters-glow"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

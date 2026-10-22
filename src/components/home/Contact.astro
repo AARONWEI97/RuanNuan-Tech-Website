@@ -1,0 +1,60 @@
+---
+/** 联系（深色）：联系方式 + 留言表单（formsubmit，异步提交失败降级原生 POST） */
+import Icon from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import { site } from '../../data/site';
+---
+<section class="section contact" id="contact" data-theme="dark" aria-labelledby="contactTitle">
+  <div class="contact-glow" aria-hidden="true"></div>
+  <div class="container contact-inner">
+    <div>
+      <SectionHead index="05" eyebrow="GET IN TOUCH" label="联系我们" id="contactTitle"
+        title="联系我们" sub="有任何问题、建议或合作意向，欢迎随时联系。通常在24小时内响应。" />
+      <ul class="contact-list" role="list" data-stagger>
+        <li><button type="button" class="contact-item" data-modal-open="wechat">
+          <span class="contact-icon is-wechat"><Icon name="fa6-brands:weixin" /></span>
+          <span class="contact-text"><strong>微信（推荐）</strong><span>点击获取二维码或微信号</span></span>
+          <Icon name="fa6-solid:arrow-right" class="contact-arrow" />
+        </button></li>
+        <li><button type="button" class="contact-item" data-modal-open="qq">
+          <span class="contact-icon is-qq"><Icon name="fa6-brands:qq" /></span>
+          <span class="contact-text"><strong>QQ</strong><span>在线咨询，工作日9:00-22:00</span></span>
+          <Icon name="fa6-solid:arrow-right" class="contact-arrow" />
+        </button></li>
+        <li><a class="contact-item" href={`mailto:${site.email}`}>
+          <span class="contact-icon"><Icon name="fa6-solid:envelope" /></span>
+          <span class="contact-text"><strong>邮箱</strong><span>{site.email}</span></span>
+          <Icon name="fa6-solid:arrow-right" class="contact-arrow" />
+        </a></li>
+      </ul>
+    </div>
+
+    <form class="contact-form" action={site.formAction} method="POST" data-async data-reveal="right" data-spotlight>
+      <div class="contact-form-head">
+        <h3><Icon name="fa6-solid:paw" /> 留言咨询</h3>
+        <span class="mono"><span class="dot"></span>通常 24 小时内回复</span>
+      </div>
+      <input type="hidden" name="_subject" value="冉暖科技 - 新留言咨询" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+      <div class="field-row">
+        <div class="field"><label for="cf-name">您的称呼 *</label><input id="cf-name" name="name" type="text" autocomplete="name" placeholder="请输入您的称呼" required /></div>
+        <div class="field"><label for="cf-phone">联系方式 *</label><input id="cf-phone" name="phone" type="text" placeholder="手机号/微信/QQ" required /></div>
+      </div>
+      <div class="field">
+        <label for="cf-subject">咨询类型</label>
+        <select id="cf-subject" name="subject">
+          <option value="trial">申请试用</option>
+          <option value="price">价格咨询</option>
+          <option value="feature">功能咨询</option>
+          <option value="support">技术支持</option>
+          <option value="custom">定制需求</option>
+          <option value="other">其他</option>
+        </select>
+      </div>
+      <div class="field"><label for="cf-message">留言内容 *</label><textarea id="cf-message" name="message" rows="5" placeholder="请详细描述您的需求或问题..." required></textarea></div>
+      <button type="submit" class="btn btn-primary btn-lg contact-submit" data-magnetic><Icon name="fa6-solid:paper-plane" /> 发送留言</button>
+      <p class="form-status" data-form-status role="status"></p>
+    </form>
+  </div>
+</section>

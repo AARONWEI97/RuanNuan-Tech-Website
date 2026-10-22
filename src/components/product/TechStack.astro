@@ -1,0 +1,44 @@
+---
+/**
+ * 技术栈：两种形态
+ * - items：图块（图标 + 名称 + 角色），tone 区分前端 / 后端 / 存储
+ * - panels：多端分栏（音乐播放器的桌面端 / 移动端）
+ */
+import Icon from '../Icon.astro';
+
+export interface TechItem { icon: string; name: string; role: string; tone?: 'primary' | 'accent' | 'green' }
+export interface TechPanel { icon: string; title: string; sub: string; tags: string[] }
+interface Props { items?: TechItem[]; panels?: TechPanel[] }
+const { items, panels } = Astro.props;
+const toneLabel = { primary: '前端 / 客户端', accent: '服务 / 引擎', green: '数据 / 工具' };
+const tones = items ? [...new Set(items.map((t) => t.tone ?? 'primary'))] : [];
+---
+{items && (
+  <div class="tstack">
+    <ul class="tstack-legend mono" role="list" aria-hidden="true">
+      {tones.map((t) => <li class={`is-${t}`}><i></i>{toneLabel[t]}</li>)}
+    </ul>
+    <ul class="tgrid" role="list" data-stagger>
+      {items.map((t) => (
+        <li class={`ttile is-${t.tone ?? 'primary'}`}>
+          <span class="ttile-icon"><Icon name={t.icon} /></span>
+          <span class="ttile-name">{t.name}</span>
+          <span class="ttile-role mono">{t.role}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+{panels && (
+  <div class="tpanels" style={`--n:${panels.length}`}>
+    {panels.map((p, i) => (
+      <div class="tpanel" data-reveal={i % 2 ? 'right' : 'left'} style={`--rd:${i * 0.1}s`} data-spotlight>
+        <div class="tpanel-head">
+          <span class="tpanel-icon"><Icon name={p.icon} /></span>
+          <div><h3>{p.title}</h3><p class="mono">{p.sub}</p></div>
+        </div>
+        <ul class="tpanel-tags" role="list">{p.tags.map((t) => <li class="chip mono">{t}</li>)}</ul>
+      </div>
+    ))}
+  </div>
+)}

@@ -1,0 +1,92 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import Icon from '../components/Icon.astro';
+import '../styles/pages/faq.css';
+import { faqGroups } from '../data/faq';
+import { products } from '../data/products';
+import { url } from '../lib/url';
+
+const total = faqGroups.reduce((n, g) => n + g.items.length, 0);
+const productHref = (id: string) => products.find((p) => p.id === id)?.href;
+const faqPage = {
+  '@type': 'FAQPage',
+  mainEntity: faqGroups.flatMap((g) => g.items.map((it) => ({
+    '@type': 'Question',
+    name: it.q,
+    acceptedAnswer: { '@type': 'Answer', text: it.a },
+  }))),
+};
+---
+<ContentLayout
+  title="常见问题 — 冉暖科技"
+  description="冉暖科技常见问题解答：订货系统 Excel 导入与 AI 尺码比例、音乐播放器音源解析与下载、收银系统小票打印与数据安全、购买与授权方式。"
+  keywords="冉暖科技常见问题,订货系统FAQ,AI尺码比例,音源解析,收银系统数据安全,软件授权"
+  path="faq.html" page="faq"
+  eyebrow="HELP CENTER" badge="帮助中心" badgeIcon="fa6-solid:circle-question"
+  heading="常见" highlight="问题" desc="快速找到你关心的问题答案"
+  graph={[faqPage]}
+>
+  <div slot="hero" class="faq-search" role="search">
+    <Icon name="fa6-solid:magnifying-glass" class="faq-search-icon" />
+    <label class="sr-only" for="faqQuery">搜索问题</label>
+    <input id="faqQuery" type="search" placeholder={`在 ${total} 个问题里搜索，例如「Excel」「音源」「打印机」`} autocomplete="off" data-faq-query />
+    <kbd class="mono" aria-hidden="true">/</kbd>
+  </div>
+
+  <div class="container faq-layout">
+    <aside class="faq-aside" aria-label="问题分组">
+      <ul class="faq-index" role="list">
+        {faqGroups.map((g) => (
+          <li data-product={g.product}>
+            <a href={`#${g.id}`} data-faq-index={g.id}>
+              <Icon name={g.icon} /><span>{g.title}</span><span class="pill-count">{g.items.length}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+
+    <div class="faq-groups">
+      {faqGroups.map((g) => {
+        const href = productHref(g.product);
+        return (
+          <section class="faq-group" id={g.id} data-product={g.product} aria-labelledby={`${g.id}-title`} data-faq-group data-reveal="up">
+            <header class="faq-group-head">
+              <span class="faq-group-icon"><Icon name={g.icon} /></span>
+              <h2 id={`${g.id}-title`}>{g.title}</h2>
+              {href && <a class="faq-group-link" href={url(href)}>产品介绍 <Icon name="fa6-solid:arrow-right" /></a>}
+            </header>
+            {g.items.map((it) => (
+              <details class="faq-item" data-faq-item>
+                <summary>
+                  <span class="faq-q">{it.q}</span>
+                  <span class="faq-toggle" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-a"><p>{it.a}</p></div>
+              </details>
+            ))}
+          </section>
+        );
+      })}
+      <p class="faq-empty" hidden data-faq-empty>
+        <Icon name="fa6-solid:paw" /> 没有找到相关问题，换个关键词试试，或者直接
+        <button type="button" data-modal-open="wechat">问开发者</button>。
+      </p>
+
+      <div class="help-strip" data-theme="dark">
+        <div>
+          <h2>没找到答案？</h2>
+          <p>添加开发者微信或 QQ，直接一对一解答。</p>
+        </div>
+        <div class="help-strip-actions">
+          <button type="button" class="btn btn-primary" data-modal-open="wechat"><Icon name="fa6-brands:weixin" /> 添加微信</button>
+          <button type="button" class="btn btn-ghost" data-modal-open="qq"><Icon name="fa6-brands:qq" /> QQ 咨询</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ContentLayout>
+
+<script>
+  import '../scripts/pages/faq';
+</script>

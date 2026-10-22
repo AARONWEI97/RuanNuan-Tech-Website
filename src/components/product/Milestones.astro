@@ -1,0 +1,21 @@
+---
+/** 里程碑清单：已完成项 + 完成度条 */
+import Icon from '../Icon.astro';
+
+interface Props { items: string[]; done?: number }
+const { items, done = items.length } = Astro.props;
+---
+<div class="miles">
+  <div class="miles-meter" data-reveal="up" style={`--fill:${done / items.length}`}>
+    <span class="mono">已完成 <b>{done}</b> / {items.length}</span>
+    <span class="miles-bar"><i></i></span>
+  </div>
+  <ul class="miles-list" role="list" data-stagger>
+    {items.map((m, i) => (
+      <li class:list={['mile', { 'is-done': i < done }]}>
+        <Icon name={i < done ? 'fa6-solid:circle-check' : 'fa6-solid:circle-notch'} />
+        <span>{m}</span>
+      </li>
+    ))}
+  </ul>
+</div>

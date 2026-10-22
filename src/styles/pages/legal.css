@@ -1,0 +1,54 @@
+/* ==========================================================
+   条款文档（privacy / terms）：吸顶目录 + 长文排版
+   ========================================================== */
+.legal { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.legal-aside { position: sticky; top: calc(var(--nav-h) + 40px); display: grid; gap: 28px; }
+.legal-toc-title { margin-bottom: 14px; font-size: 11px; letter-spacing: 0.16em; color: var(--fg-3); }
+.legal-toc ol { display: grid; gap: 2px; padding: 0; list-style: none; }
+.legal-toc a {
+  display: flex; align-items: baseline; gap: 12px; padding: 9px 12px; border-radius: var(--radius-sm);
+  font-size: var(--fs-sm); color: var(--fg-2); transition: background-color 0.25s, color 0.25s, box-shadow 0.25s;
+}
+.legal-toc a .mono { font-size: 11px; color: var(--fg-3); }
+.legal-toc a:hover { color: var(--fg); background: var(--surface); }
+.legal-toc a[aria-current] { color: var(--fg); background: var(--surface); box-shadow: inset 2px 0 0 var(--amber), inset 0 0 0 1px var(--line); }
+.legal-toc a[aria-current] .mono { color: var(--amber-ink); }
+.legal-aside-links { display: grid; gap: 10px; padding-top: 20px; border-top: 1px solid var(--line-2); }
+.legal-aside-links a { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--brand-text); }
+
+.legal-prose { max-width: 760px; font-size: var(--fs-md); line-height: 1.9; color: var(--fg-2); }
+.legal-prose > p { margin-bottom: 1em; }
+.legal-meta {
+  display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px; border-radius: var(--radius-full);
+  font-size: 13px; color: var(--amber-ink); background: var(--chip-bg);
+}
+.legal-prose section { padding-top: clamp(32px, 4vw, 48px); margin-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--line-2); scroll-margin-top: calc(var(--nav-h) + 24px); }
+.legal-prose section:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.legal-prose h2 { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; font-size: var(--fs-xl); color: var(--fg); }
+.legal-num {
+  display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 12px;
+  font-family: var(--font-mono); font-size: 14px; color: var(--ink-950); background: var(--amber);
+}
+.legal-prose p + p, .legal-prose p + ul, .legal-prose ul + p { margin-top: 0.9em; }
+.legal-prose ul { display: grid; gap: 8px; padding: 0; list-style: none; }
+.legal-prose li { position: relative; padding-left: 22px; }
+.legal-prose li::before { content: ''; position: absolute; left: 4px; top: 0.85em; width: 8px; height: 1.5px; border-radius: 2px; background: var(--amber); }
+.legal-prose strong { color: var(--fg); font-weight: 600; }
+.legal-prose .legal-key { padding: 14px 18px; border-radius: var(--radius-md); background: var(--chip-bg); box-shadow: inset 3px 0 0 var(--amber); color: var(--fg); }
+.legal-contact { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; padding: 0; }
+.legal-prose .legal-contact li { padding: 0; }
+.legal-prose .legal-contact li::before { display: none; }
+.legal-contact :is(a, button) {
+  display: grid; gap: 2px; width: 100%; padding: 14px 16px; border-radius: var(--radius-md); text-align: left;
+  font-size: var(--fs-sm); line-height: 1.5; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow 0.25s, transform 0.35s var(--ease-out);
+}
+.legal-contact :is(a, button):hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px var(--amber); }
+.legal-contact span { font-size: 11.5px; color: var(--fg-3); font-family: var(--font-mono); letter-spacing: 0.08em; }
+.legal-contact b { color: var(--fg); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .legal { grid-template-columns: 1fr; }
+  .legal-aside { position: static; padding: 20px; border-radius: var(--radius-lg); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+}
+@media (max-width: 560px) { .legal-contact { grid-template-columns: 1fr; } }

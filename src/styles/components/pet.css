@@ -1,0 +1,96 @@
+/* ==========================================================
+   宠物挂件
+   ========================================================== */
+.pet {
+  position: fixed; right: clamp(14px, 2.4vw, 28px); bottom: clamp(14px, 2.4vw, 28px); z-index: 90;
+  display: grid; justify-items: end; gap: 10px;
+  color: #2D2A32;
+}
+.pet-btn {
+  position: relative; width: 64px; height: 64px; border-radius: 50%;
+  transition: transform 0.45s var(--ease-spring);
+}
+.pet-btn:hover { transform: translateY(-3px) scale(1.04); }
+.pet-face {
+  position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, #FFF6E8, #F2DFC2);
+  box-shadow: 0 12px 28px -10px rgba(13, 9, 5, 0.5), inset 0 0 0 2px rgba(255, 255, 255, 0.7);
+  animation: pet-breathe 3.6s ease-in-out infinite;
+  transition: filter 0.6s, transform 0.6s var(--ease-out);
+}
+.pet-face img { width: 100%; height: 100%; object-fit: cover; transform: translateY(4%) scale(1.08); }
+.pet-ring {
+  position: absolute; inset: -5px; border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--amber-light), var(--coral), var(--sage), var(--amber-light));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  animation: pet-spin 6s linear infinite;
+  transition: opacity 0.5s;
+}
+@keyframes pet-breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-2px) scale(1.025); } }
+@keyframes pet-spin { to { transform: rotate(360deg); } }
+
+/* 睡觉 */
+.pet-zzz { position: absolute; top: -6px; right: -4px; pointer-events: none; }
+.pet-zzz i {
+  position: absolute; font-family: var(--font-display); font-weight: 700; font-style: normal;
+  color: var(--amber); opacity: 0;
+}
+.pet-zzz i:nth-child(1) { font-size: 11px; }
+.pet-zzz i:nth-child(2) { font-size: 14px; }
+.pet-zzz i:nth-child(3) { font-size: 18px; }
+.pet.is-asleep .pet-face { filter: saturate(0.6) brightness(0.92); transform: rotate(-12deg) translateY(3px); animation-duration: 6s; }
+.pet.is-asleep .pet-ring { opacity: 0.25; }
+.pet.is-asleep .pet-zzz i { animation: pet-zzz 3s ease-in infinite; }
+.pet.is-asleep .pet-zzz i:nth-child(2) { animation-delay: 1s; }
+.pet.is-asleep .pet-zzz i:nth-child(3) { animation-delay: 2s; }
+@keyframes pet-zzz {
+  0% { opacity: 0; transform: translate(0, 0); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(14px, -30px); }
+}
+.pet.is-waking .pet-btn { animation: pet-hop 0.6s var(--ease-spring); }
+@keyframes pet-hop { 30% { transform: translateY(-12px) rotate(-6deg); } 60% { transform: translateY(0) rotate(4deg); } }
+
+/* 气泡 */
+.pet-bubble {
+  position: relative; max-width: 220px; margin-right: 6px;
+  padding: 10px 14px; border-radius: 16px 16px 4px 16px;
+  background: var(--cream); font-size: 13px; font-weight: 500; line-height: 1.5;
+  box-shadow: 0 14px 30px -12px rgba(13, 9, 5, 0.45), inset 0 0 0 1px rgba(212, 148, 58, 0.2);
+  opacity: 0; transform: translate3d(0, 8px, 0) scale(0.92); transform-origin: bottom right;
+  transition: opacity 0.35s var(--ease-out), transform 0.45s var(--ease-spring);
+  pointer-events: none;
+}
+.pet.is-talking .pet-bubble { opacity: 1; transform: none; }
+
+/* 菜单 */
+.pet-menu {
+  display: grid; gap: 8px; justify-items: end; padding: 0; list-style: none;
+  visibility: hidden; transition: visibility 0s 0.4s;
+}
+.pet.is-open .pet-menu { visibility: visible; transition-delay: 0s; }
+.pet-menu li {
+  opacity: 0; transform: translate3d(12px, 10px, 0) scale(0.9);
+  transition: opacity 0.3s var(--ease-out), transform 0.4s var(--ease-spring);
+  transition-delay: calc(var(--i) * 0.04s);
+}
+.pet.is-open .pet-menu li { opacity: 1; transform: none; }
+.pet:not(.is-scrolled) .pet-top-li { display: none; }
+.pet-item {
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 44px; padding: 0 18px 0 14px; border-radius: var(--radius-full);
+  background: var(--ink-900); color: #F5EDDF; font-size: 13.5px; font-weight: 500;
+  box-shadow: 0 12px 26px -12px rgba(13, 9, 5, 0.6), inset 0 0 0 1px rgba(232, 184, 109, 0.2);
+  transition: background-color 0.2s, transform 0.3s var(--ease-out);
+}
+.pet-item:hover { background: var(--ink-700); transform: translateX(-3px); }
+.pet-item .icon { color: var(--amber-light); }
+
+@media (max-width: 640px) {
+  .pet-btn { width: 52px; height: 52px; }
+  .pet-bubble { max-width: 180px; font-size: 12.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pet-face, .pet-ring { animation: none; }
+}

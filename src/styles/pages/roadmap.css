@@ -1,0 +1,69 @@
+/* ==========================================================
+   功能路线图：12 个月时间轴（甘特条）+ 规划卡片
+   ========================================================== */
+.rm-legend { display: flex; gap: 24px; padding: 0; list-style: none; font-size: 12px; letter-spacing: 0.08em; color: var(--fg-2); }
+.rm-legend li { display: inline-flex; align-items: center; gap: 8px; }
+.rm-legend i { width: 10px; height: 10px; border-radius: 3px; }
+.rm-legend .is-done i { background: var(--sage); }
+.rm-legend .is-todo i { box-shadow: inset 0 0 0 1.5px var(--amber); }
+
+.rm-intro { max-width: 720px; margin-bottom: clamp(36px, 4vw, 56px); font-size: var(--fs-md); color: var(--fg-2); }
+
+.rm-gantt {
+  position: relative; margin: 0 0 clamp(40px, 5vw, 64px); padding: 24px 24px 18px;
+  border-radius: var(--radius-xl); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+}
+.rm-months, .rm-bars li { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.rm-months { margin-bottom: 14px; font-size: 11px; color: var(--fg-3); }
+.rm-months span { padding-left: 6px; border-left: 1px solid var(--line-2); }
+.rm-bars { display: grid; gap: 10px; padding: 0; list-style: none; }
+.rm-bars a {
+  grid-column: var(--from) / calc(var(--to) + 1);
+  display: flex; align-items: center; gap: 10px; min-width: 0; height: 44px; padding: 0 16px;
+  border-radius: var(--radius-full); font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden;
+  transform-origin: left; transition: transform 0.4s var(--ease-out), filter 0.3s;
+}
+.rm-bars a span { overflow: hidden; text-overflow: ellipsis; }
+.rm-bars .is-done a { color: var(--ink-950); background: var(--pc); }
+.rm-bars .is-todo a {
+  color: color-mix(in srgb, var(--pc) 55%, var(--fg));
+  background: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--pc) 16%, transparent) 0 8px, transparent 8px 16px);
+  box-shadow: inset 0 0 0 1.5px var(--pc);
+}
+.rm-bars a:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.js .rm-gantt .rm-bars a { transform: scaleX(0); transition: transform 1.1s var(--ease-out) calc(0.3s + var(--i) * 0.15s); }
+.js .rm-gantt.is-in .rm-bars a { transform: none; }
+.rm-gantt figcaption { position: absolute; right: 24px; bottom: -11px; padding: 2px 10px; border-radius: var(--radius-full); font-size: 11px; color: var(--fg-3); background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); }
+
+.rm-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 0; list-style: none; }
+.rm-cards > li { display: grid; }
+.rm-card {
+  display: flex; flex-direction: column; gap: 12px; padding: clamp(24px, 2.6vw, 32px);
+  border-radius: var(--radius-lg); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+  scroll-margin-top: calc(var(--nav-h) + 32px);
+  transition: transform 0.5s var(--ease-out), box-shadow 0.4s;
+}
+.rm-card:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pc) 45%, transparent), 0 24px 48px -30px rgba(45, 42, 50, 0.4); }
+.rm-card:target { box-shadow: inset 0 0 0 2px var(--pc); }
+.rm-card.is-todo { background: linear-gradient(180deg, color-mix(in srgb, var(--pc) 8%, var(--surface)), var(--surface)); box-shadow: inset 0 0 0 1px var(--line), inset 0 0 0 1px color-mix(in srgb, var(--pc) 30%, transparent); }
+.rm-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.06em; }
+.is-done .rm-status { color: var(--sage-ink); }
+.is-todo .rm-status { color: var(--amber-ink); }
+.rm-card h2 { display: flex; align-items: center; gap: 12px; font-size: var(--fs-lg); }
+.rm-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; font-size: 16px; color: var(--pc); background: color-mix(in srgb, var(--pc) 14%, transparent); }
+.rm-period { font-size: 12px; color: var(--fg-3); }
+.rm-list { display: grid; gap: 10px; margin: 6px 0 4px; padding: 16px 0 0; list-style: none; border-top: 1px dashed var(--line-2); font-size: var(--fs-sm); }
+.rm-list li { display: flex; align-items: baseline; gap: 10px; }
+.rm-list .icon { flex: none; font-size: 12px; transform: translateY(1px); }
+.is-done .rm-list .icon { color: var(--sage); }
+.is-todo .rm-list .icon { color: var(--amber); }
+.rm-link { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px; font-size: 13px; font-weight: 600; color: var(--brand-text); }
+.rm-link .icon { transition: transform 0.35s var(--ease-out); }
+.rm-link:hover .icon { transform: translateX(4px); }
+
+@media (max-width: 1023px) { .rm-cards { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .rm-gantt { padding: 18px 14px 16px; }
+  .rm-months span:nth-child(even) { color: transparent; }
+  .rm-bars a { padding: 0 10px; font-size: 12px; }
+}

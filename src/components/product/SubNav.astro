@@ -1,0 +1,27 @@
+---
+/**
+ * 页内目录胶囊：滚过 Hero 后吸附在主导航下方；主导航隐藏时上移补位。
+ * 当前章节由 product.ts 高亮（aria-current="location"）。
+ */
+import Icon from '../Icon.astro';
+import type { Product } from '../../data/products';
+
+interface Props {
+  product: Product;
+  items: { id: string; label: string }[];
+  /** 右侧行动按钮 */
+  cta?: { href?: string; modal?: 'wechat' | 'qq'; label: string };
+}
+const { product, items, cta } = Astro.props;
+---
+<div class="psub-wrap">
+  <nav class="psub" aria-label={`${product.name}页内目录`} data-psub>
+    <span class="psub-name"><Icon name={product.icon} /> {product.name}</span>
+    <ul class="psub-list" role="list">
+      {items.map((it) => <li><a href={`#${it.id}`} data-psub-link={it.id}>{it.label}</a></li>)}
+    </ul>
+    {cta && (cta.modal
+      ? <button type="button" class="btn btn-primary btn-sm psub-cta" data-modal-open={cta.modal}>{cta.label}</button>
+      : <a href={cta.href} class="btn btn-primary btn-sm psub-cta">{cta.label}</a>)}
+  </nav>
+</div>

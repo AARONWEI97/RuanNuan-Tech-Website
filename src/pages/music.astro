@@ -1,0 +1,282 @@
+---
+import ProductLayout from '../layouts/ProductLayout.astro';
+import PHero from '../components/product/PHero.astro';
+import SubNav from '../components/product/SubNav.astro';
+import PSection from '../components/product/PSection.astro';
+import FeatureGrid from '../components/product/FeatureGrid.astro';
+import CardGrid from '../components/product/CardGrid.astro';
+import TechStack from '../components/product/TechStack.astro';
+import Gallery from '../components/product/Gallery.astro';
+import Downloads from '../components/product/Downloads.astro';
+import Milestones from '../components/product/Milestones.astro';
+import FaqQuick from '../components/product/FaqQuick.astro';
+import CtaBand from '../components/product/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { productById } from '../data/products';
+import { url } from '../lib/url';
+
+const product = productById('music');
+const repos = {
+  desktop: 'https://github.com/AARONWEI97/RanNuan-Music-Player-Desktop',
+  mobile: 'https://github.com/AARONWEI97/RanNuan-Music-Player',
+};
+const vs = [
+  { icon: 'fa6-solid:music', label: '传统播放器', value: '功能单一' },
+  { icon: 'fa6-solid:rocket', label: '冉暖音乐', value: '音乐 + 宇宙' },
+  { icon: 'fa6-solid:bolt', label: '技术栈', value: 'Three.js + R3F + Bloom' },
+  { icon: 'fa6-solid:hard-drive', label: '存储架构', value: 'IndexedDB 本地优先' },
+];
+---
+<ProductLayout
+  {product}
+  title="冉暖音乐播放器 — 跨平台桌面 & 移动音乐播放器 | RanNuan Music"
+  description="冉暖音乐播放器 — 基于 Tauri+React 的桌面端 + React Native 移动端双平台音乐播放器，支持 7 大音源解析、桌面歌词、系统托盘、全局快捷键、深色模式、3D 宇宙相册"
+  keywords="音乐播放器,桌面音乐播放器,Tauri,React,跨平台,多源解析,桌面歌词,系统托盘,全局快捷键,Windows,Android"
+  category="MultimediaApplication"
+  os="Windows, Android"
+  ldDescription="基于 Tauri 2.x + React 19 桌面端与 React Native 移动端的双平台音乐播放器，支持多源解析、桌面歌词、系统托盘、全局快捷键、下载管理与 3D 宇宙相册。"
+>
+  <PHero {product} kind="v3.9.0 桌面版重磅发布" accentWord="音乐" en="RanNuan Music Player — Desktop & Mobile"
+    stats={[
+      { value: 7, label: '接入音源平台' },
+      { value: 25, suffix: '+', label: '功能模块' },
+      { value: 99, suffix: '%', label: '播放成功率', fill: 99 },
+      { value: 2, label: '覆盖平台' },
+    ]}>
+    <Fragment slot="desc">
+      基于 <strong class="is-accent">Tauri 2.x + React 19</strong> 桌面端 + <strong>React Native</strong> 移动端双平台架构。
+      覆盖网易云/QQ/酷狗/酷我/咪咕/波点/GD <strong>7 大音源</strong>，桌面歌词、系统托盘、全局快捷键、深色模式、下载管理、电台、评论系统。
+      独创 <strong class="is-accent">3D 宇宙相册</strong>，把你的照片化作环绕恒星的行星，打造独一无二的沉浸式音乐宇宙。
+    </Fragment>
+    <Fragment slot="actions">
+      <a href="#download" class="btn btn-primary btn-lg" data-magnetic><Icon name="fa6-solid:download" /> 下载安装</a>
+      <a href="#features" class="btn btn-ghost btn-lg"><Icon name="fa6-solid:star" /> 探索功能</a>
+      <details class="mrepo">
+        <summary class="btn btn-ghost btn-lg"><Icon name="fa6-brands:github" /> GitHub <Icon name="fa6-solid:chevron-down" class="mrepo-caret" /></summary>
+        <ul class="mrepo-menu" role="list">
+          <li><a href={repos.desktop} target="_blank" rel="noopener"><Icon name="fa6-solid:desktop" /><span><b>桌面端 · Desktop</b><span class="mono">RanNuan-Music-Player-Desktop</span></span></a></li>
+          <li><a href={repos.mobile} target="_blank" rel="noopener"><Icon name="fa6-solid:mobile-screen" /><span><b>移动端 · Mobile</b><span class="mono">RanNuan-Music-Player</span></span></a></li>
+        </ul>
+      </details>
+    </Fragment>
+    <div slot="visual" class="mdual">
+      <div class="win mdual-desk">
+        <div class="win-bar"><i></i><i></i><i></i><span class="win-title">桌面版 · Tauri</span></div>
+        <img src={url('assets/music/home.png')} alt="冉暖音乐播放器桌面端首页界面" width="1375" height="1000"
+          loading="eager" fetchpriority="high" decoding="async" style="view-transition-name: shot-music" />
+      </div>
+      <div class="mdual-phone">
+        <img src={url('assets/music/screenshot-music-1.jpg')} alt="冉暖音乐播放器移动端首页界面" width="1440" height="3120"
+          loading="eager" decoding="async" />
+        <span class="mdual-tag mono"><Icon name="fa6-solid:mobile-screen" /> 移动版 RN</span>
+      </div>
+    </div>
+  </PHero>
+
+  <SubNav {product}
+    items={[
+      { id: 'universe', label: '宇宙相册' },
+      { id: 'features', label: '核心功能' },
+      { id: 'desktop', label: '桌面专属' },
+      { id: 'tech', label: '技术栈' },
+      { id: 'screenshots', label: '界面' },
+      { id: 'download', label: '下载' },
+      { id: 'progress', label: '里程碑' },
+    ]}
+    cta={{ href: '#download', label: '立即下载' }} />
+
+  <PSection id="universe" tone="dark" grid class="muni" index="01" eyebrow="EXCLUSIVE · RANRAN UNIVERSE" label="独家功能 · 竞品没有"
+    title="3D 宇宙相册" highlight="· RanRan"
+    sub="把你的照片化作环绕恒星的行星。Three.js 实时 3D 渲染，Bloom 后处理特效，6 种赛博主题，全息影院——这不仅仅是一个音乐播放器。">
+    <div class="muni-video" data-reveal="scale">
+      <div class="win">
+        <div class="win-bar"><i></i><i></i><i></i><span class="win-title">RanRan Universe · 演示</span></div>
+        <video src={url('assets/music/universe.mp4')} poster={url('assets/music/universe.png')} controls muted loop playsinline preload="metadata" width="1600" height="900">
+          您的浏览器不支持内嵌视频播放，请<a href={url('assets/music/universe.mp4')}>下载演示视频</a>观看。
+        </video>
+      </div>
+    </div>
+    <CardGrid items={[
+      { icon: 'fa6-solid:sun', title: '3D 太阳系视图', text: '每张照片映射为独立行星，公转自转 + 恒星光晕 + 日冕耀斑，真实天体物理视觉。' },
+      { icon: 'fa6-solid:dharmachakra', title: '银河螺旋臂', text: '4 臂螺旋结构按时间排列照片，2400 粒子渲染，太阳系/螺旋臂两种视图自由切换。' },
+      { icon: 'fa6-solid:film', title: '赛博全息影院', text: '赛博朋克风格视频播放器，多视频列表切换，自定义控制条 + 鼠标 3 秒自动隐藏。' },
+      { icon: 'fa6-solid:palette', title: '6 主题 + 5 渐变', text: '赛博蓝 / 霓虹粉 / 矩阵绿 / 落日橙 / 星河紫 / 暗黑深渊，一键切换整个宇宙。' },
+      { icon: 'fa6-solid:clock-rotate-left', title: '时光穿梭', text: '按年份网格浏览照片，全屏沉浸式回忆视图，一键回溯你的每一个精彩瞬间。' },
+      { icon: 'fa6-solid:brain', title: '情绪音乐推荐', text: 'AI 分析照片时间/季节/标签，自动匹配情绪音乐，每一张照片都有专属 BGM。' },
+    ]} />
+    <ul class="muni-vs" role="list" data-stagger>
+      {vs.map((v, i) => (
+        <li class:list={{ 'is-us': i === 1 }}>
+          <span class="muni-vs-icon"><Icon name={v.icon} /></span>
+          <span class="mono">{v.label}</span>
+          <b>{v.value}</b>
+        </li>
+      ))}
+    </ul>
+  </PSection>
+
+  <PSection id="features" index="02" eyebrow="CORE FEATURES" label="核心功能"
+    title="覆盖全场景的" highlight="音乐体验" sub="7 大音源聚合 · 桌面手机全平台 · 22+ 个页面模块">
+    <FeatureGrid cols={4} items={[
+      { icon: 'fa6-solid:earth-americas', title: '多源音乐解析', text: '网易云 / QQ / 酷狗 / 酷我 / 咪咕 / 波点 / GD 7 大音源聚合，自动降级切换，多策略解析，再也不需要换 App 找歌。' },
+      { icon: 'fa6-solid:align-left', title: '实时歌词显示', text: '逐行歌词同步滚动，翻译歌词支持，沉浸式听歌体验，支持桌面端悬浮歌词。' },
+      { icon: 'fa6-solid:download', title: '下载管理', text: '并发下载队列 + 进度弹窗 + 打开文件夹，离线播放随时随地，断点续传不丢进度。' },
+      { icon: 'fa6-solid:list-ol', title: '播放队列管理', text: '下一首播放 / 右键菜单 10 项操作 / 拖拽排序 / 播放历史最近 200 首带时间戳。' },
+      { icon: 'fa6-solid:palette', title: '多主题与深色模式', text: '深色/浅色/跟随系统，iOS 风格 toggle 开关，个性化你的播放器视觉。' },
+      { icon: 'fa6-solid:cloud-sun-rain', title: '会话持久化', text: '刷新/重启后自动恢复播放队列 + 歌曲位置，智能保持暂停状态，无感续播。' },
+      { icon: 'fa6-solid:circle-user', title: '用户登录同步', text: '支持网易云 / QQ音乐账号登录，同步个人歌单，收藏、评论一站管理。' },
+      { icon: 'fa6-solid:magnifying-glass', title: '智能搜索', text: '防抖搜索建议 + 热搜卡片 + 搜索历史 + 键盘导航 + 全局 Ctrl+K 弹窗搜索。' },
+      { icon: 'fa6-solid:compact-disc', title: '歌曲详情页', badge: '桌面', text: '毛玻璃黑胶唱片动画 + 歌词/评论/相似推荐，视觉与听觉的双重沉浸体验。' },
+      { icon: 'fa6-solid:share-nodes', title: '社交与分享', text: '热门/最新评论双Tab、抱抱互动、楼层回复、举报、发布新评论，完整社区体验。' },
+      { icon: 'fa6-solid:sliders', title: '听歌热力图', badge: '桌面', text: '年度月历网格 + 深浅绿色渐变，可视化你的听歌习惯，助你发现自己的音乐节奏。' },
+      { icon: 'fa6-solid:headphones', title: '播放电台', badge: '桌面', text: '热门电台 / DJ 节目列表 / 电台详情页，支持分页加载与渐进渲染。' },
+    ]} />
+  </PSection>
+
+  <PSection id="desktop" tone="alt" index="03" eyebrow="DESKTOP ONLY" label="桌面版专属"
+    title="桌面端" highlight="独特能力" sub="Tauri 2.x 原生窗口能力，移动端做不到的这些事">
+    <CardGrid items={[
+      { icon: 'fa6-solid:grip-lines', title: '系统托盘控制', text: '最小化到托盘，右键菜单：播放/暂停 + 上/下一首 + 实时歌曲 tooltip + 显示/退出，不占任务栏。', tags: ['右键菜单', 'Tooltip', '后台运行'] },
+      { icon: 'fa6-solid:keyboard', title: '全局快捷键', text: 'Space 播放暂停 / Ctrl+L 歌词 / Ctrl+D 桌面歌词 / Ctrl+K 搜索 / 媒体键支持。', tags: ['5 组快捷键', '媒体键'] },
+      { icon: 'fa6-solid:i-cursor', title: '桌面悬浮歌词', text: 'Ctrl+D 呼出悬浮歌词窗口，任意拖拽定位，透明背景不遮挡，沉浸听歌。', tags: ['拖拽定位', '透明背景'] },
+      { icon: 'fa6-solid:down-left-and-up-right-to-center', title: '迷你播放器', text: '窗口缩小至 360×72，悬浮桌面角落，不干扰工作，一键切歌。', tags: ['360×72', '悬浮'] },
+      { icon: 'fa6-solid:wand-magic-sparkles', title: '启动动画', text: '3 秒马卡龙配色开机动画 + 3D Logo 浮动 + 狗狗叫声，打开就是好心情。', tags: ['马卡龙配色', '3D Logo', '声效'] },
+      { icon: 'fa6-solid:box-open', title: '本地音乐管理', text: 'IndexedDB 持久化本地音乐、封面自动匹配、歌单链接/文本导入、下载记录管理。', tags: ['IndexedDB', '封面匹配', '歌单导入'] },
+    ]} />
+  </PSection>
+
+  <PSection id="tech" index="04" eyebrow="TECH STACK" label="技术架构"
+    title="双平台" highlight="技术栈" sub="桌面端与移动端两个独立产品线，各自采用最优技术方案">
+    <TechStack panels={[
+      { icon: 'fa6-solid:desktop', title: '桌面端', sub: 'Tauri 2.x + React 19 + Vite 8',
+        tags: ['Tauri 2.11', 'React 19', 'TypeScript', 'Vite 8', 'Zustand 5', 'Tailwind CSS 4', 'React Router 7', 'Lucide React', 'IndexedDB', 'MediaSession API', '系统托盘', '全局快捷键'] },
+      { icon: 'fa6-solid:mobile-screen', title: '移动端', sub: 'React Native + TypeScript + Expo',
+        tags: ['React Native', 'TypeScript', 'Expo', 'Zustand', 'React Query', 'AsyncStorage', '音源解析', '离线缓存', '音频引擎', '用户登录', '歌单同步'] },
+    ]} />
+  </PSection>
+
+  <PSection id="screenshots" tone="alt" index="05" eyebrow="SCREENSHOTS" label="界面预览"
+    title="双平台" highlight="界面一览" sub="桌面端与移动端，同样精致的设计语言">
+    <Gallery en={product.en} groups={[
+      { key: 'desktop', label: '桌面版', icon: 'fa6-solid:desktop', shots: [
+        { src: 'assets/music/home.png', width: 1375, height: 1000, label: '首页', alt: '冉暖音乐播放器桌面版首页' },
+        { src: 'assets/music/song-detail.png', width: 1375, height: 1000, label: '歌曲详情', alt: '冉暖音乐播放器桌面版歌曲详情页' },
+        { src: 'assets/music/universe.png', width: 1375, height: 1000, label: '3D 宇宙相册', alt: '冉暖音乐播放器 3D 宇宙相册太阳系视图' },
+        { src: 'assets/music/tray.png', width: 1374, height: 899, label: '歌手详情', alt: '冉暖音乐播放器桌面版歌手详情页' },
+        { src: 'assets/music/search.png', width: 1110, height: 871, label: '搜索', alt: '冉暖音乐播放器桌面版搜索页' },
+        { src: 'assets/music/settings.png', width: 1100, height: 879, label: '设置', alt: '冉暖音乐播放器桌面版设置页' },
+      ] },
+      { key: 'mobile', label: '移动版', icon: 'fa6-solid:mobile-screen', shots: [
+        { src: 'assets/music/screenshot-music-1.jpg', width: 1440, height: 3120, label: '播放首页', alt: '冉暖音乐播放器移动版首页' },
+        { src: 'assets/music/screenshot-music-2.jpg', width: 1280, height: 2773, label: '歌词显示', alt: '冉暖音乐播放器移动版歌词页' },
+        { src: 'assets/music/screenshot-music-3.jpg', width: 1440, height: 3120, label: '歌单管理', alt: '冉暖音乐播放器移动版歌单页' },
+        { src: 'assets/music/screenshot-music-4.jpg', width: 1440, height: 3120, label: '主题切换', alt: '冉暖音乐播放器移动版主题切换' },
+      ] },
+    ]} />
+  </PSection>
+
+  <PSection id="download" tone="dark" grid index="06" eyebrow="DOWNLOAD" label="立即下载"
+    title="双平台" highlight="安装包" sub="桌面端 Windows v3.9.0 已发布 · 移动端 Android v1.1.0 已上架">
+    <Downloads expireMin={1} lockedHint="访问后返回本页自动解锁" items={[
+      { key: 'desktop', icon: 'fa6-brands:windows', title: 'Windows 桌面版', version: 'v3.9.0',
+        note: 'Tauri 2.x + React 19 + 7 音源 · 含 3D 宇宙相册', href: 'https://wwbjj.lanzouc.com/iKaD94bpk3kj', label: '下载 Windows 版',
+        repo: repos.desktop, pwd: 'RR2018', storage: 'rannuan_desktop_visit' },
+      { key: 'mobile', icon: 'fa6-brands:android', title: 'Android 移动版', version: 'v1.1.0',
+        note: 'React Native · .apk 安装包', href: 'https://wwbjj.lanzouc.com/iRbjR4a31ccd', label: '下载 APK',
+        repo: repos.mobile, pwd: 'RR0926', storage: 'rannuan_mobile_visit' },
+    ]} />
+  </PSection>
+
+  <PSection id="progress" index="07" eyebrow="MILESTONES" label="开发进度"
+    title="项目" highlight="里程碑" sub="桌面版 v3.9.0 已发布 · 更多功能持续迭代中">
+    <Milestones items={[
+      '3D 宇宙相册 (太阳系/螺旋臂/影院)', '在线播放与搜索 (9类搜索)', '多源音乐解析 (7 平台自动降级)', '歌词显示 + 桌面悬浮歌词 + 翻译',
+      '下载管理 + 离线播放 + 进度弹窗', '用户登录 + 歌单同步 + 评论系统', '系统托盘 + 全局快捷键 + 媒体键', '迷你播放器 + 启动动画 + 睡眠定时',
+      '深色模式 + 多主题 + 电台功能', '播放队列 + 会话持久化 + 预加载', 'Windows 桌面版 (Tauri v2)', '本地音乐 + IndexedDB 持久化 + 听歌热力图',
+    ]} />
+  </PSection>
+
+  <PSection id="faq" tone="alt" index="08" eyebrow="FAQ" label="常见问题"
+    title="还有" highlight="疑问？" sub="快速了解冉暖音乐播放器">
+    <FaqQuick items={[
+      { icon: 'fa6-solid:music', q: '支持哪些音源？', a: '网易云/QQ/酷狗/酷我/咪咕/波点/GD 7 大平台', href: 'faq.html#music' },
+      { icon: 'fa6-solid:desktop', q: '桌面版支持哪些系统？', a: 'Windows（目前只打包了windows系统 后续如果需求大可以开发Macos和Linux端）', href: 'faq.html#music' },
+      { icon: 'fa6-solid:mobile-screen', q: '移动端支持哪些平台？', a: 'Android 平台，iOS（ios因为苹果每年要上供$99有点恶心 所以暂时不打算制作ios端）', href: 'faq.html#music' },
+      { icon: 'fa6-solid:ellipsis', q: '更多问题', a: '查看完整常见问题列表', href: 'faq.html' },
+    ]} />
+  </PSection>
+
+  <CtaBand eyebrow="PLAY IT LOUD · 开始听歌" title="把照片和音乐，放进同一个宇宙"
+    desc="桌面版 v3.9.0 与 Android 版 v1.1.0 均可免费下载，使用中遇到问题或有功能建议，欢迎直接联系开发者。">
+    <a href="#download" class="btn btn-primary btn-lg" data-magnetic><Icon name="fa6-solid:download" /> 下载安装</a>
+    <button type="button" class="btn btn-ghost btn-lg" data-modal-open="qq"><Icon name="fa6-brands:qq" /> 反馈建议</button>
+  </CtaBand>
+</ProductLayout>
+
+<style>
+  /* GitHub 仓库下拉：原生 details，无 JS 也能用 */
+  .mrepo { position: relative; }
+  .mrepo summary { list-style: none; }
+  .mrepo summary::-webkit-details-marker { display: none; }
+  .mrepo[open] :global(.mrepo-caret) { transform: rotate(180deg); }
+  .mrepo-menu {
+    position: absolute; left: 0; top: calc(100% + 8px); z-index: 10; min-width: 280px;
+    display: grid; gap: 4px; padding: 6px; list-style: none;
+    border-radius: var(--radius-md); background: rgba(27, 20, 12, 0.94);
+    box-shadow: inset 0 0 0 1px var(--line-2), 0 24px 50px -20px rgba(13, 9, 5, 0.9);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  }
+  .mrepo-menu a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-sm); font-size: 13px; }
+  .mrepo-menu a:hover { background: var(--accent-soft); }
+  .mrepo-menu a > :global(.icon) { color: var(--accent); }
+  .mrepo-menu a > span { display: grid; line-height: 1.4; }
+  .mrepo-menu .mono { font-size: 11px; color: var(--fg-3); }
+
+  /* Hero：桌面窗口 + 手机叠放 */
+  .mdual { position: relative; padding-right: 14%; }
+  .mdual-desk {
+    transform: rotateY(-8deg) rotateX(3deg);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 34%, transparent), 0 50px 100px -30px rgba(13, 9, 5, 0.9);
+  }
+  .mdual-desk img { aspect-ratio: 1375 / 1000; }
+  .mdual-phone {
+    position: absolute; right: 0; bottom: -8%; width: 30%;
+    padding: 6px; border-radius: 28px; background: var(--ink-850);
+    box-shadow: 0 0 0 1px rgba(232, 184, 109, 0.2), 0 40px 80px -24px rgba(13, 9, 5, 0.95);
+    transform: translateZ(80px) rotate(4deg);
+    animation: hero-float 7s ease-in-out infinite alternate;
+  }
+  .mdual-phone img { border-radius: 22px; aspect-ratio: 9 / 19.5; object-fit: cover; object-position: top; }
+  .mdual-tag {
+    position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%);
+    display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--radius-full);
+    font-size: 11px; white-space: nowrap; color: #FBF4E8; background: var(--accent);
+  }
+
+  /* 宇宙相册 */
+  :global(.psec.muni) { background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(240, 107, 94, 0.14), transparent 70%), var(--ink-950); }
+  .muni-video { position: relative; margin-bottom: clamp(40px, 5vw, 64px); }
+  .muni-video::before {
+    content: ''; position: absolute; inset: 10% 8%; z-index: -1; border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 45%, transparent), transparent); filter: blur(50px);
+  }
+  .muni-video video { width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  .muni-vs {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 16px; padding: 0; list-style: none;
+    border-radius: var(--radius-lg); overflow: hidden; box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .muni-vs li { display: grid; justify-items: center; gap: 6px; padding: 26px 16px; text-align: center; }
+  .muni-vs li + li { box-shadow: inset 1px 0 0 var(--line); }
+  .muni-vs .mono { font-size: 11.5px; letter-spacing: 0.08em; color: var(--fg-3); }
+  .muni-vs b { font-family: var(--font-display); font-size: var(--fs-base); color: var(--fg); }
+  .muni-vs-icon { font-size: 18px; color: var(--fg-3); }
+  .muni-vs .is-us { background: var(--accent-soft); }
+  .muni-vs .is-us .muni-vs-icon, .muni-vs .is-us b { color: var(--accent); }
+
+  @media (max-width: 760px) {
+    .muni-vs { grid-template-columns: 1fr 1fr; }
+    .muni-vs li:nth-child(3) { box-shadow: inset 0 1px 0 var(--line); }
+    .muni-vs li:nth-child(4) { box-shadow: inset 1px 1px 0 var(--line); }
+  }
+  @media (prefers-reduced-motion: reduce) { .mdual-phone { animation: none; } }
+</style>

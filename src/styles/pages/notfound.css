@@ -1,0 +1,48 @@
+/* ==========================================================
+   404：巨型描边数字 + 一串走丢的爪印 + 入口网格
+   ========================================================== */
+.nf {
+  position: relative; overflow: hidden; min-height: 100svh;
+  display: flex; align-items: center;
+  background: radial-gradient(ellipse 60% 50% at 70% 20%, rgba(212, 148, 58, 0.22), transparent 70%), var(--ink-950);
+}
+.nf-grid { --cell: 72px; }
+.nf-inner { position: relative; z-index: 1; padding-block: calc(var(--nav-h) + 64px) 72px; }
+.nf-code {
+  position: absolute; right: -0.04em; top: 50%; z-index: -1; transform: translateY(-58%);
+  font-family: var(--font-display); font-weight: 800; line-height: 0.8; letter-spacing: -0.06em;
+  font-size: clamp(10rem, 30vw, 28rem); color: transparent;
+  -webkit-text-stroke: 1px rgba(232, 184, 109, 0.22);
+  background: linear-gradient(180deg, rgba(232, 184, 109, 0.14), transparent 80%);
+  -webkit-background-clip: text; background-clip: text;
+  user-select: none;
+}
+.nf-title { margin: 22px 0 16px; font-size: clamp(2.5rem, 1.4rem + 4vw, 4.75rem); font-weight: 800; color: #FBF4E8; }
+.nf-desc { max-width: 560px; font-size: var(--fs-md); color: var(--fg-2); }
+.nf-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+.nf-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; max-width: 920px; margin-top: 56px; padding: 0; list-style: none; }
+.nf-links a {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--radius-md);
+  font-size: var(--fs-sm); color: var(--fg); background: rgba(245, 237, 223, 0.04); box-shadow: inset 0 0 0 1px var(--line);
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.4s var(--ease-out);
+}
+.nf-links a > .icon:first-child { color: var(--pc, var(--amber-light)); }
+.nf-arrow { margin-left: auto; font-size: 11px; color: var(--fg-3); opacity: 0; transform: translateX(-4px); transition: opacity 0.3s, transform 0.35s var(--ease-out); }
+.nf-links a:hover { transform: translateY(-3px); background: rgba(245, 237, 223, 0.07); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pc, var(--amber)) 55%, transparent); }
+.nf-links a:hover .nf-arrow { opacity: 1; transform: none; }
+
+.nf-help { margin-top: 32px; font-size: var(--fs-sm); color: var(--fg-3); }
+.nf-help :is(a, button) { color: var(--amber-light); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+/* 爪印依次浮现，最后停在一个问号前 */
+.nf-paws { position: absolute; inset: 0; pointer-events: none; }
+.nf-paw, .nf-lost { position: absolute; left: var(--x); top: var(--y); font-size: 22px; color: rgba(232, 184, 109, 0.32); transform: rotate(var(--r)); }
+.js .nf-paw { opacity: 0; animation: nf-step 6.4s ease-out infinite; animation-delay: calc(var(--i) * 0.35s); }
+.nf-lost { left: 57%; top: 46%; font-size: 30px; color: rgba(232, 184, 109, 0.5); animation: nf-bob 2.4s ease-in-out infinite alternate; }
+@keyframes nf-step { 0% { opacity: 0; } 6%, 60% { opacity: 1; } 85%, 100% { opacity: 0; } }
+@keyframes nf-bob { to { transform: translateY(-8px) rotate(10deg); } }
+
+@media (max-width: 900px) { .nf-links { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .nf-paws { display: none; } .nf-code { top: 22%; } }
+@media (prefers-reduced-motion: reduce) { .js .nf-paw { opacity: 1; animation: none; } .nf-lost { animation: none; } }

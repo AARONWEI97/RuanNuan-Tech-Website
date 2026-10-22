@@ -1,0 +1,72 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import LegalDoc from '../components/LegalDoc.astro';
+import { site } from '../data/site';
+
+const toc = [
+  { id: 'info-collection', label: '信息收集' },
+  { id: 'info-use', label: '信息使用' },
+  { id: 'data-storage', label: '数据存储与保护' },
+  { id: 'third-party', label: '第三方服务' },
+  { id: 'policy-update', label: '政策更新' },
+  { id: 'contact-us', label: '联系我们' },
+];
+const n = (id: string) => String(toc.findIndex((t) => t.id === id) + 1);
+---
+<ContentLayout
+  title="隐私政策 - 冉暖订货系统 | 冉暖科技"
+  description="冉暖订货系统的隐私政策说明：信息收集、信息使用、数据存储与保护、第三方服务、政策更新与联系方式。"
+  keywords="隐私政策,冉暖订货系统,数据安全,本地存储,个人信息保护"
+  path="privacy.html" page="privacy"
+  eyebrow="PRIVACY POLICY" badge="法律信息" badgeIcon="fa6-solid:user-shield"
+  heading="隐私" highlight="政策" desc="我们如何收集、使用与保护你的信息。简单说：你的业务数据留在你自己的电脑里。"
+>
+  <LegalDoc {toc} sibling={{ href: 'terms.html', label: '使用条款' }}>
+    <section id="info-collection" aria-labelledby="info-collection-h">
+      <h2 id="info-collection-h"><span class="legal-num" aria-hidden="true">{n('info-collection')}</span>信息收集</h2>
+      <p>本软件是一款本地部署的桌面应用程序，主要数据（如商品信息、订单记录、客户资料等）均存储在您本地的数据库中。我不会自动收集或上传您的业务数据。</p>
+      <p>为了提供更好的服务，我可能会在以下场景收集少量信息：</p>
+      <ul>
+        <li><strong>咨询与反馈：</strong>当您通过微信、QQ或邮件联系我时，我会获知您的联系方式及您主动提供的咨询内容。</li>
+        <li><strong>软件授权：</strong>为了验证软件授权（如设备绑定），软件可能会读取您的设备硬件标识符（如硬盘序列号、MAC地址），仅用于生成唯一的机器码，不会上传其他个人隐私信息。</li>
+      </ul>
+    </section>
+
+    <section id="info-use" aria-labelledby="info-use-h">
+      <h2 id="info-use-h"><span class="legal-num" aria-hidden="true">{n('info-use')}</span>信息使用</h2>
+      <p>收集的信息仅用于以下目的：</p>
+      <ul>
+        <li>处理您的试用申请或购买请求。</li>
+        <li>为您提供技术支持，解决软件使用过程中遇到的问题。</li>
+        <li>通知您关于软件更新、功能改进的重要信息。</li>
+        <li>验证软件的正版授权状态。</li>
+      </ul>
+    </section>
+
+    <section id="data-storage" aria-labelledby="data-storage-h">
+      <h2 id="data-storage-h"><span class="legal-num" aria-hidden="true">{n('data-storage')}</span>数据存储与保护</h2>
+      <p class="legal-key"><strong>本地存储：</strong>您的业务数据完全存储在您的本地电脑中，我无法访问、查看或备份这些数据。请您务必自行做好数据备份工作，以防设备故障导致数据丢失。</p>
+      <p><strong>通信安全：</strong>您与我之间的沟通记录（如聊天记录、邮件）将严格保密，不会向任何第三方出售或泄露，除非法律法规强制要求。</p>
+    </section>
+
+    <section id="third-party" aria-labelledby="third-party-h">
+      <h2 id="third-party-h"><span class="legal-num" aria-hidden="true">{n('third-party')}</span>第三方服务</h2>
+      <p>本官网可能会包含指向第三方网站的链接（如社交媒体平台）。点击这些链接即表示您离开本网站，第三方网站的隐私实践不受本政策约束。</p>
+    </section>
+
+    <section id="policy-update" aria-labelledby="policy-update-h">
+      <h2 id="policy-update-h"><span class="legal-num" aria-hidden="true">{n('policy-update')}</span>政策更新</h2>
+      <p>我可能会根据法律法规变化或软件功能调整更新本隐私政策。更新后的政策将发布在本页面，建议您定期查看。</p>
+    </section>
+
+    <section id="contact-us" aria-labelledby="contact-us-h">
+      <h2 id="contact-us-h"><span class="legal-num" aria-hidden="true">{n('contact-us')}</span>联系我们</h2>
+      <p>如果您对本隐私政策有任何疑问，请通过以下方式联系：</p>
+      <ul class="legal-contact" role="list">
+        <li><button type="button" data-modal-open="qq"><span>QQ</span><b>{site.qq}</b></button></li>
+        <li><button type="button" data-modal-open="wechat"><span>微信</span><b>{site.wechat}</b></button></li>
+        <li><a href={`mailto:${site.email}`}><span>邮箱</span><b>{site.email}</b></a></li>
+      </ul>
+    </section>
+  </LegalDoc>
+</ContentLayout>

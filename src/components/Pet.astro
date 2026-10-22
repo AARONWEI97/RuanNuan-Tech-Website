@@ -1,0 +1,24 @@
+---
+/**
+ * 宠物挂件：用品牌 Logo 照片（戴熊帽的小狗）
+ * 状态：空闲呼吸 → 20s 无操作睡觉（Zzz）→ 靠近/操作醒来 → 点击展开菜单
+ */
+import '../styles/components/pet.css';
+import Icon from './Icon.astro';
+import { url } from '../lib/url';
+---
+<div class="pet" id="pet">
+  <ul class="pet-menu" id="petMenu" role="list">
+    <li style="--i:2"><button type="button" class="pet-item" data-modal-open="wechat"><Icon name="fa6-brands:weixin" /><span>加微信</span></button></li>
+    <li style="--i:1"><button type="button" class="pet-item" data-modal-open="qq"><Icon name="fa6-brands:qq" /><span>QQ 咨询</span></button></li>
+    <li style="--i:0" class="pet-top-li"><button type="button" class="pet-item" data-pet-top><Icon name="fa6-solid:arrow-up" /><span>回到顶部</span></button></li>
+  </ul>
+  <p class="pet-bubble" aria-hidden="true"><span data-pet-say>汪～需要帮忙吗？</span></p>
+  <button class="pet-btn" type="button" aria-label="小助手：打开联系菜单" aria-expanded="false" aria-controls="petMenu">
+    <span class="pet-ring" aria-hidden="true"></span>
+    <span class="pet-face">
+      <img src={url('assets/logo.png')} alt="" width="64" height="64" decoding="async" loading="lazy" />
+    </span>
+    <span class="pet-zzz" aria-hidden="true"><i>z</i><i>z</i><i>Z</i></span>
+  </button>
+</div>

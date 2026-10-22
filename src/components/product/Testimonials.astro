@@ -1,0 +1,28 @@
+---
+/** 用户评价卡片 */
+import Icon from '../Icon.astro';
+
+export interface Testimonial { quote: string; name: string; role: string; rating: number }
+interface Props { items: Testimonial[] }
+const { items } = Astro.props;
+// 空星用实心星 + 低透明度（项目只装了 fa6-solid / fa6-brands）
+const stars = (r: number) => Array.from({ length: 5 }, (_, i) =>
+  r >= i + 1 ? { name: 'fa6-solid:star', cls: '' } : r > i ? { name: 'fa6-solid:star-half-stroke', cls: '' } : { name: 'fa6-solid:star', cls: 'is-empty' });
+---
+<ul class="tmon" role="list" data-stagger>
+  {items.map((t) => (
+    <li>
+      <figure class="tmon-card">
+        <Icon name="fa6-solid:quote-left" class="tmon-mark" />
+        <blockquote>{t.quote}</blockquote>
+        <figcaption>
+          <span class="tmon-avatar" aria-hidden="true">{t.name.slice(0, 1)}</span>
+          <span class="tmon-who"><b>{t.name}</b><span>{t.role}</span></span>
+          <span class="tmon-rating" role="img" aria-label={`评分 ${t.rating} / 5`}>
+            {stars(t.rating).map((s) => <Icon name={s.name} class={s.cls} />)}
+          </span>
+        </figcaption>
+      </figure>
+    </li>
+  ))}
+</ul>

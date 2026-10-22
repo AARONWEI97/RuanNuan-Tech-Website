@@ -1,0 +1,61 @@
+---
+/**
+ * 截图画廊：多组时显示分组标签（无 JS 时各组顺序展开）；点击截图进灯箱。
+ * 截图是 <a href=原图>，没有 JS 也能直接打开大图。
+ */
+import Icon from '../Icon.astro';
+import { url } from '../../lib/url';
+
+export interface Shot { src: string; width: number; height: number; label: string; alt: string }
+export interface ShotGroup { key: string; label: string; icon?: string; shots: Shot[] }
+interface Props { groups: ShotGroup[]; en: string }
+const { groups, en } = Astro.props;
+const tabs = groups.length > 1;
+const isPortrait = (s: Shot) => s.height > s.width;
+---
+<div class="gallery" data-gallery>
+  {tabs && (
+    <div class="gallery-tabs" role="tablist" aria-label="截图分组" data-reveal="up">
+      {groups.map((g, i) => (
+        <button type="button" role="tab" class="gallery-tab" id={`gtab-${g.key}`} aria-controls={`gpanel-${g.key}`}
+          aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+          {g.icon && <Icon name={g.icon} />}{g.label}<span class="gallery-count mono">{g.shots.length}</span>
+        </button>
+      ))}
+      <span class="gallery-tab-ink" aria-hidden="true"></span>
+    </div>
+  )}
+  {groups.map((g) => {
+    const portrait = g.shots.every(isPortrait);
+    return (
+      <div class:list={['gallery-panel', { 'is-portrait': portrait }]} id={`gpanel-${g.key}`}
+        role={tabs ? 'tabpanel' : undefined} aria-labelledby={tabs ? `gtab-${g.key}` : undefined}>
+        {tabs && <h3 class="gallery-panel-title sr-only">{g.label}</h3>}
+        <ul class="gallery-grid" role="list" data-stagger>
+          {g.shots.map((s, i) => (
+            <li>
+              <a class="gshot" href={url(s.src)} data-lightbox={g.key} data-caption={s.label}>
+                <div class="win">
+                  {!portrait && <div class="win-bar"><i></i><i></i><i></i><span class="win-title">{en} · {s.label}</span></div>}
+                  <img src={url(s.src)} alt={s.alt} width={s.width} height={s.height} loading="lazy" decoding="async" />
+                  <span class="gshot-zoom" aria-hidden="true"><Icon name="fa6-solid:up-right-and-down-left-from-center" /></span>
+                </div>
+                <span class="gshot-cap"><span class="mono">0{i + 1}</span>{s.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  })}
+</div>
+
+<dialog class="lightbox" id="lightbox" aria-label="截图预览" data-lenis-prevent>
+  <figure class="lightbox-fig">
+    <img class="lightbox-img" alt="" />
+    <figcaption class="lightbox-cap mono"><span data-lb-index></span><span data-lb-caption></span></figcaption>
+  </figure>
+  <button type="button" class="lightbox-btn is-close" aria-label="关闭预览" data-lb-close><Icon name="fa6-solid:xmark" /></button>
+  <button type="button" class="lightbox-btn is-prev" aria-label="上一张" data-lb-prev><Icon name="fa6-solid:arrow-left" /></button>
+  <button type="button" class="lightbox-btn is-next" aria-label="下一张" data-lb-next><Icon name="fa6-solid:arrow-right" /></button>
+</dialog>

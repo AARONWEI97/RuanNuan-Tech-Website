@@ -1,0 +1,59 @@
+---
+import '@fontsource-variable/syne';
+import '@fontsource-variable/dm-sans';
+import '@fontsource-variable/jetbrains-mono';
+import 'lenis/dist/lenis.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/ui.css';
+import '../styles/motion.css';
+
+import Seo from '../components/Seo.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Modals from '../components/Modals.astro';
+import Pet from '../components/Pet.astro';
+import { url } from '../lib/url';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  page: string;
+  keywords?: string;
+  jsonLd?: Record<string, unknown>;
+  /** 页脚收尾 CTA；首页已有联系区，关掉 */
+  footerCta?: boolean;
+  noindex?: boolean;
+}
+const { title, description, path, page, keywords, jsonLd, footerCta = true, noindex = false } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#15100A" />
+    <!-- 有 JS 才隐藏待显露元素，避免无 JS 白屏 -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <Seo {title} {description} {path} {keywords} {jsonLd} {noindex} />
+    <link rel="icon" href={url('assets/logo.ico')} sizes="any" />
+    <link rel="apple-touch-icon" href={url('assets/logo.png')} />
+    <link rel="manifest" href={url('site.webmanifest')} />
+    <slot name="head" />
+  </head>
+  <body data-page={page}>
+    <a href="#main" class="skip-link">跳转到主要内容</a>
+    <Nav {page} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer cta={footerCta} />
+    <Modals />
+    <Pet />
+    <div class="sr-only" aria-live="polite" id="live-region"></div>
+    <script>
+      import '../scripts/site';
+    </script>
+  </body>
+</html>

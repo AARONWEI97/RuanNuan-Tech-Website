@@ -1,0 +1,84 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import Icon from '../components/Icon.astro';
+import '../styles/pages/changelog.css';
+import { changelogSorted } from '../data/changelog';
+import { productById, type ProductId } from '../data/products';
+import { url } from '../lib/url';
+
+const ids = [...new Set(changelogSorted.map((e) => e.product))] as ProductId[];
+const short: Record<ProductId, string> = { order: '订货系统', music: '音乐播放器', epos: '收银系统', tv: '视频播放器' };
+const latest = ids.map((id) => changelogSorted.find((e) => e.product === id)!);
+const years = [...new Set(changelogSorted.map((e) => e.date.slice(0, 4)))];
+const fmt = (d: string) => d.replaceAll('-', '.');
+---
+<ContentLayout
+  title="更新日志 — 冉暖科技"
+  description="冉暖科技产品更新日志：冉暖订货系统 V 3.3.2、音乐播放器 v3.8.6、收银系统 V 3.0.0，以及历史版本迭代记录一览。"
+  keywords="冉暖科技更新日志,订货系统V3.3.2,音乐播放器v3.8.6,收银系统V3.0.0,版本更新"
+  path="changelog.html" page="changelog"
+  eyebrow="RELEASE NOTES" badge="版本记录" badgeIcon="fa6-solid:clock-rotate-left"
+  heading="更新" highlight="日志" desc="记录冉暖科技的每一次进步"
+>
+  <ul slot="hero" class="cl-latest" role="list">
+    {latest.map((e) => {
+      const p = productById(e.product);
+      return (
+        <li data-product={e.product}>
+          <a href={`#${e.product}-${e.version.replace(/\W+/g, '')}`}>
+            <span class="cl-latest-icon"><Icon name={p.icon} /></span>
+            <span class="cl-latest-text"><span>{short[e.product]}</span><b class="mono">{e.version}</b></span>
+            <time class="mono" datetime={e.date}>{fmt(e.date)}</time>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+
+  <div class="container cbody-narrow">
+    <div class="cl-filter" role="group" aria-label="按产品筛选更新日志" data-reveal="up">
+      <ul class="pills" role="list">
+        <li><button type="button" class="pill" data-log-filter="all" aria-pressed="true">全部 <span class="pill-count">{changelogSorted.length}</span></button></li>
+        {ids.map((id) => (
+          <li data-product={id}>
+            <button type="button" class="pill" data-log-filter={id} aria-pressed="false">
+              <Icon name={productById(id).icon} />{short[id]}
+              <span class="pill-count">{changelogSorted.filter((e) => e.product === id).length}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="cl-timeline">
+      {years.map((y) => (
+        <section class="cl-year" aria-labelledby={`y${y}`} data-log-year>
+          <h2 class="cl-year-label mono" id={`y${y}`}>{y}</h2>
+          <ol class="cl-list" role="list">
+            {changelogSorted.filter((e) => e.date.startsWith(y)).map((e) => {
+              const p = productById(e.product);
+              return (
+                <li class="cl-entry" data-product={e.product} data-log-entry id={`${e.product}-${e.version.replace(/\W+/g, '')}`} data-reveal="up">
+                  <span class="cl-node" aria-hidden="true"><Icon name={p.icon} /></span>
+                  <article class="cl-card">
+                    <header class="cl-head">
+                      <time class="mono" datetime={e.date}>{fmt(e.date)}</time>
+                      <h3>{p.name} <span class="mono cl-ver">{e.version}</span></h3>
+                      {e.tag && <span class:list={['cl-tag mono', `is-${e.tag}`]}>{e.tag.toUpperCase()}</span>}
+                    </header>
+                    <ul class="cl-items" role="list">{e.items.map((it) => <li>{it}</li>)}</ul>
+                    <a class="cl-link" href={url(p.href)}>了解{p.name} <Icon name="fa6-solid:arrow-right" /></a>
+                  </article>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      ))}
+    </div>
+  </div>
+</ContentLayout>
+
+<script>
+  import '../scripts/pages/changelog';
+</script>

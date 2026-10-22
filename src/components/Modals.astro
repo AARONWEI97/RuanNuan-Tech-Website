@@ -1,0 +1,48 @@
+---
+/**
+ * 联系弹窗：原生 <dialog>（自带焦点陷阱 / Esc 关闭 / 焦点归还）
+ * 任意元素加 data-modal-open="wechat|qq" 即可打开
+ */
+import '../styles/components/modals.css';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { url } from '../lib/url';
+---
+<dialog class="modal" id="modal-wechat" aria-labelledby="wechatModalTitle" data-lenis-prevent>
+  <div class="modal-card" data-theme="light">
+    <button class="modal-close" type="button" aria-label="关闭" data-modal-close><Icon name="fa6-solid:xmark" /></button>
+    <div class="modal-icon is-wechat"><Icon name="fa6-brands:weixin" /></div>
+    <h2 id="wechatModalTitle">添加开发者微信</h2>
+    <p class="modal-sub">获取试用名额 · 技术支持 · 交流反馈</p>
+    <div class="modal-qr">
+      <img src={url('assets/wechat-qr.jpg')} alt="冉暖科技开发者微信二维码" width="200" height="200" loading="lazy" decoding="async" />
+    </div>
+    <div class="modal-id">
+      <span class="modal-id-label">微信号</span>
+      <span id="wechatIdText" class="modal-id-value mono">{site.wechat}</span>
+      <button class="modal-copy" type="button" data-copy="#wechatIdText">复制</button>
+    </div>
+    <p class="modal-tip">添加请注明：<strong>冉暖科技咨询</strong></p>
+  </div>
+</dialog>
+
+<dialog class="modal" id="modal-qq" aria-labelledby="qqModalTitle" data-lenis-prevent>
+  <div class="modal-card" data-theme="light">
+    <button class="modal-close" type="button" aria-label="关闭" data-modal-close><Icon name="fa6-solid:xmark" /></button>
+    <div class="modal-icon is-qq"><Icon name="fa6-brands:qq" /></div>
+    <h2 id="qqModalTitle">添加开发者QQ</h2>
+    <p class="modal-sub">在线咨询 · 远程协助 · 问题反馈</p>
+    <div class="modal-qr">
+      <img src={url('assets/QQ-qr.png')} alt="冉暖科技开发者QQ二维码" width="200" height="200" loading="lazy" decoding="async" />
+    </div>
+    <a href={`tencent://message/?uin=${site.qq}&Site=Sambow&Menu=yes`} class="btn btn-primary btn-sm modal-cta">
+      <Icon name="fa6-brands:qq" /> 点击发起聊天
+    </a>
+    <div class="modal-id">
+      <span class="modal-id-label">QQ号</span>
+      <span id="qqIdText" class="modal-id-value mono">{site.qq}</span>
+      <button class="modal-copy" type="button" data-copy="#qqIdText">复制</button>
+    </div>
+    <p class="modal-tip">添加请注明：<strong>冉暖科技咨询</strong></p>
+  </div>
+</dialog>

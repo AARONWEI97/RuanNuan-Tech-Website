@@ -1,0 +1,61 @@
+---
+import '../styles/components/footer.css';
+import Icon from './Icon.astro';
+import { footerColumns, site } from '../data/site';
+import { url } from '../lib/url';
+
+interface Props { cta?: boolean }
+const { cta = true } = Astro.props;
+---
+<footer class:list={['footer', { 'is-compact': !cta }]} data-theme="dark">
+  <div class="signal-grid footer-grid" aria-hidden="true"></div>
+  <div class="container">
+    {cta && <div class="footer-cta" data-reveal="mask">
+      <p class="mono footer-cta-label" data-scramble>LET'S BUILD WARM SOFTWARE</p>
+      <h2 class="footer-cta-title">
+        <span class="mask"><span>用技术</span></span>
+        <span class="mask" style="--li:1"><span class="grad-text">创造温暖</span></span>
+      </h2>
+      <div class="footer-cta-actions" data-reveal="up" style="--rd:0.3s">
+        <a href={url('index.html#contact')} class="btn btn-primary btn-lg" data-magnetic>
+          <Icon name="fa6-solid:paw" /> 咨询合作 <Icon name="fa6-solid:arrow-right" class="icon-arrow" />
+        </a>
+        <button type="button" class="btn btn-ghost btn-lg" data-modal-open="wechat">
+          <Icon name="fa6-brands:weixin" /> 添加微信
+        </button>
+      </div>
+    </div>}
+
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href={url('index.html')} class="nav-logo" aria-label="冉暖科技首页">
+          <img src={url('assets/logo.png')} alt="" width="40" height="40" loading="lazy" decoding="async" />
+          <span class="nav-logo-text">冉暖科技</span>
+        </a>
+        <p>{site.description}</p>
+        <div class="footer-social">
+          <button type="button" data-modal-open="wechat" aria-label="微信"><Icon name="fa6-brands:weixin" /></button>
+          <button type="button" data-modal-open="qq" aria-label="QQ"><Icon name="fa6-brands:qq" /></button>
+          <a href={`mailto:${site.email}`} aria-label="邮箱"><Icon name="fa6-solid:envelope" /></a>
+        </div>
+      </div>
+      {footerColumns.map((col) => (
+        <div class="footer-col">
+          <h3 class="mono">{col.title}</h3>
+          <ul role="list">
+            {col.links.map((l) => <li><a href={url(l.href)}>{l.label}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 冉暖科技 RanNuan Tech <Icon name="fa6-solid:paw" /></p>
+      <div class="footer-bottom-links">
+        <a href={url('privacy.html')}>隐私政策</a>
+        <a href={url('terms.html')}>使用条款</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer-mark" aria-hidden="true">RANNUAN</p>
+</footer>

@@ -1,0 +1,38 @@
+---
+/**
+ * 构建期内联 SVG 图标（Font Awesome 6 via Iconify），零运行时、零 CDN。
+ * 用法：<Icon name="fa6-solid:paw" />；传 label 时作为有语义的图片，否则 aria-hidden。
+ */
+import { getIconData, iconToSVG, replaceIDs } from '@iconify/utils';
+import solid from '@iconify-json/fa6-solid/icons.json';
+import brands from '@iconify-json/fa6-brands/icons.json';
+
+type IconSet = Parameters<typeof getIconData>[0];
+
+interface Props {
+  name: string;
+  class?: string;
+  label?: string;
+  style?: string;
+}
+
+const { name, class: className, label, style } = Astro.props;
+const sets: Record<string, IconSet> = {
+  'fa6-solid': solid as IconSet,
+  'fa6-brands': brands as IconSet,
+};
+const [prefix, iconName] = name.split(':');
+const data = sets[prefix] ? getIconData(sets[prefix], iconName) : null;
+if (!data) throw new Error(`[Icon] 未知图标：${name}`);
+const { attributes, body } = iconToSVG(data, { height: '1em' });
+---
+<svg
+  {...attributes}
+  class:list={['icon', className]}
+  style={style}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+  set:html={replaceIDs(body)}
+/>

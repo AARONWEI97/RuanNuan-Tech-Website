@@ -1,0 +1,89 @@
+---
+import ContentLayout from '../layouts/ContentLayout.astro';
+import Icon from '../components/Icon.astro';
+import '../styles/pages/roadmap.css';
+import { productById, type ProductId } from '../data/products';
+import { url } from '../lib/url';
+
+/** 路线图（取自旧版 roadmap.html）；from/to 为月份，用来画顶部时间轴 */
+const plans: { product: ProductId; title: string; status: 'done' | 'todo'; from: string; to: string; items: string[] }[] = [
+  { product: 'music', title: '音乐播放器 2025', status: 'done', from: '2025-01', to: '2025-07',
+    items: ['桌面版 v3.0.0 完整发布', '7 音源自动降级切换', '3D 宇宙相册集成', '电台/评论/下载/热力图'] },
+  { product: 'order', title: '订货系统 Q2', status: 'done', from: '2025-04', to: '2025-06',
+    items: ['AI尺码占比模型V2', '多店铺管理', 'PDF报表导出', '数据看板首页'] },
+  { product: 'epos', title: '收银系统 Q3-Q4', status: 'todo', from: '2025-07', to: '2025-12',
+    items: ['小程序会员端', '多门店云端管理', '智能补货提醒', '电子发票集成'] },
+];
+const month = (s: string) => Number(s.slice(5, 7));
+const fmt = (s: string) => s.replace('-', '.');
+const statusText = { done: '已完成', todo: '规划中' };
+const counts = { done: plans.filter((p) => p.status === 'done').length, todo: plans.filter((p) => p.status === 'todo').length };
+---
+<ContentLayout
+  title="功能路线图 — 冉暖科技"
+  description="冉暖科技功能路线图：订货系统、音乐播放器与收银系统的开发进度与近期规划，查看已完成的功能与正在规划中的方向。"
+  keywords="冉暖科技路线图,产品规划,订货系统规划,音乐播放器规划,收银系统规划"
+  path="roadmap.html" page="roadmap"
+  eyebrow="PRODUCT ROADMAP" badge="产品规划" badgeIcon="fa6-solid:route"
+  heading="功能" highlight="路线图" desc="我们正在做的，和即将要做的"
+>
+  <ul slot="hero" class="rm-legend mono" role="list">
+    <li class="is-done"><i></i>已完成 {counts.done}</li>
+    <li class="is-todo"><i></i>规划中 {counts.todo}</li>
+  </ul>
+
+  <div class="container">
+    <p class="rm-intro" data-reveal="up">以下是我们三大产品的近期规划与开发进度。你可以根据实际需求投票或提出建议，帮助我们确定优先级。</p>
+
+    <figure class="rm-gantt" data-reveal="up" aria-label="2025 年规划时间轴">
+      <div class="rm-months mono" aria-hidden="true">
+        {Array.from({ length: 12 }, (_, i) => <span>{i + 1}月</span>)}
+      </div>
+      <ul class="rm-bars" role="list">
+        {plans.map((p, i) => (
+          <li data-product={p.product} class={`is-${p.status}`} style={`--from:${month(p.from)};--to:${month(p.to)};--i:${i}`}>
+            <a href={`#plan-${p.product}`}>
+              <Icon name={productById(p.product).icon} /><span>{p.title}</span>
+              <span class="sr-only">，{fmt(p.from)} 至 {fmt(p.to)}，{statusText[p.status]}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <figcaption class="mono">2025</figcaption>
+    </figure>
+
+    <ul class="rm-cards" role="list" data-stagger>
+      {plans.map((p) => {
+        const prod = productById(p.product);
+        return (
+          <li>
+            <article class={`rm-card is-${p.status}`} id={`plan-${p.product}`} data-product={p.product}>
+              <p class="rm-status mono">
+                <Icon name={p.status === 'done' ? 'fa6-solid:circle-check' : 'fa6-solid:clock'} /> {statusText[p.status]}
+              </p>
+              <h2><span class="rm-icon"><Icon name={prod.icon} /></span>{p.title}</h2>
+              <p class="rm-period mono">{fmt(p.from)} — {fmt(p.to)}</p>
+              <ul class="rm-list" role="list">
+                {p.items.map((it) => (
+                  <li><Icon name={p.status === 'done' ? 'fa6-solid:check' : 'fa6-solid:circle-notch'} />{it}</li>
+                ))}
+              </ul>
+              <a class="rm-link" href={url(prod.href)}>{prod.name} <Icon name="fa6-solid:arrow-right" /></a>
+            </article>
+          </li>
+        );
+      })}
+    </ul>
+
+    <div class="help-strip" data-theme="dark">
+      <div>
+        <h2>有想要的功能？</h2>
+        <p>把你的业务场景告诉我们，需求越具体，越容易排进下一版。</p>
+      </div>
+      <div class="help-strip-actions">
+        <button type="button" class="btn btn-primary" data-modal-open="wechat"><Icon name="fa6-solid:lightbulb" /> 提出建议</button>
+        <a class="btn btn-ghost" href={url('changelog.html')}><Icon name="fa6-solid:clock-rotate-left" /> 更新日志</a>
+      </div>
+    </div>
+  </div>
+</ContentLayout>

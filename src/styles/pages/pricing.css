@@ -1,0 +1,120 @@
+/* ==========================================================
+   价格方案：套餐卡 / 费用计算器 / 说明面板
+   ========================================================== */
+.pr-scope { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; list-style: none; }
+.pr-scope li {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: var(--radius-full);
+  font-size: 13px; color: var(--fg-2); background: rgba(245, 237, 223, 0.05); box-shadow: inset 0 0 0 1px var(--line);
+}
+.pr-scope .icon { color: var(--pc); }
+.pr-scope a { color: var(--fg); font-weight: 600; text-decoration: underline; text-decoration-color: var(--pc); text-underline-offset: 4px; }
+
+.pr-h2 { margin-bottom: 28px; font-size: var(--fs-xl); }
+
+.pr-plans { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 0; list-style: none; align-items: stretch; }
+.pr-plans > li { display: grid; }
+.pr-plan {
+  position: relative; display: flex; flex-direction: column; gap: 6px;
+  padding: 26px 22px 22px; border-radius: var(--radius-lg);
+  background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s;
+}
+.pr-plan:hover { transform: translateY(-6px); box-shadow: inset 0 0 0 1px var(--line-2), 0 30px 60px -36px rgba(45, 42, 50, 0.5); }
+.pr-plan-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 10px; border-radius: 12px; color: var(--amber-ink); background: var(--chip-bg); }
+.pr-plan h3 { font-size: var(--fs-base); color: var(--fg-2); font-weight: 600; }
+.pr-price { display: flex; align-items: baseline; gap: 4px; margin-top: 4px; }
+.pr-price b { font-family: var(--font-display); font-size: clamp(1.75rem, 1.3rem + 1.2vw, 2.5rem); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.pr-price span { font-size: 13px; color: var(--fg-3); }
+.pr-note { font-size: 11.5px; color: var(--fg-3); }
+.pr-perks { display: grid; gap: 8px; margin-top: 14px; padding: 14px 0 0; list-style: none; border-top: 1px dashed var(--line-2); font-size: 13px; }
+.pr-perks li { display: flex; align-items: center; gap: 8px; }
+.pr-perks .icon { font-size: 11px; color: var(--sage); }
+.pr-save {
+  align-self: flex-start; margin-top: auto; padding: 4px 10px; border-radius: var(--radius-full);
+  font-size: 11px; color: var(--sage-ink); background: rgba(123, 174, 127, 0.16);
+}
+.pr-perks + .pr-save { margin-top: 16px; }
+.pr-plan.is-featured {
+  --fg: #F5EDDF; --fg-2: rgba(245, 237, 223, 0.74); --fg-3: rgba(245, 237, 223, 0.6); --line-2: rgba(232, 184, 109, 0.27);
+  --spot: rgba(232, 184, 109, 0.85);
+  color: var(--fg);
+  background: radial-gradient(circle at 80% 0%, rgba(212, 148, 58, 0.45), transparent 60%), var(--ink-900);
+  box-shadow: 0 0 0 1px rgba(232, 184, 109, 0.35), 0 30px 60px -30px rgba(212, 148, 58, 0.6);
+  transform: translateY(-10px);
+}
+.pr-plan.is-featured:hover { transform: translateY(-14px); }
+.pr-plan.is-featured .pr-plan-icon { color: var(--ink-950); background: var(--amber); }
+.pr-plan.is-featured .pr-save { color: var(--ink-950); background: var(--sage-light); }
+.pr-badge {
+  position: absolute; right: 18px; top: 18px; padding: 3px 10px; border-radius: var(--radius-full);
+  font-size: 11px; letter-spacing: 0.1em; color: var(--ink-950); background: var(--grad-brand);
+}
+
+/* --- 计算器 --- */
+.pr-calc {
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(28px, 4vw, 64px); align-items: center;
+  margin-top: clamp(56px, 7vw, 96px); padding: clamp(28px, 4vw, 48px);
+  border-radius: var(--radius-xl); background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line);
+}
+.pr-calc-copy { display: grid; gap: 14px; }
+.pr-calc-copy h2 { display: flex; align-items: center; gap: 12px; font-size: var(--fs-xl); }
+.pr-calc-copy h2 .icon { color: var(--amber); }
+.pr-calc-copy p { color: var(--fg-2); }
+.pr-fee b { font-family: var(--font-display); font-size: var(--fs-xl); color: var(--amber-ink); }
+.pr-hint { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fg-3); }
+.pr-calc-box { display: grid; gap: 20px; padding: clamp(20px, 2.6vw, 30px); border-radius: var(--radius-lg); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line), 0 24px 50px -34px rgba(45, 42, 50, 0.45); }
+.pr-calc-box fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.pr-calc-box legend, .pr-dev > label { margin-bottom: 10px; padding: 0; font-size: 11.5px; letter-spacing: 0.1em; color: var(--fg-3); }
+.pr-seg { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: var(--radius-md); background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); }
+.pr-seg label { position: relative; }
+.pr-seg input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.pr-seg span { display: grid; place-items: center; height: 40px; border-radius: 10px; font-size: 13px; font-weight: 500; color: var(--fg-2); transition: background-color 0.25s, color 0.25s; }
+.pr-seg input:checked + span { color: var(--ink-950); background: var(--amber); }
+.pr-seg input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 2px; }
+.pr-dev { display: grid; }
+.pr-stepper { display: inline-flex; align-items: center; justify-self: start; border-radius: var(--radius-full); box-shadow: inset 0 0 0 1px var(--line-2); }
+.pr-stepper button { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: var(--fg-2); transition: background-color 0.2s, color 0.2s; }
+.pr-stepper button:hover { color: var(--ink-950); background: var(--amber); }
+.pr-stepper input {
+  width: 64px; border: 0; background: none; text-align: center; font-family: var(--font-mono); font-size: var(--fs-md); font-weight: 600;
+  -moz-appearance: textfield; appearance: textfield;
+}
+.pr-stepper input::-webkit-inner-spin-button, .pr-stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.pr-total { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; padding-top: 18px; border-top: 1px dashed var(--line-2); }
+.pr-total-formula { font-size: 12.5px; color: var(--fg-3); }
+.pr-total-num b { font-family: var(--font-display); font-size: clamp(2rem, 1.5rem + 1.6vw, 2.75rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.pr-total-num span { margin-left: 4px; color: var(--fg-3); }
+
+/* --- 说明面板 --- */
+.pr-panels { display: grid; gap: 16px; margin-top: 16px; }
+.pr-panel { padding: clamp(24px, 3.4vw, 44px); border-radius: var(--radius-xl); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.pr-panel > h2 { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; font-size: var(--fs-lg); }
+.pr-panel > h2 .icon { color: var(--amber); }
+.pr-pair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 48px); }
+.pr-pair h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: var(--fs-base); }
+.pr-pair h3 .icon { color: var(--amber-ink); }
+.pr-pair p { font-size: var(--fs-sm); color: var(--fg-2); }
+.pr-list { display: grid; gap: 8px; margin-bottom: 10px; padding: 0; list-style: none; font-size: var(--fs-sm); color: var(--fg-2); }
+.pr-list li { position: relative; padding-left: 18px; }
+.pr-list li::before { content: ''; position: absolute; left: 0; top: 0.72em; width: 8px; height: 1.5px; background: var(--amber); }
+.pr-list strong { color: var(--fg); }
+.pr-perkgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; padding: 0; list-style: none; }
+.pr-perkgrid li { display: grid; gap: 6px; padding: 20px; border-radius: var(--radius-md); background: var(--bg); }
+.pr-perkgrid .icon { font-size: 20px; margin-bottom: 6px; color: var(--amber); }
+.pr-perkgrid h3 { font-size: var(--fs-base); }
+.pr-perkgrid p { font-size: 13px; color: var(--fg-2); }
+.help-strip a { color: #F5EDDF; text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 1100px) {
+  .pr-plans { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pr-plan.is-featured { transform: none; }
+}
+@media (max-width: 900px) {
+  .pr-calc, .pr-pair { grid-template-columns: 1fr; }
+  .pr-perkgrid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .pr-plans { grid-template-columns: 1fr 1fr; }
+  .pr-seg { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pr-perkgrid { grid-template-columns: 1fr; }
+}

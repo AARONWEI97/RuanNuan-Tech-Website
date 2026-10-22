@@ -1,0 +1,65 @@
+---
+/**
+ * 404：服务器会在任意深度的路径上返回本页，所以全部链接 / 资源走 url()（带站点根的绝对路径）。
+ * 文案取自旧版 404.html。
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import '../styles/pages/content.css';
+import '../styles/pages/notfound.css';
+import { products } from '../data/products';
+import { url } from '../lib/url';
+
+const more = [
+  { href: 'pricing.html', icon: 'fa6-solid:tags', label: '价格方案' },
+  { href: 'tutorials.html', icon: 'fa6-solid:book-open', label: '使用教程' },
+  { href: 'faq.html', icon: 'fa6-solid:circle-question', label: '常见问题' },
+  { href: 'changelog.html', icon: 'fa6-solid:clock-rotate-left', label: '更新日志' },
+];
+// 一串走丢的爪印：位置 / 角度固定，避免每次构建结果不同
+const paws = [
+  { x: 6, y: 78, r: 70 }, { x: 13, y: 70, r: 60 }, { x: 20, y: 74, r: 75 }, { x: 27, y: 64, r: 55 },
+  { x: 34, y: 68, r: 80 }, { x: 41, y: 58, r: 50 }, { x: 47, y: 61, r: 95 }, { x: 52, y: 52, r: 120 },
+];
+---
+<BaseLayout title="页面走丢了 — 冉暖科技 RanNuan Tech" description="抱歉，你访问的页面不存在，或者已经搬家了。"
+  path="404.html" page="404" footerCta={false} noindex>
+  <section class="nf" data-theme="dark" aria-labelledby="nfTitle">
+    <div class="signal-grid nf-grid" aria-hidden="true">
+      <span class="signal-pulse" style="--y:200px;--dur:9s"></span>
+      <span class="signal-pulse is-v" style="--x:60vw;--dur:11s;--delay:2s"></span>
+    </div>
+    <div class="nf-paws" aria-hidden="true">
+      {paws.map((p, i) => <Icon name="fa6-solid:paw" class="nf-paw" style={`--x:${p.x}%;--y:${p.y}%;--r:${p.r}deg;--i:${i}`} />)}
+      <Icon name="fa6-solid:question" class="nf-lost" />
+    </div>
+
+    <div class="container nf-inner">
+      <p class="nf-code" aria-hidden="true">404</p>
+      <p class="chero-eyebrow mono" data-reveal="up"><span class="chero-badge"><Icon name="fa6-solid:paw" /> 页面走丢了</span><span>PAGE NOT FOUND</span></p>
+      <h1 class="nf-title" id="nfTitle" data-reveal="mask"><span class="mask"><span>这条小路没有脚印</span></span></h1>
+      <p class="nf-desc" data-reveal="up" style="--rd:0.15s">
+        抱歉，你访问的页面不存在，或者已经搬家了。<br />
+        不如从下面这些入口继续逛逛 —— 四款产品、价格方案、教程与常见问题都在。
+      </p>
+      <div class="nf-actions" data-reveal="up" style="--rd:0.25s">
+        <a href={url('index.html')} class="btn btn-primary btn-lg" data-magnetic><Icon name="fa6-solid:house" /> 返回首页</a>
+        <a href={url('index.html#products')} class="btn btn-ghost btn-lg"><Icon name="fa6-solid:table-cells-large" /> 查看产品</a>
+      </div>
+
+      <ul class="nf-links" role="list" data-stagger style="--rd:0.35s">
+        {products.map((p) => (
+          <li><a href={url(p.href)} style={`--pc:${p.accent}`}><Icon name={p.icon} /><span>{p.name}</span><Icon name="fa6-solid:arrow-right" class="nf-arrow" /></a></li>
+        ))}
+        {more.map((m) => (
+          <li><a href={url(m.href)}><Icon name={m.icon} /><span>{m.label}</span><Icon name="fa6-solid:arrow-right" class="nf-arrow" /></a></li>
+        ))}
+      </ul>
+
+      <p class="nf-help" data-reveal="up">
+        还是找不到？<a href={url('index.html#contact')}>联系我们</a>，或
+        <button type="button" data-modal-open="wechat">加微信</button> / <button type="button" data-modal-open="qq">加 QQ</button> 直接问。
+      </p>
+    </div>
+  </section>
+</BaseLayout>

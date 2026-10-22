@@ -1,0 +1,90 @@
+---
+import '../styles/components/nav.css';
+import Icon from './Icon.astro';
+import { products } from '../data/products';
+import { navLinks } from '../data/site';
+import { url } from '../lib/url';
+
+interface Props { page: string }
+const { page } = Astro.props;
+const isProduct = products.some((p) => p.id === page);
+---
+<header class="nav" id="nav" data-tone="dark">
+  <nav class="nav-bar" aria-label="主导航">
+    <a href={url('index.html')} class="nav-logo" aria-label="冉暖科技首页">
+      <img src={url('assets/logo.png')} alt="" width="36" height="36" decoding="async" />
+      <span class="nav-logo-text">冉暖科技</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li class="nav-has-mega">
+        <button class="nav-link nav-mega-btn" type="button" aria-expanded="false" aria-controls="navMega"
+          aria-current={isProduct ? 'page' : undefined}>
+          产品 <Icon name="fa6-solid:chevron-down" class="nav-caret" />
+        </button>
+      </li>
+      {navLinks.map((l) => (
+        <li><a class="nav-link" href={url(l.href)} aria-current={l.page === page ? 'page' : undefined}>{l.label}</a></li>
+      ))}
+    </ul>
+
+    <div class="nav-actions">
+      <a href={url('index.html#contact')} class="btn btn-primary btn-sm nav-cta" data-magnetic>
+        <Icon name="fa6-solid:paw" /> <span>咨询合作</span>
+      </a>
+      <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav-mega" id="navMega" hidden>
+    <ul class="nav-mega-grid" role="list">
+      {products.map((p) => (
+        <li>
+          <a class="mega-item" href={url(p.href)} style={`--accent:${p.accent}`} aria-current={p.id === page ? 'page' : undefined}>
+            <span class="mega-icon"><Icon name={p.icon} /></span>
+            <span class="mega-text">
+              <span class="mega-name">{p.name} <em class="mono">{p.version}</em></span>
+              <span class="mega-tag">{p.tagline}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="nav-mega-foot">
+      <a href={url('faq.html')}>常见问题</a>
+      <a href={url('roadmap.html')}>功能路线图</a>
+      <a href={url('changelog.html')}>全部更新 <Icon name="fa6-solid:arrow-right" /></a>
+    </div>
+  </div>
+</header>
+
+<dialog class="mmenu" id="mobileMenu" aria-label="站点菜单" data-theme="dark">
+  <div class="mmenu-inner">
+    <div class="mmenu-head">
+      <span class="mono mmenu-label">MENU</span>
+      <button class="mmenu-close" type="button" aria-label="关闭菜单" data-mmenu-close>
+        <Icon name="fa6-solid:xmark" />
+      </button>
+    </div>
+    <p class="mmenu-group mono">PRODUCTS</p>
+    <ul class="mmenu-list" role="list">
+      {products.map((p, i) => (
+        <li style={`--i:${i}`}>
+          <a href={url(p.href)} style={`--accent:${p.accent}`}>
+            <span class="mmenu-icon"><Icon name={p.icon} /></span>{p.name}
+            <em class="mono">{p.version}</em>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="mmenu-group mono">MORE</p>
+    <ul class="mmenu-list mmenu-list-sm" role="list">
+      {[...navLinks, { href: 'faq.html', label: '常见问题', page: 'faq' }, { href: 'roadmap.html', label: '功能路线图', page: 'roadmap' }].map((l, i) => (
+        <li style={`--i:${i + 4}`}><a href={url(l.href)}>{l.label}</a></li>
+      ))}
+    </ul>
+    <a href={url('index.html#contact')} class="btn btn-primary btn-lg mmenu-cta"><Icon name="fa6-solid:paw" /> 咨询合作</a>
+  </div>
+</dialog>

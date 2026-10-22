@@ -1,0 +1,136 @@
+---
+import ProductLayout from '../layouts/ProductLayout.astro';
+import PHero from '../components/product/PHero.astro';
+import SubNav from '../components/product/SubNav.astro';
+import PSection from '../components/product/PSection.astro';
+import FeatureGrid from '../components/product/FeatureGrid.astro';
+import CardGrid from '../components/product/CardGrid.astro';
+import TechStack from '../components/product/TechStack.astro';
+import Gallery from '../components/product/Gallery.astro';
+import Steps from '../components/product/Steps.astro';
+import Testimonials from '../components/product/Testimonials.astro';
+import FaqQuick from '../components/product/FaqQuick.astro';
+import CtaBand from '../components/product/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { productById } from '../data/products';
+
+const product = productById('order');
+---
+<ProductLayout
+  {product}
+  title="冉暖订货系统 RanNuan Order — AI智能鞋服零售订货管理"
+  description="冉暖订货系统 - 专为鞋服零售打造的AI智能订货管理工具，支持批量分配、尺码占比计算、数据报表分析"
+  keywords="订货系统,鞋服订货,AI订货,零售管理,尺码占比,批量分配,数据报表"
+  category="BusinessApplication"
+  os="Web"
+  ldDescription="专为鞋服零售打造的 AI 智能订货管理工具，支持批量分配、尺码占比计算与数据报表分析。"
+>
+  <PHero {product} kind="订货系统" accentWord="订货" en="RanNuan Order System" floatLabel="AI 智能订货"
+    stats={[
+      { value: 70, suffix: '%', label: '订货效率提升', fill: 70 },
+      { value: 85, suffix: '%', label: 'AI 尺码准确率', fill: 85 },
+      { value: 90, suffix: '%', label: '用户满意度', fill: 90 },
+    ]}>
+    <Fragment slot="desc">
+      从 PyQt5 桌面端迁移至 <strong>Vue3 SPA + FastAPI</strong> 全栈架构，专为鞋服零售行业打造的 AI 智能订货管理工具。
+      采用 <strong class="is-accent">Hybrid 混合模型</strong>，结合全局计划比例与门店历史销售数据，智能预测每个门店的最优尺码配比。
+    </Fragment>
+    <Fragment slot="actions">
+      <button type="button" class="btn btn-primary btn-lg" data-modal-open="qq" data-magnetic>
+        <Icon name="fa6-brands:qq" /> 联系开发者
+      </button>
+      <a href="#ai" class="btn btn-ghost btn-lg"><Icon name="fa6-solid:brain" /> 了解 AI 功能</a>
+    </Fragment>
+  </PHero>
+
+  <SubNav {product}
+    items={[
+      { id: 'features', label: '核心功能' },
+      { id: 'ai', label: 'AI 智能' },
+      { id: 'tech', label: '技术架构' },
+      { id: 'screenshots', label: '界面' },
+      { id: 'quickstart', label: '快速上手' },
+      { id: 'testimonials', label: '用户评价' },
+    ]}
+    cta={{ modal: 'qq', label: '获取访问权限' }} />
+
+  <PSection id="features" index="01" eyebrow="CORE FEATURES" label="核心功能"
+    title="为订货场景" highlight="量身打造" sub="每一个功能都来自真实业务需求，解决订货管理中的核心痛点">
+    <FeatureGrid items={[
+      { icon: 'fa6-solid:list-check', title: '批量分配', text: '一键分配到门店，自动预警偏差，支持手动微调' },
+      { icon: 'fa6-solid:chart-pie', title: '尺码占比计算', text: '全局计划比例与门店历史数据融合，智能预测最优配比' },
+      { icon: 'fa6-solid:chart-column', title: '数据报表', text: 'TOP款定准率、结构检查、同期对比，数据驱动决策' },
+      { icon: 'fa6-solid:file-excel', title: 'Excel导入导出', text: '支持Excel批量导入数据，一键导出报表，无缝对接' },
+      { icon: 'fa6-solid:mobile-screen', title: '多端协同', text: '桌面端管理 + Web端移动访问，随时随地处理订货' },
+      { icon: 'fa6-solid:shield-halved', title: '数据安全', text: '本地SQLite存储，数据完全掌控，无需担心泄露' },
+    ]} />
+  </PSection>
+
+  <PSection id="ai" tone="dark" grid index="02" eyebrow="AI ENGINE" label="AI 智能"
+    title="AI 驱动的" highlight="智能订货" sub="Hybrid混合模型，融合全局趋势与门店个性，让尺码配比更精准">
+    <CardGrid featured items={[
+      { icon: 'fa6-solid:brain', title: 'Hybrid混合模型',
+        text: '结合全局计划比例（Plan Ratio）与门店历史销售数据（Store History），通过可调节的融合权重α，智能预测每个门店的最优尺码配比。支持手动微调与偏差预警。',
+        tags: ['全局趋势', '门店个性', '融合权重可调', '偏差预警'] },
+      { icon: 'fa6-solid:chart-line', title: '销量预测', text: '基于历史销售数据的趋势分析，辅助判断未来订货量，减少库存积压与缺货风险。', tags: ['趋势分析', '季节性调整'] },
+      { icon: 'fa6-solid:sliders', title: '智能调整', text: '一键AI调整尺码比例，自动识别异常门店，生成调整建议与对比报告。', tags: ['一键调整', '异常识别'] },
+    ]} />
+  </PSection>
+
+  <PSection id="tech" tone="alt" index="03" eyebrow="TECH STACK" label="技术架构"
+    title="现代" highlight="全栈架构" sub="从PyQt5迁移至Vue3 + FastAPI，性能与体验全面升级">
+    <TechStack items={[
+      { icon: 'fa6-brands:vuejs', name: 'Vue 3', role: '前端框架', tone: 'primary' },
+      { icon: 'fa6-solid:paintbrush', name: 'Element Plus', role: 'UI组件库', tone: 'primary' },
+      { icon: 'fa6-solid:wind', name: 'TailwindCSS', role: '样式方案', tone: 'primary' },
+      { icon: 'fa6-solid:bolt', name: 'FastAPI', role: 'Python后端', tone: 'accent' },
+      { icon: 'fa6-solid:brain', name: 'AI Engine', role: '智能模型', tone: 'accent' },
+      { icon: 'fa6-solid:database', name: 'SQLite', role: '本地存储', tone: 'green' },
+      { icon: 'fa6-solid:file-excel', name: 'Excel IO', role: '导入导出', tone: 'green' },
+    ]} />
+  </PSection>
+
+  <PSection id="screenshots" index="04" eyebrow="SCREENSHOTS" label="产品截图"
+    title="界面" highlight="一览" sub="简洁高效的操作界面，让订货管理变得轻松">
+    <Gallery en={product.en} groups={[{ key: 'order', label: '桌面端', shots: [
+      { src: 'assets/截图2.png', width: 1910, height: 873, label: '批量分配', alt: '冉暖订货系统批量分配界面' },
+      { src: 'assets/截图3.png', width: 1910, height: 873, label: 'AI智能尺码', alt: '冉暖订货系统AI智能尺码界面' },
+      { src: 'assets/截图4.png', width: 1910, height: 873, label: '数据报表', alt: '冉暖订货系统数据报表界面' },
+      { src: 'assets/截图5.png', width: 1910, height: 873, label: 'Excel导入', alt: '冉暖订货系统Excel导入界面' },
+    ] }]} />
+  </PSection>
+
+  <PSection id="quickstart" tone="alt" index="05" eyebrow="QUICK START" label="快速上手"
+    title="三步开始" highlight="智能订货" sub="无需复杂配置，开箱即用">
+    <Steps items={[
+      { icon: 'fa6-solid:key', title: '获取账号与链接', text: '添加微信或QQ获取账号与链接，纯web系统，无需额外依赖。' },
+      { icon: 'fa6-solid:file-import', title: '导入数据', text: '使用标准模板导入订货计划，系统自动校验格式与数据完整性。' },
+      { icon: 'fa6-solid:wand-magic-sparkles', title: 'AI一键分配', text: '点击AI调整，Hybrid模型自动计算最优尺码配比，生成分配方案。' },
+    ]} />
+  </PSection>
+
+  <PSection id="testimonials" index="06" eyebrow="TESTIMONIALS" label="用户评价"
+    title="他们" highlight="已经在用了" sub="来自一线鞋服零售从业者的真实反馈">
+    <Testimonials items={[
+      { quote: '以前订货全靠Excel手动分配，一个订货会要搞两三天。现在用冉暖订货系统，AI自动分配尺码，半天就搞定了。', name: '王店长', role: '运动品牌区域经理', rating: 5 },
+      { quote: 'AI尺码调整功能太实用了，之前总是凭感觉分配，现在有数据支撑，偏差率明显降低了。', name: '李主管', role: '服装品牌商品部', rating: 4.5 },
+      { quote: '数据报表功能帮我快速定位滞销款，同期对比一目了然，比之前用Excel做透视表方便太多。', name: '张经理', role: '运动品牌运营总监', rating: 5 },
+    ]} />
+  </PSection>
+
+  <PSection id="faq" tone="alt" index="07" eyebrow="FAQ" label="常见问题"
+    title="还有" highlight="疑问？" sub="快速找到你关心的问题">
+    <FaqQuick items={[
+      { icon: 'fa6-solid:file-excel', q: '支持哪些Excel格式？', a: '.xlsx / .xls，提供标准模板', href: 'faq.html#order' },
+      { icon: 'fa6-solid:brain', q: 'AI准确率如何？', a: '融合模型准确率85%+，支持手动微调', href: 'faq.html#order' },
+      { icon: 'fa6-solid:arrows-rotate', q: '数据能否多端同步？', a: '桌面+Web端实时同步，同账号登录', href: 'faq.html#order' },
+      { icon: 'fa6-solid:ellipsis', q: '更多问题', a: '查看完整常见问题列表', href: 'faq.html' },
+    ]} />
+  </PSection>
+
+  <CtaBand id="download" eyebrow="WEB ACCESS · 访问使用" title="联系开发者获取访问权限"
+    desc="冉暖订货系统采用网页版架构，添加开发者获取系统网址、登录账号与操作指导。">
+    <button type="button" class="btn btn-primary btn-lg" data-modal-open="qq" data-magnetic><Icon name="fa6-brands:qq" /> 联系开发者</button>
+    <button type="button" class="btn btn-ghost btn-lg" data-modal-open="wechat"><Icon name="fa6-brands:weixin" /> 添加微信</button>
+  </CtaBand>
+</ProductLayout>

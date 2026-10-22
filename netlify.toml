@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# 字体 / 带哈希的构建产物长期缓存
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# 旧的转储页已删除，外链统一跳到收银系统页
+[[redirects]]
+  from = "/epos_dump.html"
+  to = "/epos.html"
+  status = 301
