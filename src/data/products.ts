@@ -48,7 +48,7 @@ export const products: Product[] = [
     href: 'music.html',
     icon: 'fa6-solid:headphones',
     accent: '#F06B5E',
-    version: 'v3.9.0',
+    version: 'v3.9.2',
     platforms: [
       { label: '桌面端', version: 'v3.9.2' },
       { label: '移动端', version: 'v1.1.0' },
@@ -56,7 +56,7 @@ export const products: Product[] = [
     status: '桌面版已发布',
     stable: true,
     tagline: '双平台音乐播放，独家3D宇宙相册，7音源聚合',
-    desc: '桌面 + 移动双平台音乐播放器，7 大音源解析、桌面歌词、系统托盘控制。v3.9.0 重磅上线 3D 宇宙相册、电台功能、评论系统、下载管理、听歌热力图，照片化作行星，打造沉浸式音乐宇宙体验。',
+    desc: '桌面 + 移动双平台音乐播放器，7 大音源解析、桌面歌词、系统托盘控制。v3.9.2 重磅上线 3D 宇宙相册、电台功能、评论系统、下载管理、听歌热力图，照片化作行星，打造沉浸式音乐宇宙体验。',
     features: ['7 大音源自动降级切换', '桌面歌词 + 系统托盘', '全局快捷键控制', '下载管理 + 离线播放', '深色模式 + 启动动画'],
     tech: ['Tauri 2.x', 'React 19', 'React Native', 'TypeScript'],
     shot: { src: 'assets/music/universe.png', width: 1375, height: 1000 },
