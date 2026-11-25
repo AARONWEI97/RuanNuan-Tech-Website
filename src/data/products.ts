@@ -50,7 +50,7 @@ export const products: Product[] = [
     accent: '#F06B5E',
     version: 'v3.9.0',
     platforms: [
-      { label: '桌面端', version: 'v3.9.0' },
+      { label: '桌面端', version: 'v3.9.2' },
       { label: '移动端', version: 'v1.1.0' },
     ],
     status: '桌面版已发布',
@@ -68,7 +68,7 @@ export const products: Product[] = [
     href: 'epos.html',
     icon: 'fa6-solid:cash-register',
     accent: '#7BAE7F',
-    version: 'V 3.0.8',
+    version: 'V 3.0.9',
     status: '快速迭代',
     stable: false,
     tagline: '专卖店收银，库存管理，CRM会员',
