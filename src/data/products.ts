@@ -84,10 +84,10 @@ export const products: Product[] = [
     href: 'tv.html',
     icon: 'fa6-solid:tv',
     accent: '#E8B86D',
-    version: 'v2.1.6',
+    version: 'v2.1.7',
     platforms: [
-      { label: '桌面端', version: 'v2.1.1' },
-      { label: '移动端', version: 'v2.1.6' },
+      { label: '桌面端', version: 'v2.2.0' },
+      { label: '移动端', version: 'v2.1.7' },
       { label: '电视端', version: 'v1.0.0' },
     ],
     status: '已完成',
